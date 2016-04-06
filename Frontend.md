@@ -19,4 +19,4 @@ The non-blocking front end can be split into 3 well defined components:-
 
 Although these components interact very closely, they are very modular in the sense that they have clear boundaries and provide specific services. The components are all started by a RestServer that also enforces the start order required for interaction dependencies.
 
-![](image/image2015-11-19 16_32_53.png)
+[[images/image2015-11-19 16_32_53.png]]
