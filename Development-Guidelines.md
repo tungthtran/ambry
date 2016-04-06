@@ -29,7 +29,7 @@
   *  New patches should come with unit tests that verify the functionality being added.
   *  Unit tests are first rate code, and should be treated like it. They should not contain code duplication, cryptic hackery, or anything like that.
   *  Unit tests should test the least amount of code possible
-  *  Do not use sleep or other timing assumptions in tests, it is always, always, always wrong and will fail intermittently on any test server with other things going on that causes delays. Write tests in such a way that they are not timing dependent. One thing that will help this is to never directly use the system clock in code (i.e. System.currentTimeMillis) but instead to use getTime: () => Long, so that time can be mocked.
+  *  Do not use sleep or other timing assumptions in tests, it is always, always, always wrong and will fail intermittently on any test server with other things going on that causes delays. Write tests in such a way that they are not timing dependent. One thing that will help this is to never directly use the system clock in code (i.e. System.currentTimeMillis) but instead to use getTime(), so that time can be mocked.
   *  It must be possible to run the tests in parallel, without having them collide. This is a practical thing to allow multiple branches to CI on a single CI server. This means you can't hard code directories or ports or things like that in tests because two instances will step on each other.
 
 ## Configuration
@@ -48,7 +48,7 @@
 
   *  Encapsulate synchronization. That is, locks should be private member variables within a class and only one class or method should need to be examined to verify the correctness of the synchronization strategy.
   *  There are a number of gotchas with threads and threadpools: is the daemon flag set appropriately for your threads? are your threads being named in a way that will distinguish their purpose in a thread dump?
-  *  Prefer the java.util.concurrent packages to either low-level wait-notify, custom locking/synchronization, or higher level scala-specific primitives. The util.concurrent stuff is well thought out and actually works correctly. There is a generally feeling that threads and locking are not going to be the concurrency primitives of the future because of a variety of well-known weaknesses they have. This is probably true, but they have the advantage of actually being mature enough to use for high-performance software right now; their well-known deficiencies are easily worked around by equally well known best-practices.
+  *  Prefer the java.util.concurrent packages to either low-level wait-notify or custom locking/synchronization. The util.concurrent stuff is well thought out and actually works correctly. There is a generally feeling that threads and locking are not going to be the concurrency primitives of the future because of a variety of well-known weaknesses they have. This is probably true, but they have the advantage of actually being mature enough to use for high-performance software right now; their well-known deficiencies are easily worked around by equally well known best-practices.
 
 ## Backwards Compatibility
 
@@ -63,20 +63,16 @@
 ## Submitting a patch
 
   *  Before you submit your Pull Request (PR), consider the following guidelines:
-     - Search Github for an open or closed PR that relates to your submission. You don't want to duplicate effort.
-     - Make your changes in a new branch
-
-`    git checkout -b my-fix-branch master`
-     
-     - Create your patch, including appropriate test cases.
-     - Run the test suite.
-     - Commit your changes using a descriptive commit message.
-
-`        git commit -a`
-     - Push your branch to GitHub
-
-`        git push origin my-fix-branch`
-     - In GitHub, send a pull request to Ambry:Master. The pull request description should contain the following information 
+       1. Search Github for an open or closed PR that relates to your submission. You don't want to duplicate effort.
+       1. Make your changes in a new branch
+       `git checkout -b my-fix-branch master` 
+       1. Create your patch, including appropriate test cases.
+       1. Run the test suite.
+       1. Commit your changes using a descriptive commit message.
+       `git commit -a`
+       1. Push your branch to GitHub
+       `git push origin my-fix-branch`
+       1. In GitHub, send a pull request to Ambry:Master. The pull request description should contain the following information 
 
 **Test coverage percentage, Name of the reviewers that need to review the code and Approximate time it will take to review.**
 
