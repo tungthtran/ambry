@@ -30,4 +30,12 @@
   * [Important Configs](Important Configs)
   * [Hardware and OS](Hardware and OS)
   * [Monitoring](Monitoring)
+* [FAQ](FAQ)
+* Project
+  * [Mailing List](Mailing List)
+  * [Bugs](Bugs)
+  * [Coding Guidelines](Coding Guidelines)
+  * [Testing](Testing)
+  * [Contributors/Team](Contributors/Team)
+  * [Development Environment](Development Environment)
 * [Future Work](Future Work)
