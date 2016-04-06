@@ -1,21 +1,21 @@
-# 1  Code Formatting
-## 1.1  File Names
+# Code Formatting
+## File Names
 
 This section lists commonly used file suffixes and names.
-### 1.1.1  File Suffixes
+### File Suffixes
 
 Java source files use the .java suffix. Compiled Java class files use the .class suffix.
-### 1.1.2  File Names
+### File Names
 
 Java source files must have the same name as the public class they contain. For example, the source file containing the FooBar class must be named FooBar.java.
 
 
-## 1.2  File Organization
+## File Organization
 
 A file consists of sections that should be separated by blank lines.
 
 Files longer than 2000 lines are cumbersome and should be avoided.
-### 1.2.1  Java Source Files
+### Java Source Files
 
 Each Java source file contains a single public class or interface. When private classes and interfaces are associated with a public class, you can put them in the same source file as the public class. The public class should be the first class or interface in the file.
 
@@ -25,7 +25,7 @@ Java source files have the following ordering:
     Class and interface declarations
 
  
-#### 1.2.1.1  Package and Import Statements
+#### Package and Import Statements
 
 The first line of Java source files is a package statement. Following this are one or more import statements. For example:
 
@@ -42,7 +42,7 @@ import java.io.Serializable;
 The first component of a package name is always written in all-lowercase ASCII letters and should be one of  the top-level domain names, currently com, edu, gov, mil, net, org, or one of the English two-letter codes identifying countries as specified in ISO Standard 3166, 1981.
 
  
-#### 1.2.1.2  Class and Interface Declarations
+#### Class and Interface Declarations
 
 The following table describes the parts of a class or interface declaration, in the order that they should appear.
 Class/interface documentation Javadoc comment	See Documentation Comments for information on what should be in this comment.
@@ -54,15 +54,15 @@ Constructors
 Methods	These methods should be grouped by functionality rather than by scope or accessibility. For example, a private class method can be in between two public instance methods. The goal is to make reading and understanding the code easier.
 
  
-## 1.3  Indentation
+## Indentation
 
 Two spaces should be used as the unit of indentation. Tabs must expand to spaces and the tab width should be set to two. Tab characters must not be used in source files.
-### 1.3.1  Line Length
+### Line Length
 
 Lines should not exceed 120 characters.
 
 Example code in Javadoc comments should not exceed 100 characters to accommodate page formatting.
-### 1.3.2  Wrapping Lines
+### Wrapping Lines
 
 When an expression will not fit on a single line, break it according to these general principles:
 
@@ -127,7 +127,7 @@ alpha = (aLongBooleanExpression)
     : gamma;
 
  
-## 1.4  Comments
+## Comments
 
 Java programs can have two kinds of comments: implementation comments and documentation comments.  Implementation comments are those found in C++, which are delimited by /*...*/, and //.  Documentation comments (known as "doc comments" or "Javadoc comments") are Java-only, and are delimited by  /**...*/.  Doc comments can be extracted to HTML files using the javadoc tool.
 
@@ -142,10 +142,10 @@ The frequency of comments sometimes reflects poor quality of code. When you feel
 Comments should not be enclosed in large boxes drawn with asterisks or other characters.
 
 Comments should never include special characters such as form-feed and backspace.
-### 1.4.1  Implementation Comment Formats
+### Implementation Comment Formats
 
 Programs can have two styles of implementation comments: block and single-line
-#### 1.4.1.1  Block Comments
+#### Block Comments
 
 Block comments are used to provide descriptions of files, methods, data structures and algorithms. Block comments may be used at the beginning of each file and before each method. They can also be used in other places, such as within methods. Block comments inside a function or method should be indented to the same level as the code they describe.
 
@@ -157,7 +157,7 @@ A block comment should be preceded by a blank line to set it apart from the rest
  */
 
  
-#### 1.4.1.2  Single-Line Comments
+#### Single-Line Comments
 
 Short comments can appear on a single line indented to the level of the code that follows. If a comment can't be written in a single line, it should follow the block comment format. A single-line comment should be preceded by a blank line unless it is at the start of a block. Here is an example of a single-line comment in Java code (also see Documentation Comments):
 
@@ -171,7 +171,7 @@ if (conditions) {
 }
 
  
-### 1.4.2  Documentation Comments
+### Documentation Comments
 
 This section describes the formatting of documentation comments also referred to as doc comments, or Javadoc comments. See How to Write Doc Comments for the Javadoc Tool and the Javadoc Tool home page for details on authoring documentation comments.
 
@@ -196,7 +196,7 @@ If you need to give information about a class, interface, variable, or method th
 Doc comments should not be positioned inside a method or constructor definition block, because Java associates documentation comments with the first declaration after the comment.
 
  
-### 1.4.3 Comment types to avoid
+### Comment types to avoid
 
 a. Please avoid TODO comments or specifying bug number in code. The code should be really clean and should not have past artifacts across the code base.
 
@@ -207,14 +207,11 @@ c. Clear code is preferable to comments. When possible make your naming so good 
 d. Don't be sloppy. Don't check in commented out code
 
 
-## 1.5  Declarations
-### 1.5.1  Number Per Line
+## Declarations
+### Number Per Line
 
 One declaration per line is recommended since it encourages commenting.
 
- 
-
- 
 // GOOD
 int level;     // Indentation level
 int size;      // Number of bytes in the buffer
@@ -222,14 +219,13 @@ int[] fooarr;  // Contains the foo counts
  
 // BAD
 int level, size, fooarr[];
-
  
-### 1.5.2  Initialization
+### Initialization
 
 Try to initialize local variables where they're declared. The only reason not to initialize a variable where it's declared is if the initial value depends on some computation occurring first.
 
  
-### 1.5.3  Placement
+### Placement
 
 Put declarations closest to where they are first used.
 
@@ -249,11 +245,8 @@ public void amethod() {
   ...
 }
 
- 
-
 Avoid local declarations that hide declarations at higher levels. For example, do not declare the same variable name in an inner block:
 
- 
 public void myMethod() {
   int count = 12;
   ...
@@ -265,7 +258,7 @@ public void myMethod() {
 }
 
  
-### 1.5.4  Class and Interface Declarations
+### Class and Interface Declarations
 
 When coding Java classes and interfaces, the following formatting rules should be followed:
 
@@ -289,8 +282,8 @@ class Sample extends Object {
 }
 
  
-## 1.6  Statements
-### 1.6.1  Simple Statements
+## Statements
+### Simple Statements
 
 Each line should contain at most one statement. Example:
 
@@ -303,7 +296,7 @@ argc--;
 argv++; argc--;
 
  
-### 1.6.2  Compound Statements
+### Compound Statements
 
 Compound statements are lists of statements enclosed in curly braces and should be formatted according to the following conventions:
 
@@ -313,7 +306,7 @@ Compound statements are lists of statements enclosed in curly braces and should 
     Braces are used around all statements, even single statements, when they are part of a control structure, such as if-else or for statements. This makes it easier to add statements without accidentally introducing bugs due to forgetting to add braces.
 
  
-### 1.6.3  Return Statements
+### Return Statements
 
 A return statement with a value should not use parentheses unless they make the return value more obvious in some way. Example:
 
@@ -325,7 +318,7 @@ return myDisk.size();
 return (size == 0) ? defaultSize : size;
 
  
-### 1.6.4  if, if-else, if else-if else Statements
+### if, if-else, if else-if else Statements
 
 The if-else class of statements should have the following form:
 
@@ -351,11 +344,9 @@ if (condition) {
 }
 
  
-### 1.6.5  for Statements
+### for Statements
 
 A for statement should have the following form:
-
- 
 
  
 for (int i = 0; i < limit; i++) {
@@ -369,12 +360,10 @@ for (String name : names) {
   ...
 }
 
- 
-
 When using the comma operator in the initialization or update clause of a for statement, avoid the complexity of using more than three variables. If needed, use separate statements before the for loop (for the initialization clause) or at the end of the loop (for the update clause).
 
 Do not modify the loop control variable from within the loop.
-1.6.6  while Statements
+###  while Statements
 
 A while statement should have the following form:
 
@@ -387,7 +376,7 @@ while (condition) {
 }
 
  
-### 1.6.7  do-while Statements
+### do-while Statements
 
 A do-while statement should have the following form:
 
@@ -400,9 +389,6 @@ do {
 ### 1.6.8  switch Statements
 
 A switch statement should have the following form:
-
- 
-
  
 switch {
   case 12:
@@ -424,14 +410,12 @@ switch {
     break;
 }
 
- 
-
 Avoid fall through cases (i.e. case with statements but no break) as they can easily lead to bugs when case statements are inserted at a later date.
 
 Every switch statement should include a default case at the end of the switch block. While the break in the default case appears redundant, it prevents a fall-through error if later another case is inadvertently added after the default.
 
  
-### 1.6.9  try-catch Statements
+### try-catch Statements
 
 A try-catch statement should have the following format:
 
@@ -457,7 +441,7 @@ try {
 }
 
  
-### 1.6.10  Array Declarations
+### Array Declarations
 
 Declare arrays using the Java-style syntax, not the C-style syntax.
 
@@ -471,8 +455,8 @@ String names[];
 int counts[];
 
  
-## 1.7  White Space
-### 1.7.1  Blank Lines
+## White Space
+### Blank Lines
 
 Blank lines improve readability by setting off sections of code that are logically related
 
@@ -488,14 +472,11 @@ One blank line should always be used in the following circumstances:
     Before a block or single-line comment
     Between logical sections inside a method to improve readability
 
-### 1.7.2  Blank Spaces
+### Blank Spaces
 
 Blank spaces should be used in the following circumstances:
 
     A keyword followed by a parenthesis should be separated by a space. For example:
-
-     
-
      
     while (true) {
       ...
@@ -504,8 +485,6 @@ Blank spaces should be used in the following circumstances:
     if (condition) {
       ...
     }
-
-     
 
     Note that a blank space should not be used between a method name and its opening parenthesis. This helps to distinguish keywords from method calls.
     A blank space should appear after commas in argument lists
@@ -523,15 +502,11 @@ Blank spaces should be used in the following circumstances:
     printSize("size is " + foo + "\n");
 
     There should be a space surrounding the ternary operators. For example:
-
-     
-
      
     return (x >= 0) ? x : -x;
 
     The expressions in a for statement should be separated by blank spaces
     Casts should be followed by a blank space. For example:
-
      
     methodA((byte) aNum, (String) x);
     methodB((int) (cp + 5), ((int) (i + 3)) + 1);
@@ -551,11 +526,8 @@ if (a == b && c == d) {
   ...
 }
 
- 
-
 If an expression containing a binary operator appears before the ? in the ternary ?: operator, it should be parenthesized.
 
- 
 // GOOD
 return (x >= 0) ? x : -x;
  
@@ -563,7 +535,7 @@ return (x >= 0) ? x : -x;
 return x >= 0 ? x : -x;
 
  
-## 1.9  Naming Conventions
+## Naming Conventions
 
 Naming conventions make code easier to read and understand. They provide information about the function of the identifier such as a constant, package, class or method.
 Packages	
