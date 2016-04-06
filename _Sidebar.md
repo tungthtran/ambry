@@ -24,7 +24,6 @@
   * [Message Format](Message Format)
   * [Replication Files and Format](Replication Files and Format)
   * [Cluster Manager](Cluster Manager)
-  * [Frontend and Router](Frontend and Router)
 * Operations
   * [Basic Operations](Basic Operations)
   * [Important Configs](Important Configs)
