@@ -2,12 +2,16 @@
 * Install and prepare IntelliJ
 * Download and install IntelliJ;
 * Checkout Ambry source
+
 `git clone https://github.com/linkedin/ambry.git`
+
 * Update libraries and generate IntelliJ project files
+
 `cd <ambry.project.dir>`
 `./gradlew idea`
-Create IntelliJ workspace
-Open Intellij and click open project pointing to <ambry.project.dir>
+
+* Create IntelliJ workspace
+* Open Intellij and click open project pointing to <ambry.project.dir>
 
 ## Eclipse setup
 Install and prepare Eclipse
