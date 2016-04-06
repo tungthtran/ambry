@@ -65,14 +65,18 @@
   *  Before you submit your Pull Request (PR), consider the following guidelines:
      - Search Github for an open or closed PR that relates to your submission. You don't want to duplicate effort.
      - Make your changes in a new branch:
-    git checkout -b my-fix-branch master
+    
+        git checkout -b my-fix-branch master
+
      - Create your patch, including appropriate test cases.
      - Run the test suite.
      - Commit your changes using a descriptive commit message.
-    git commit -a
+    
+        git commit -a
 
      - Push your branch to GitHub:
-    git push origin my-fix-branch
+    
+        git push origin my-fix-branch
 
      - In GitHub, send a pull request to Ambry:Master
 
@@ -80,6 +84,7 @@
      - Make the required updates.
      - Re-run the test suite
      - Push the changes to your repo
-    git push 
+    
+        git push 
 
 After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository.
