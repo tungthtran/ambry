@@ -59,3 +59,27 @@
      ambry-network should not depend on any other packages other than ambry-api and ambry-utils. 
      ambry-coordinator should not depend on any of the server side packages. It can depend on ambry-shared, ambry-utils, ambry-messageformat, ambry-api and ambry-clustermap. 
      ambry-store is at the lowest level and should depend on ambry-api, ambry-clustermap, ambry-metrics and ambry-utils.
+
+## Submitting a patch
+
+  *  Before you submit your Pull Request (PR), consider the following guidelines:
+     - Search Github for an open or closed PR that relates to your submission. You don't want to duplicate effort.
+     - Make your changes in a new branch:
+    git checkout -b my-fix-branch master
+     - Create your patch, including appropriate test cases.
+     - Run the test suite.
+     - Commit your changes using a descriptive commit message.
+    git commit -a
+
+     - Push your branch to GitHub:
+    git push origin my-fix-branch
+
+     - In GitHub, send a pull request to Ambry:Master
+
+  *  If we suggest changes, then:
+     - Make the required updates.
+     - Re-run the test suite
+     - Push the changes to your repo
+    git push 
+
+After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository.
