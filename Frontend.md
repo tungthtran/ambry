@@ -70,8 +70,8 @@ The NIO layer is responsible for all network related operations including encodi
 
 The NIO layer also needs to maintain some state. For the layer as a whole, it needs to maintain the instance of RestRequestHandler that can be used for all channels and all requests. In addition, each channel might have to maintain some per request state 
 
-  1. The RestRequest that it is currently processing (required state per request) - This is required per request if content is expected since content will have to be added to the RestRequest.
-  1. The RestResponseChannel (required state per request) - This has to be maintained per request since the RestResponseChannel has to be informed of any errors during NIO layer processing. 
+* The RestRequest that it is currently processing (required state per request) - This is required per request if content is expected since content will have to be added to the RestRequest.
+* The RestResponseChannel (required state per request) - This has to be maintained per request since the RestResponseChannel has to be informed of any errors during NIO layer processing. 
 
 ####Component Interaction
 
@@ -102,37 +102,37 @@ For handleGet, AmbryBlobStorageService extracts the blob ID (and sub-resource) f
 
 For a GET request, we require both blob properties (to update headers) and the content of the blob. To this end, we create a Callback object for a getBlobInfo call first. This Callback object contains a function that needs to be called on operation completion and also encapsulates all the details required to make a subsequent getBlob call. The getBlobInfo method of the Router is then called with the blob ID and Callback.
 
-> public interface Callback<T> {  
->   public void onCompletion(T result, Exception exception);  
-> }  
+    public interface Callback<T> {  
+      public void onCompletion(T result, Exception exception);  
+    }  
 
 * On getBlobInfo callback received
 
 When the getBlobInfo callback is received, the response headers are populated. The Callback invokes the getBlob method of the Router with the blob ID and a new Callback that encapsulates all the information required to send a response
 
-`public class HeadForGetCallback<BlobInfo> {`  
-  `private final RestResponseHandler restResponseHandler;`  
-  `private final RestResponseChannel restResponseChannel;`  
-  `private final RestRequest restRequest; `  
-  `private final Router router;`  
+    public class HeadForGetCallback<BlobInfo> { 
+      private final RestResponseHandler restResponseHandler; 
+      private final RestResponseChannel restResponseChannel;  
+      private final RestRequest restRequest;
+      private final Router router;
  
-  `public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest, Router router) {`  
-    `this.restResponseHandler = restRequestResponseHandler;`  
-    `this.restResponseChannel = restResponseChannel;`  
-    `this.restRequest = restRequest;`  
-    `this.router = router;`  
-  `}`  
-  `public void onCompletion(BlobInfo result, Exception exception) {`  
-     `if (exception == null) {`  
-       `// update headers in RestResponseChannel.`  
-       `// get blob id from RestRequest.`  
-       `// create GetCallback.`  
-       `router.getBlob(blobId, getCallback);`  
-      `} else {`  
-       `restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception); `  
-     }`  
-  `}`  
-`}`  
+      public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest, Router router) {
+        this.restResponseHandler = restRequestResponseHandler; 
+        this.restResponseChannel = restResponseChannel;
+        this.restRequest = restRequest;
+        this.router = router;
+      }  
+      public void onCompletion(BlobInfo result, Exception exception) { 
+        if (exception == null) {
+          // update headers in RestResponseChannel.  
+          // get blob id from RestRequest.
+          // create GetCallback.
+          router.getBlob(blobId, getCallback); 
+        } else {
+          restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception);  
+         }
+      } 
+    }  
 
 * Router
 
@@ -144,19 +144,19 @@ The getBlobInfo callback is invoked with a BlobInfo when both the blob propertie
 
 When the getBlob callback is received, any necessary headers are updated and the response is submitted to the RestResponseHandler (AsyncRequestResponseHandler). The ReadableStreamChannel - RestResponseChannel pair is added to the response set and the response reading is initiated (which is asynchronous because of the design of ReadableStreamChannel). Once the response reading is complete (which is known via the callback), all remaining state can be cleaned up.
 
-`public class GetCallback<ReadableStreamChannel> {`
-    `private final RestResponseHandler restResponseHandler;`
-    `private final RestResponseChannel restResponseChannel;`
-    `private final RestRequest restRequest; `
+    public class GetCallback<ReadableStreamChannel> {
+      private final RestResponseHandler restResponseHandler;
+      private final RestResponseChannel restResponseChannel;
+      private final RestRequest restRequest;
   
-    `public GetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest) {`
-      `this.restResponseHandler = restRequestResponseHandler;`
-      `this.restResponseChannel = restResponseChannel;`
-      `this.restRequest = restRequest;`
-    `}`
+      public GetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest) {
+        this.restResponseHandler = restRequestResponseHandler;
+        this.restResponseChannel = restResponseChannel;
+        this.restRequest = restRequest;
+      }
  
-    `public void onCompletion(ReadableStreamChannel result, Exception exception) {`
-      `// update headers if required.`
-      `restResponseHandler.handleResponse(restRequest, restResponseChannel, result, exception);`
-    `}`
-`}`
+      public void onCompletion(ReadableStreamChannel result, Exception exception) {
+        // update headers if required.
+        restResponseHandler.handleResponse(restRequest, restResponseChannel, result, exception);
+      }
+    }
