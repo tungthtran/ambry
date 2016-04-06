@@ -82,21 +82,21 @@ Much of this section uses Ambry and its Router library as a means of presenting 
 
 _Common operations_
 
-1. Receiving requests
+* Receiving requests
 
 When a request is received, the NIO layer first packages its own representation of a HTTP request into a implementation of RestRequest (that the NIO layer provides). It passes this RestRequest along with a RestResponseChannel (that can be used to return a response to the request) to the RestRequestHandler. The request is then enqueued to be handled asynchronously at the RestRequestHandler.
 
-1. Receiving content
+* Receiving content
 
 In GET, DELETE and HEAD requests, no valid content is expected. In a POST request, we expect content with the request. Any content received is added by the NIO layer to the RestRequest. Since the implementation of RestRequest is provided by the NIO layer, this can be done internally without involving the scaling layer. This content should be available for reading (at the remote service library) through the read operations of ReadableStreamChannel. Exceptions are thrown in case valid state transitions are not respected.
 
-1. Dequeing requests inside the AsyncRequestResponseHandler
+* Dequeing requests inside the AsyncRequestResponseHandler
 
 Every request submitted to the AsyncRequestResponseHandler is handed off to a AsyncRequestWorker. The AsyncRequestWorker has a thread that regularly dequeues RestRequests from the request queue in order to process them. The handling of a dequeued request depends on the type of request.
 
 **GET**
 
-1. Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
+* Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
 
 For handleGet, AmbryBlobStorageService extracts the blob ID (and sub-resource) from the request , interacts with any required external services and does pre processing of request data if required (All this will be non blocking). 
 
@@ -106,7 +106,7 @@ For a GET request, we require both blob properties (to update headers) and the c
     `public void onCompletion(T result, Exception exception);`
 `}`
 
-1. On getBlobInfo callback received
+* On getBlobInfo callback received
 
 When the getBlobInfo callback is received, the response headers are populated. The Callback invokes the getBlob method of the Router with the blob ID and a new Callback that encapsulates all the information required to send a response.
 
@@ -135,13 +135,13 @@ When the getBlobInfo callback is received, the response headers are populated. T
     `}`
 `}`
 
-1. Router
+* Router
 
 At the Router, a future that will eventually contain the result of any operations invoked is created and returned immediately to AmbryBlobStorageService. This ensures that the thread of the AsyncRequestWorker is not blocked. For getBlobInfo, the result is a BlobInfo object and for getBlob, the result is a ReadableStreamChannel representing blob data.  
 
 The getBlobInfo callback is invoked with a BlobInfo when both the blob properties and user metadata are available. The getBlob callback is invoked with a ReadableStreamChannel representing blob data when at least one byte of the blob is available. In both cases, if there was an exception while executing the request, the Router invokes the callback with the exception that caused the request to fail.
 
-1. On getBlob callback received
+* On getBlob callback received
 
 When the getBlob callback is received, any necessary headers are updated and the response is submitted to the RestResponseHandler (AsyncRequestResponseHandler). The ReadableStreamChannel - RestResponseChannel pair is added to the response set and the response reading is initiated (which is asynchronous because of the design of ReadableStreamChannel). Once the response reading is complete (which is known via the callback), all remaining state can be cleaned up.
 
