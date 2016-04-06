@@ -34,21 +34,21 @@ The Token class that is used for replication is used to track hard deletes as we
 Simply put, the logic is - 
 
 
-    `Start at the current token S. (Initially the token would represent 0).`
-    `(E, entries) = findDeletedEntriesSince(S).`
-    `Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).`
-    `performHardDelete(entries) // this is going on for (S, E]`
-    `set S = E`
-    `Index Persistor runs in the background and`
-        `sets S' = S`
-        `flushes log (so everything upto S' is surely flushed in the log)`
-        `persists (S',E)`
+  `Start at the current token S. (Initially the token would represent 0).`
+  `(E, entries) = findDeletedEntriesSince(S).`
+  `Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).`
+  `performHardDelete(entries) // this is going on for (S, E]`
+  `set S = E`
+  `Index Persistor runs in the background and`
+      `sets S' = S`
+      `flushes log (so everything upto S' is surely flushed in the log)`
+      `persists (S',E)`
 
 
 To reiterate, the guarantees provided are that for any persisted token pair (S', E)
 
-    1. All the hard deletes till point S' have been flushed in the log and
-    1. Ongoing hard deletes are between S' and E, so during recovery this is the range to be covered.
+  1. All the hard deletes till point S' have been flushed in the log and
+  1. Ongoing hard deletes are between S' and E, so during recovery this is the range to be covered.
 
 **findDeletedEntriesSince()**
 
