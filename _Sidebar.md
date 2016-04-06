@@ -35,7 +35,7 @@
   * [Mailing List](Mailing List)
   * [Bugs](Bugs)
   * [Coding Guidelines](Coding Guidelines)
-  * [Testing](Testing)
+  * [Development Guidelines](Development Guidelines)
   * [Contributors/Team](Contributors/Team)
   * [Development Environment](Development Environment)
 * [Future Work](Future Work)
