@@ -103,7 +103,7 @@ For handleGet, AmbryBlobStorageService extracts the blob ID (and sub-resource) f
 For a GET request, we require both blob properties (to update headers) and the content of the blob. To this end, we create a Callback object for a getBlobInfo call first. This Callback object contains a function that needs to be called on operation completion and also encapsulates all the details required to make a subsequent getBlob call. The getBlobInfo method of the Router is then called with the blob ID and Callback.
 
 `public interface Callback<T> {`
-    `public void onCompletion(T result, Exception exception);`
+     `public void onCompletion(T result, Exception exception);`
 `}`
 
 * On getBlobInfo callback received
