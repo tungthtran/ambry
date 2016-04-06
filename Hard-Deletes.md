@@ -12,24 +12,26 @@ The requirement to zero out blobs poses some challenges
     - Adjacent blobs should not be affected during regular operations nor due to a crash.
     - Any incomplete writes due to a crash should be fixable during recovery.
 
-3. Design
+### Design
 
 The basic idea is to have an asynchronous "hard delete" thread per store that does the following periodically:
 
-    1. Scans and finds delete records in the index
-    1. Forms a readSet using these ids and the original offsets (which are offsets for the corresponding put entries) for the blobs that need to be hard deleted
-    1. Reads these put entries from the log and replaces them with zeroed out entries.
+  1. Scans and finds delete records in the index
+  1. Forms a readSet using these ids and the original offsets (which are offsets for the corresponding put entries) for the blobs that need to be hard deleted
+  1. Reads these put entries from the log and replaces them with zeroed out entries.
 
-3.1 Getting the BlobReadOptions for the Original record
+* Getting the BlobReadOptions for the Original record
 
 Note that delete records today do not store the size of the original record. It only stores the original record's start offset. In order to be able to write to those original entries, the store now needs to know the size of those entries. We do this by using a MessageStore component (we use the same MessageStoreHardDelete component) that will go to the offset, read the header and figure out the payload size and constructs a BlobReadOptions using that.
-3.2 Scanning the Index
+
+* Scanning the Index
+
 Tokens
 
 The Token class that is used for replication is used to track hard deletes as well. Two separate tokens are maintained in order to ensure that any ongoing hard deletes during a crash are completed during subsequent recovery: a startToken and endToken. The range of entries being processed during an iteration is (startToken, endToken]. Periodically, the tokens are persisted. We ensure two things at all times as far as the persisted range (startToken, endToken) is concerned:
 
-    All the hard delete in progress at any time is for an entry within the range represented by the two tokens. Additionally, none of them are beyond the last persisted endToken
-    The hard deletes that are done for entries corresponding to the startToken in the persisted file have been flushed to the log first.
+  1. All the hard delete in progress at any time is for an entry within the range represented by the two tokens. Additionally, none of them are beyond the last persisted endToken
+  1. The hard deletes that are done for entries corresponding to the startToken in the persisted file have been flushed to the log first.
 
 
 Simply put, the logic is this:
