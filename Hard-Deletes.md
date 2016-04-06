@@ -31,23 +31,16 @@ The Token class that is used for replication is used to track hard deletes as we
   1. All the hard delete in progress at any time is for an entry within the range represented by the two tokens. Additionally, none of them are beyond the last persisted endToken
   1. The hard deletes that are done for entries corresponding to the startToken in the persisted file have been flushed to the log first.
 
-Simply put, the logic is - 
-
-
-  `Start at the current token S. (Initially the token would represent 0).`
-
-  `(E, entries) = findDeletedEntriesSince(S).`
-
-  `Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).`
-
-  `performHardDelete(entries) // this is going on for (S, E]`
-
-  `set S = E`
-
-  `Index Persistor runs in the background and`
-      `sets S' = S`
-      `flushes log (so everything upto S' is surely flushed in the log)`
-      `persists (S',E)`
+> Simply put, the logic is 
+> Start at the current token S. (Initially the token would represent 0)  
+> (E, entries) = findDeletedEntriesSince(S)  
+> Persist (S', E) // so during recovery we know where to stop (we will see what S' is below)  
+> performHardDelete(entries) // this is going on for (S, E]  
+> set S = E  
+> Index Persistor runs in the background and  
+> sets S' = S  
+> flushes log (so everything upto S' is surely flushed in the log)  
+> persists (S',E)  
 
 
 To reiterate, the guarantees provided are that for any persisted token pair (S', E)
@@ -79,26 +72,26 @@ During startup, we need to reprocess entries that were hard deleted but not yet 
 
 In the sections above we saw how in order to do hard deletes, we have to first go to the log and fetch the size of the entry to create BlobReadOptions that is then used while doing hard deletes. Now, during a crash recovery, because entries could be corrupted in the range on which recovery is to be done (due to previous hard deletes possibly not getting flushed at the time of the crash), we maintain enough information in the persisted tokens to redo the recovery without actually having to read from the log again. The persisted token, therefore has more than just the start and end tokens. The token format is as follows
 
- `--`
- `token_version`
- `startTokenForRecovery`
- `endTokenForRecovery`
- `numBlobsInRange`
- `--`
- `blob1_blobReadOptions {version, offset, sz, ttl, key}`
- `blob2_blobReadOptions`
- `....`
- `blobN_blobReadOptions`
- `--`
- `length_of_blob1_messageStoreRecoveryInfo`
- `blob1_messageStoreRecoveryInfo {headerVersion, userMetadataVersion, userMetadataSize, blobRecordVersion, blobStreamSize}`
- `length_of_blob2_messageStoreRecoveryInfo`
- `blob2_messageStoreRecoveryInfo`
- `....`
- `length_of_blobN_messageStoreRecoveryInfo`
- `blobN_messageStoreRecoveryInfo`
- `crc`
- `---`
+ `--`  
+ `token_version`  
+ `startTokenForRecovery`  
+ `endTokenForRecovery`  
+ `numBlobsInRange`  
+ `--`  
+ `blob1_blobReadOptions {version, offset, sz, ttl, key}`  
+ `blob2_blobReadOptions`  
+ `....`  
+ `blobN_blobReadOptions`  
+ `--`  
+ `length_of_blob1_messageStoreRecoveryInfo`  
+ `blob1_messageStoreRecoveryInfo {headerVersion, userMetadataVersion, userMetadataSize, blobRecordVersion, blobStreamSize}`  
+ `length_of_blob2_messageStoreRecoveryInfo`  
+ `blob2_messageStoreRecoveryInfo`  
+ `....`  
+ `length_of_blobN_messageStoreRecoveryInfo`  
+ `blobN_messageStoreRecoveryInfo`  
+ `crc`  
+ `---`  
 
 The blob read options are interpreted by the index. The messageStoreRecoveryInfo is interpreted and stored by the messageStoreHardDelete component. Using these, the hard deletes during recovery do not first go and read the log - they use the persisted information to directly perform hard deletes.
 
