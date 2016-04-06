@@ -33,7 +33,7 @@
 * [FAQ](FAQ)
 * Project
   * [Mailing List](Mailing List)
-  * [Bugs](Bugs)
+  * [Bugs](https://github.com/linkedin/ambry/issues)
   * [Coding Guidelines](Coding Guidelines)
   * [Development Guidelines](Development Guidelines)
   * [Contributors/Team](Contributors/Team)
