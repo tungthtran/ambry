@@ -208,3 +208,37 @@ Talking in terms of the Netty implementation, this is achieved through a two ste
 * Decoding HTTP POST data
 
 HTTP POST data might need to be decoded (in case of multipart data) and this a compute heavy operation. This is done in the context of the thread inside AsyncRequestWorker via a call to RestRequest.prepare().
+
+**DELETE**
+
+* Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
+
+For handleDelete, AmbryBlobStorageService extracts the blob ID from the request. It also interacts with any required external services and does pre processing of request data if required (all this is non-blocking). Further, it creates a Callback object for a deleteBlob call that contains a function that needs to be called on operation completion and also encapsulates all the information required to send a response. The deleteBlob method of the Router is then called with the blob ID and Callback.
+
+* Router
+
+At the Router, the deleteBlob operation will return a Future of Void immediately to AmbryBlobStorageService. This ensures that the thread of the AsyncRequestWorker is not blocked.  The deleteBlob callback is invoked with a null result when the delete is complete. If there was an exception while executing the request, the Router invokes the callback with the exception that caused the request to fail.
+
+* On deleteBlob callback received
+
+When the deleteBlob callback is received, the headers are updated to indicate that the delete was accepted (or error thrown is transmitted) and the response is submitted to the RestResponseHandler.
+DeleteCallback
+
+    public class DeleteCallback<Void> {
+      private final RestResponseHandler restResponseHandler;
+      private final RestResponseChannel restResponseChannel;
+      private final RestRequest restRequest; 
+  
+      public DeleteCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest) {
+        this.restResponseHandler = restRequestResponseHandler;
+        this.restResponseChannel = restResponseChannel;
+        this.restRequest = restRequest;
+      }
+ 
+      public void onCompletion(Void result, Exception exception) {
+        if(exception == null) {
+          // send response status to ACCEPTED.
+        }
+        restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception);
+      }
+    }
