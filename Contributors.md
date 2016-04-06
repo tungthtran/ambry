@@ -8,5 +8,5 @@
 * Dmitry Nikiforov [Linkedin](https://www.linkedin.com/in/dmitrynikiforov)
 * Arjun AV [Linkedin](https://in.linkedin.com/in/arjunshenoylinkedin)
 * Sriram Subramanian [Linkedin](https://www.linkedin.com/in/sriramsubramanian2
-)[Twitter](https://twitter.com/sriramsubram)
+)     [Twitter](https://twitter.com/sriramsubram)
 * Terry Li [Linkedin](https://www.linkedin.com/in/terrylicmu)
