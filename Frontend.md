@@ -68,7 +68,7 @@ The scaling units are CPU bound and perform all the CPU bound tasks.
 
 The NIO layer is responsible for all network related operations including encoding/decoding HTTP. On the receiving side, the NIO framework is expected to provide a way to listen on a certain port for requests from clients, accept them, decode the HTTP data received and handoff this data to the scaling framework in a NIO framework agnostic format (RestRequest and RestResponseChannel). On the sending side, the NIO layer is expected to provide an implementation of RestResponseChannel to return processed responses back to the client.
 
-The NIO layer also needs to maintain some state. For the layer as a whole, it needs to maintain the instance of RestRequestHandler that can be used for all channels and all requests. In addition, each channel might have to maintain some per request state :-
+The NIO layer also needs to maintain some state. For the layer as a whole, it needs to maintain the instance of RestRequestHandler that can be used for all channels and all requests. In addition, each channel might have to maintain some per request state 
 
   1. The RestRequest that it is currently processing (required state per request) - This is required per request if content is expected since content will have to be added to the RestRequest.
   1. The RestResponseChannel (required state per request) - This has to be maintained per request since the RestResponseChannel has to be informed of any errors during NIO layer processing. 
@@ -102,37 +102,37 @@ For handleGet, AmbryBlobStorageService extracts the blob ID (and sub-resource) f
 
 For a GET request, we require both blob properties (to update headers) and the content of the blob. To this end, we create a Callback object for a getBlobInfo call first. This Callback object contains a function that needs to be called on operation completion and also encapsulates all the details required to make a subsequent getBlob call. The getBlobInfo method of the Router is then called with the blob ID and Callback.
 
-`public interface Callback<T> {`
-     `public void onCompletion(T result, Exception exception);`
-`}`
+> public interface Callback<T> {  
+>   public void onCompletion(T result, Exception exception);  
+> }  
 
 * On getBlobInfo callback received
 
-When the getBlobInfo callback is received, the response headers are populated. The Callback invokes the getBlob method of the Router with the blob ID and a new Callback that encapsulates all the information required to send a response.
+When the getBlobInfo callback is received, the response headers are populated. The Callback invokes the getBlob method of the Router with the blob ID and a new Callback that encapsulates all the information required to send a response
 
-`public class HeadForGetCallback<BlobInfo> {`
-  `private final RestResponseHandler restResponseHandler;`
-  `private final RestResponseChannel restResponseChannel;`
-  `private final RestRequest restRequest; `
-  `private final Router router;`
+`public class HeadForGetCallback<BlobInfo> {`  
+  `private final RestResponseHandler restResponseHandler;`  
+  `private final RestResponseChannel restResponseChannel;`  
+  `private final RestRequest restRequest; `  
+  `private final Router router;`  
  
-  `public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest, Router router) {`
-    `this.restResponseHandler = restRequestResponseHandler;`
-    `this.restResponseChannel = restResponseChannel;`
-    `this.restRequest = restRequest;`
-    `this.router = router;`
-  `}`
-  `public void onCompletion(BlobInfo result, Exception exception) {`
-     `if (exception == null) {`
-       `// update headers in RestResponseChannel.`
-       `// get blob id from RestRequest.`
-       `// create GetCallback.`
-       `router.getBlob(blobId, getCallback);`
-      `} else {`
-       `restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception); `
-     }`
-  `}`
-`}`
+  `public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest, Router router) {`  
+    `this.restResponseHandler = restRequestResponseHandler;`  
+    `this.restResponseChannel = restResponseChannel;`  
+    `this.restRequest = restRequest;`  
+    `this.router = router;`  
+  `}`  
+  `public void onCompletion(BlobInfo result, Exception exception) {`  
+     `if (exception == null) {`  
+       `// update headers in RestResponseChannel.`  
+       `// get blob id from RestRequest.`  
+       `// create GetCallback.`  
+       `router.getBlob(blobId, getCallback);`  
+      `} else {`  
+       `restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception); `  
+     }`  
+  `}`  
+`}`  
 
 * Router
 
