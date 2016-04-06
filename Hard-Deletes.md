@@ -35,10 +35,15 @@ Simply put, the logic is -
 
 
   `Start at the current token S. (Initially the token would represent 0).`
+
   `(E, entries) = findDeletedEntriesSince(S).`
+
   `Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).`
+
   `performHardDelete(entries) // this is going on for (S, E]`
+
   `set S = E`
+
   `Index Persistor runs in the background and`
       `sets S' = S`
       `flushes log (so everything upto S' is surely flushed in the log)`
@@ -54,9 +59,9 @@ To reiterate, the guarantees provided are that for any persisted token pair (S',
 
 This method is used to scan the index from a specified token and return the metadata of a set of deleted entries. It takes three parameters
 
-    token: the token from which entries are to be retrieved from the index.
-    size: the max size of entries to be returned.
-    endTime: any index segment whose last modified time is greater than this time will not be scanned.
+  token: the token from which entries are to be retrieved from the index.
+  size: the max size of entries to be returned.
+  endTime: any index segment whose last modified time is greater than this time will not be scanned.
 
 This method will function very similar to findEntriesSince() that is used for replication. The difference here is that for hard deletes we are only interested in the deleted entries in the index/log. findDeletedEntriesSince() will scan the index (limited by the hard delete scan size set in config), and return all the delete entries found in the scan. It takes an endTime which is used as follows: Entries from a segment whose last modified time is more recent than this endtime will not be fetched, and the token will not move further until the condition changes. This way, the recent deletes are not hard deleted.
 
@@ -64,9 +69,9 @@ This method will function very similar to findEntriesSince() that is used for re
 
 Given a set of ids, hard deletes are done as follows:
 
-    1. Prepare a readSet for the given ids that use the OriginalOffset for the entries (and not the offsets, as the put record is at the original offset). Since the size of the original blob that is deleted is not kept in the index, we currently use an helper method from the hardDelete class that will actually read the header from the original offset in the log and populate the size in the readSet (this is described in section 3.1). We do this to keep the readSet interface clean.
-    1. Provide the readSet to BlobStoreHardDelete class which is a class in message format layer that implements the MessageStoreHardDelete interface, and get an iterator.
-    1. Use the iterator to read and write replacement records into the log. The iterator essentially iterates over the entries in the readSet, verifies them by reading them and provides a replacement message with the userMetadata and the blob content zeroed out which is then used by the store to write back to the log at the same offsets. If the read fails due to CRC mismatch or anything else, those entries are skipped (which is fine as that means they are already unreadable). The blob properties are kept in tact.
+  1. Prepare a readSet for the given ids that use the OriginalOffset for the entries (and not the offsets, as the put record is at the original offset). Since the size of the original blob that is deleted is not kept in the index, we currently use an helper method from the hardDelete class that will actually read the header from the original offset in the log and populate the size in the readSet (this is described in section 3.1). We do this to keep the readSet interface clean.
+  1. Provide the readSet to BlobStoreHardDelete class which is a class in message format layer that implements the MessageStoreHardDelete interface, and get an iterator.
+  1. Use the iterator to read and write replacement records into the log. The iterator essentially iterates over the entries in the readSet, verifies them by reading them and provides a replacement message with the userMetadata and the blob content zeroed out which is then used by the store to write back to the log at the same offsets. If the read fails due to CRC mismatch or anything else, those entries are skipped (which is fine as that means they are already unreadable). The blob properties are kept in tact.
 
 **Recovery**
 
