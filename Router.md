@@ -33,14 +33,12 @@ An Operation represents the whole operation from the caller’s perspective - th
 A Request represents a particular request that is sent to a datanode. This is what the Router - DataNode interactions deal with. A single operation could and will lead to multiple requests.
  
 _API_
-
 The Router interface is designed to support streaming and non-blocking capabilities. The API consists of a simple, narrow and intuitive set of methods. These methods essentially “submit” the operation and return a Future without blocking. Optionally, these methods take Callbacks that will be called on operation completion. The Router API is given in the index.
 
 _Scaling Units_
-
 The router will consist of a set of scaling units. The number of scaling units will be configurable and configured empirically based on the load and performance. A call that comes to the router will be internally assigned to one of the scaling units, which will handle the request and the response for that call. The scaling units work independently of each other. In the rest of this document, unless the context indicates otherwise, the term Router is used to refer to a scaling unit.
 
-_Components and Flow_
+**Components and Flow**
 In this section, we will discuss the various classes and threads that make the router.
 Classes
 (Unless otherwise mentioned, all classes are concrete and under the ambry.router package)
