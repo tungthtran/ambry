@@ -1,16 +1,16 @@
-1. Introduction
+### Introduction
 
 Currently, Ambry does not support compaction but provides the ability to hard delete. This is a common requirement for IDPC. The basic idea is to zero out the blobs on disk. This support will be replaced by the compaction support in the future.
 
-2. Challenges
+### Challenges
 
-The requirement to zero out blobs poses some challenges:
+The requirement to zero out blobs poses some challenges
 
-    * The store only appends to the log and the writes are all sequential. For hard delete, it needs to perform random writes. We solve this by introducing a new Write method that does write at a specified offset.
-    * A Get operation runs without any locks as writes always happen at the end (and the index is updated after the write, so a get can never try to read a blob that is being written by Puts/Deletes). With hard deletes, writes can happen anywhere in the Log, store needs to ensure that Hard Deletes do not interfere with Gets. At the same time, Gets should never be blocked. We solve this by ensuring that a hard delete never runs on recently deleted entries. A sufficiently old delete will not be a problem as gets for a deleted blob do not normally reach the log.
-    * Store must also ensure that the Log never gets corrupted:
-        - Adjacent blobs should not be affected during regular operations nor due to a crash.
-        - Any incomplete writes due to a crash should be fixable during recovery.
+  * The store only appends to the log and the writes are all sequential. For hard delete, it needs to perform random writes. We solve this by introducing a new Write method that does write at a specified offset.
+  * A Get operation runs without any locks as writes always happen at the end (and the index is updated after the write, so a get can never try to read a blob that is being written by Puts/Deletes). With hard deletes, writes can happen anywhere in the Log, store needs to ensure that Hard Deletes do not interfere with Gets. At the same time, Gets should never be blocked. We solve this by ensuring that a hard delete never runs on recently deleted entries. A sufficiently old delete will not be a problem as gets for a deleted blob do not normally reach the log.
+  * Store must also ensure that the Log never gets corrupted:
+    - Adjacent blobs should not be affected during regular operations nor due to a crash.
+    - Any incomplete writes due to a crash should be fixable during recovery.
 
 3. Design
 
