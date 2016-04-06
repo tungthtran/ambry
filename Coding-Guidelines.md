@@ -1,0 +1,683 @@
+# 1  Code Formatting
+## 1.1  File Names
+
+This section lists commonly used file suffixes and names.
+### 1.1.1  File Suffixes
+
+Java source files use the .java suffix. Compiled Java class files use the .class suffix.
+### 1.1.2  File Names
+
+Java source files must have the same name as the public class they contain. For example, the source file containing the FooBar class must be named FooBar.java.
+
+
+## 1.2  File Organization
+
+A file consists of sections that should be separated by blank lines.
+
+Files longer than 2000 lines are cumbersome and should be avoided.
+### 1.2.1  Java Source Files
+
+Each Java source file contains a single public class or interface. When private classes and interfaces are associated with a public class, you can put them in the same source file as the public class. The public class should be the first class or interface in the file.
+
+Java source files have the following ordering:
+
+    Package and import statements
+    Class and interface declarations
+
+ 
+#### 1.2.1.1  Package and Import Statements
+
+The first line of Java source files is a package statement. Following this are one or more import statements. For example:
+
+ 
+package com.ambry.util;
+ 
+import org.xeril.util.Sizeable;
+ 
+import java.util.Arrays;
+import java.io.Serializable;
+
+ 
+
+The first component of a package name is always written in all-lowercase ASCII letters and should be one of  the top-level domain names, currently com, edu, gov, mil, net, org, or one of the English two-letter codes identifying countries as specified in ISO Standard 3166, 1981.
+
+ 
+#### 1.2.1.2  Class and Interface Declarations
+
+The following table describes the parts of a class or interface declaration, in the order that they should appear.
+Class/interface documentation Javadoc comment	See Documentation Comments for information on what should be in this comment.
+class or interface statement	 
+Class/interface implementation comment	This comment should contain any class-wide or interface-wide information that is not appropriate for the class/interface documentation comment.
+Class variables	First the public class variables, then the protected class variables, then package scope class variables, and then private class variables.
+Instance variables	First the public class variables, then the protected class variables, then package scope class variables, and then private class variables.
+Constructors	 
+Methods	These methods should be grouped by functionality rather than by scope or accessibility. For example, a private class method can be in between two public instance methods. The goal is to make reading and understanding the code easier.
+
+ 
+## 1.3  Indentation
+
+Two spaces should be used as the unit of indentation. Tabs must expand to spaces and the tab width should be set to two. Tab characters must not be used in source files.
+### 1.3.1  Line Length
+
+Lines should not exceed 120 characters.
+
+Example code in Javadoc comments should not exceed 100 characters to accommodate page formatting.
+### 1.3.2  Wrapping Lines
+
+When an expression will not fit on a single line, break it according to these general principles:
+
+    Break after a comma
+    Break before an operator
+    Prefer higher-level breaks to lower-level breaks
+    Indet the new line by four spaces relative to the beginning of the previous line
+
+Here are some examples of breaking method calls:
+
+ 
+someMethod(longExpression1, longExpression2, longExpression3,
+    longExpression4, longExpression5);
+ 
+var = someMethod1(longExpression1,
+    someMethod2(longExpression2,
+        longExpression3));
+
+ 
+
+Following are two examples of breaking an arithmetic expression. The first is preferred, since the break occurs outside the parenthesized expression, which is at a higher level.
+
+ 
+// GOOD
+longName1 = longName2 * (longName3 + longName4 - longName5)
+    + 4 * longname6;
+ 
+// AVOID
+longName1 = longName2 * (longName3 + longName4
+    - longName5) + 4 * longname6;
+
+ 
+
+Line wrapping for if statements uses four spaces. For example:
+
+ 
+// USE THIS INDENTATION
+if ((condition1 && condition2)
+    || (condition3 && condition4)
+    || !(condition5 && condition6)) {
+  doSomethingAboutIt();
+}
+  
+// OR USE THIS
+if ((condition1 && condition2) || (condition3 && condition4)
+    || !(condition5 && condition6)) {
+  doSomethingAboutIt();
+}
+
+ 
+
+Here are three acceptable ways to format ternary expressions:
+
+ 
+alpha = (aLongBooleanExpression) ? beta : gamma;
+ 
+alpha = (aLongBooleanExpression) ? beta
+    : gamma;
+ 
+alpha = (aLongBooleanExpression)
+    ? beta
+    : gamma;
+
+ 
+## 1.4  Comments
+
+Java programs can have two kinds of comments: implementation comments and documentation comments.  Implementation comments are those found in C++, which are delimited by /*...*/, and //.  Documentation comments (known as "doc comments" or "Javadoc comments") are Java-only, and are delimited by  /**...*/.  Doc comments can be extracted to HTML files using the javadoc tool.
+
+Implementation comments are meant for commenting out code or for comments about the particular implementation.  Doc comments are meant to describe the specification of the code, from an implementation-free perspective to be read by developers who might not necessarily have the source code at hand.
+
+Comments should be used to give overviews of code and provide additional information that is not readily available in the code itself. Comments should contain only information that is relevant to reading and understanding the program. For example, information about how the corresponding package is built or in what directory it resides should not be included as a comment.
+
+Discussion of non-trivial or non-obvious design decisions is appropriate, but avoid duplicating information that is present in (and clear from) the code. It is too easy for redundant comments to get out of date. In general, avoid any comments that are likely to get out of date as the code evolves.
+
+The frequency of comments sometimes reflects poor quality of code. When you feel compelled to add a comment, consider rewriting the code to make it clearer.
+
+Comments should not be enclosed in large boxes drawn with asterisks or other characters.
+
+Comments should never include special characters such as form-feed and backspace.
+### 1.4.1  Implementation Comment Formats
+
+Programs can have two styles of implementation comments: block and single-line
+#### 1.4.1.1  Block Comments
+
+Block comments are used to provide descriptions of files, methods, data structures and algorithms. Block comments may be used at the beginning of each file and before each method. They can also be used in other places, such as within methods. Block comments inside a function or method should be indented to the same level as the code they describe.
+
+A block comment should be preceded by a blank line to set it apart from the rest of the code.
+
+ 
+/*
+ * Here is a block comment.
+ */
+
+ 
+#### 1.4.1.2  Single-Line Comments
+
+Short comments can appear on a single line indented to the level of the code that follows. If a comment can't be written in a single line, it should follow the block comment format. A single-line comment should be preceded by a blank line unless it is at the start of a block. Here is an example of a single-line comment in Java code (also see Documentation Comments):
+
+ 
+if (conditions) {
+  /* Handle the first condition. */
+  ...
+ 
+  /* Handle the second condition. */
+  ...
+}
+
+ 
+### 1.4.2  Documentation Comments
+
+This section describes the formatting of documentation comments also referred to as doc comments, or Javadoc comments. See How to Write Doc Comments for the Javadoc Tool and the Javadoc Tool home page for details on authoring documentation comments.
+
+Doc comments describe Java classes, interfaces, constructors, methods, and fields.  Each doc comment is set inside the comment delimiters /**...*/, with one comment per class, interface, or member. This comment should appear just before the declaration:
+
+ 
+/**
+ * Provides access to the internals of the beast.
+ */
+public class FooBar {
+  ...
+}
+
+ 
+
+Notice that top-level classes and interfaces are not indented, while their members are.  The first line of doc comment (/**) for classes and interfaces is not indented; subsequent doc comment lines each have 1 space of indentation (to vertically align the asterisks).  Members, including constructors, have 2 spaces for the first doc comment line and 3 spaces thereafter.
+
+Do not repeat the name of the class, interface, method or field in the comment. It is redundant and may get missed during renaming.
+
+If you need to give information about a class, interface, variable, or method that isn't appropriate for documentation, use an implementation block comment or single-line comment immediately after the declaration. For example, details about the implementation of a class should go in such an implementation block comment following the class statement, not in the class doc comment.
+
+Doc comments should not be positioned inside a method or constructor definition block, because Java associates documentation comments with the first declaration after the comment.
+
+ 
+### 1.4.3 Comment types to avoid
+
+a. Please avoid TODO comments or specifying bug number in code. The code should be really clean and should not have past artifacts across the code base.
+
+b. Open a JIRA to track any future work. This helps to track things in scrum and also keeps the code clean.
+
+c. Clear code is preferable to comments. When possible make your naming so good you don't need comments. When that isn't possible comments should be thought of as mandatory, write them to be read.
+
+d. Don't be sloppy. Don't check in commented out code
+
+
+## 1.5  Declarations
+### 1.5.1  Number Per Line
+
+One declaration per line is recommended since it encourages commenting.
+
+ 
+
+ 
+// GOOD
+int level;     // Indentation level
+int size;      // Number of bytes in the buffer
+int[] fooarr;  // Contains the foo counts
+ 
+// BAD
+int level, size, fooarr[];
+
+ 
+### 1.5.2  Initialization
+
+Try to initialize local variables where they're declared. The only reason not to initialize a variable where it's declared is if the initial value depends on some computation occurring first.
+
+ 
+### 1.5.3  Placement
+
+Put declarations closest to where they are first used.
+
+ 
+public void amethod() {
+  ...
+ 
+  int prime = 17;
+ 
+  for (int i = 0; i < prime; i++) {
+    ...
+ 
+    String result = bmethod(i);
+    ...
+  }
+ 
+  ...
+}
+
+ 
+
+Avoid local declarations that hide declarations at higher levels. For example, do not declare the same variable name in an inner block:
+
+ 
+public void myMethod() {
+  int count = 12;
+  ...
+ 
+  if (condition) {
+    int count = 0;     // AVOID!
+    ...
+  }
+}
+
+ 
+### 1.5.4  Class and Interface Declarations
+
+When coding Java classes and interfaces, the following formatting rules should be followed:
+
+    No space between a method name and the parenthesis "(" starting its parameter list
+    Open brace "{" appears on the same line as the declaration statement
+    Closing brace "}" starts a line by itself indented to match the declaration
+    Methods are separated by a blank line
+
+ 
+class Sample extends Object {
+  private int _ivar1;
+  private int _ivar2;
+ 
+  Sample(int i, int j) {
+    _ivar1 = i;
+    _ivar2 = j;
+  }
+     
+  int emptyMethod() {
+  }
+}
+
+ 
+## 1.6  Statements
+1.6.1  Simple Statements
+
+Each line should contain at most one statement. Example:
+
+ 
+// GOOD
+argv++;
+argc--;
+ 
+// BAD
+argv++; argc--;
+
+ 
+1.6.2  Compound Statements
+
+Compound statements are lists of statements enclosed in curly braces and should be formatted according to the following conventions:
+
+    The enclosed statements should be indented one more level than the enclosing statement
+    The opening brace should be on the same line as the enclosing statement (e.g. the 'if' clause)
+    The closing brace should be on a line by itself indented to match the enclosing statement
+    Braces are used around all statements, even single statements, when they are part of a control structure, such as if-else or for statements. This makes it easier to add statements without accidentally introducing bugs due to forgetting to add braces.
+
+ 
+1.6.3  Return Statements
+
+A return statement with a value should not use parentheses unless they make the return value more obvious in some way. Example:
+
+ 
+return;
+ 
+return myDisk.size();
+ 
+return (size == 0) ? defaultSize : size;
+
+ 
+1.6.4  if, if-else, if else-if else Statements
+
+The if-else class of statements should have the following form:
+
+ 
+if (condition) {
+  statement;
+}
+ 
+ 
+if (condition) {
+  statement;
+} else {
+  statements;
+}
+ 
+ 
+if (condition) {
+  statement;
+} else if (condition) {
+  statement;
+} else {
+  statement;
+}
+
+ 
+1.6.5  for Statements
+
+A for statement should have the following form:
+
+ 
+
+ 
+for (int i = 0; i < limit; i++) {
+   ...
+}
+ 
+for (; foo != null; foo = foo.next()) {
+}
+ 
+for (String name : names) {
+  ...
+}
+
+ 
+
+When using the comma operator in the initialization or update clause of a for statement, avoid the complexity of using more than three variables. If needed, use separate statements before the for loop (for the initialization clause) or at the end of the loop (for the update clause).
+
+Do not modify the loop control variable from within the loop.
+1.6.6  while Statements
+
+A while statement should have the following form:
+
+ 
+while (condition) {
+  ...
+}
+ 
+while (condition) {
+}
+
+ 
+1.6.7  do-while Statements
+
+A do-while statement should have the following form:
+
+ 
+do {
+  ...
+} while (condition);
+
+ 
+1.6.8  switch Statements
+
+A switch statement should have the following form:
+
+ 
+
+ 
+switch {
+  case 12:
+    ...
+    break;
+  case 13:
+    ...
+    break;
+  case 14: {
+    ...
+    break;
+  }
+  case 15:
+  case 16:
+    ...
+    break;
+  default:
+    ...
+    break;
+}
+
+ 
+
+Avoid fall through cases (i.e. case with statements but no break) as they can easily lead to bugs when case statements are inserted at a later date.
+
+Every switch statement should include a default case at the end of the switch block. While the break in the default case appears redundant, it prevents a fall-through error if later another case is inadvertently added after the default.
+
+ 
+1.6.9  try-catch Statements
+
+A try-catch statement should have the following format:
+
+ 
+try {
+  ...
+} catch (ExceptionClass e) {
+  ...
+}
+ 
+try {
+  ...
+} catch (ExceptionClass e) {
+  ...
+} finally {
+  ...
+}
+ 
+try {
+  ...
+} finally {
+  ...
+}
+
+ 
+1.6.10  Array Declarations
+
+Declare arrays using the Java-style syntax, not the C-style syntax.
+
+ 
+// GOOD
+String[] names;
+int[] counts;
+ 
+// AVOID
+String names[];
+int counts[];
+
+ 
+1.7  White Space
+1.7.1  Blank Lines
+
+Blank lines improve readability by setting off sections of code that are logically related
+
+Two blank lines should always be used in the following circumstances:
+
+    Between sections of a source file (e.g. between the end of imports and the first class or interface definition)
+    Between class and interface definitions (e.g. a class and an inner class, a public class and a private class)
+
+One blank line should always be used in the following circumstances:
+
+    Between the local variables in a method and its first statement
+    Between methods
+    Before a block or single-line comment
+    Between logical sections inside a method to improve readability
+
+1.7.2  Blank Spaces
+
+Blank spaces should be used in the following circumstances:
+
+    A keyword followed by a parenthesis should be separated by a space. For example:
+
+     
+
+     
+    while (true) {
+      ...
+    }
+     
+    if (condition) {
+      ...
+    }
+
+     
+
+    Note that a blank space should not be used between a method name and its opening parenthesis. This helps to distinguish keywords from method calls.
+    A blank space should appear after commas in argument lists
+
+    All binary operators except . should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment (++), and decrement (--) from their operands. For example:
+
+     
+    a += c + d;
+    a = (a + b) / (c * d);
+     
+    for (int i = 0; i < 20; i++) {
+      n++;
+    }
+     
+    printSize("size is " + foo + "\n");
+
+    There should be a space surrounding the ternary operators. For example:
+
+     
+
+     
+    return (x >= 0) ? x : -x;
+
+    The expressions in a for statement should be separated by blank spaces
+    Casts should be followed by a blank space. For example:
+
+     
+    methodA((byte) aNum, (String) x);
+    methodB((int) (cp + 5), ((int) (i + 3)) + 1);
+
+1.8  Parenthesis
+
+It is generally a good idea to use parentheses liberally in expressions involving mixed operators to avoid operator precedence problems.
+
+ 
+// GOOD
+if ((a == b) && (c == d)) {
+  ...
+}
+ 
+// AVOID
+if (a == b && c == d) {
+  ...
+}
+
+ 
+
+If an expression containing a binary operator appears before the ? in the ternary ?: operator, it should be parenthesized.
+
+ 
+// GOOD
+return (x >= 0) ? x : -x;
+ 
+// AVOID
+return x >= 0 ? x : -x;
+
+ 
+1.9  Naming Conventions
+
+Naming conventions make code easier to read and understand. They provide information about the function of the identifier such as a constant, package, class or method.
+Packages	
+
+Package names consist of all lowercase ASCII letters separated by periods.
+	com.google.common.collect
+
+
+Classes	
+
+Class names should be nouns in camel case starting with an uppercase letter and using only ASCII characters. Do not prefix class names with "C". Keep class names simple and descriptive. Use whole words rather than abbreviations (e.g. use Component rather than Comp) unless the abbreviation is a common acronym (e.g. URL, HTML, DB). Apply acronyms consistently (i.e. do not mix DB and Database) using consistent letter case (e.g. do not use DB and Db). A useful rule of thumb for acronym case is to use all uppercase for two letter acronyms and mixed case for longer acronyms (e.g. DB, Html, Url).
+	
+
+Raster
+
+FlowGraph
+
+HtmlParser
+
+DBConnection
+Interfaces	Interface names follow the class naming convention. Do not prefix interface names with "I".	
+
+Oberserver
+
+EventListener
+Methods	Methods should be verbs, in camel case starting with a lowercase letter and using only ASCII characters.	
+
+run
+
+runFast
+
+getMajorVersion
+
+setUrlScheme
+Class and instance variables	Class and instance variable are camel case beginning with a lowercase letter, and use only ASCII characters. Use descriptive variable names.	
+
+foo
+Local variables	Local variables are camel case beginning with a lowercase letter and using only ASCII characters. Prefer descriptive variable names except for common temporary use cases such as loop iteration variables (e.g. i, j, k).	
+
+foo
+
+fooBar
+Constants	
+
+Variables declared and static final are constants and should be all uppercase ASCII letters with words separated by an underscore ("_").
+	
+
+FOO
+
+FOO_BAR
+Generic types	One or more uppercase ASCII letters.	
+
+MyClass<T>
+
+<VN> myMethod()
+
+ 
+2. Ambry specific guidelines
+
+ 
+
+ 
+2.1 Basic Stuff
+
+    Avoid cryptic abbreviations. Single letter variable names are fine in very short methods with few variables, otherwise make them informative.
+    Clear code is preferable to comments. When possible make your naming so good you don't need comments. When that isn't possible comments should be thought of as mandatory, write them to be read.
+    Logging, configuration, and public APIs are our "UI". Make them pretty, consistent, and usable.
+    Don't be sloppy. Don't check in commented out code: we use version control, it is still there in the history. Don't leave TODOs in the code or FIXMEs if you can help it. Don't leave println statements in the code. Hopefully this is all obvious.
+    We want people to use our stuff, which means we need clear, correct documentation. User documentation should be considered a part of any user-facing the feature, just like unit tests or performance results.
+    For any new component that is built, check if it is something that would be useful to be pluggable. If so, define appropriate APIs in the api package.
+    Designing APIs should be taken very seriously. The APIs should be absolutely necessary, fit into the design and should be easily understood by reading. Avoid polluting the API to just ease the implementation.
+
+2.2 Logging
+
+    We use SLF4J (with Log4J) for Java.
+    Logging is one third of our "UI" and it should be taken seriously. Please take the time to assess the logs when making a change to ensure that the important things are getting logged and there is no junk there.
+    Don't include a stack trace in INFO, or above, unless there is really something wrong. Stack traces in logs should signal something is wrong, not be informative. If you want to be informative, write an actual log line that say's what's important, and save the stack trace for DEBUG.
+    Logging statements should be complete sentences with proper capitalization that are written to be read by a person not necessarily familiar with the source code. * It is fine to put in hacky little logging statements when debugging, but either clean them up or remove them before checking in.
+    Logging should not mention class names or internal variables.
+    There are six levels of logging TRACE, DEBUG, INFO, WARN, ERROR, and FATAL, they should be used as follows.
+        INFO is the level you should assume the software will be run in. INFO messages are things which are not bad but which the user will definitely want to know about every time they occur.
+        TRACE and DEBUG are both things you turn on when something is wrong and you want to figure out what is going on. DEBUG should not be so fine grained that it will seriously effect the performance. TRACE can be anything.
+        WARN and ERROR indicate something that is bad. Use WARN if you aren't totally sure it is bad, and ERROR if you are.
+        Use FATAL only right before calling System.exit().
+
+2.3 Unit Tests
+
+    New patches should come with unit tests that verify the functionality being added.
+    Unit tests are first rate code, and should be treated like it. They should not contain code duplication, cryptic hackery, or anything like that.
+    Unit tests should test the least amount of code possible
+    Do not use sleep or other timing assumptions in tests, it is always, always, always wrong and will fail intermittently on any test server with other things going on that causes delays. Write tests in such a way that they are not timing dependent. Seriously. One thing that will help this is to never directly use the system clock in code (i.e. System.currentTimeMillis) but instead to use getTime: () => Long, so that time can be mocked.
+    It must be possible to run the tests in parallel, without having them collide. This is a practical thing to allow multiple branches to CI on a single CI server. This means you can't hard code directories or ports or things like that in tests because two instances will step on each other.
+
+2.4 Configuration
+
+    Configuration is the final third of our "UI".
+    All configuration names that define time must end with .ms (e.g. foo.bar.ms=1000).
+    All configuration names that define a byte size must end with .bytes (e.g. foo.bar.bytes=1000).
+    All configuration names that define a factory class must end with .factory.class (e.g. store.factory.class).
+    Configuration will always be defined as simple key/value pairs (e.g. a=b).
+    When configuration is related, it must be grouped using the same prefix (e.g. replication.token.factory="StoreToken", replication.num.replica.threads=1).
+    Names should be thought through from the point of view of the person using the config, but often programmers choose configuration names that make sense for someone reading the code.
+    Often the value that makes most sense in configuration is not the one most useful to program with. For example, let's say you want to throttle I/O to avoid using up all the I/O bandwidth. The easiest thing to implement is to give a "sleep time" configuration that let's the program sleep after doing I/O to throttle down its rate. But notice how hard it is to correctly use this configuration parameter, the user has to figure out the rate of I/O on the machine, and then do a bunch of arithmetic to calculate the right sleep time to give the desired rate of I/O on the system. It is much, much, much better to just have the user configure the maximum I/O rate they want to allow (say 5MB/sec) and then calculate the appropriate sleep time from that and the actual I/O rate. Another way to say this is that configuration should always be in terms of the quantity that the user knows, not the quantity you want to use.
+    Configuration is the answer to problems we can't solve up front for some reason--if there is a way to just choose a best value do that instead.
+
+2.5 Concurrency
+
+    Encapsulate synchronization. That is, locks should be private member variables within a class and only one class or method should need to be examined to verify the correctness of the synchronization strategy.
+    There are a number of gotchas with threads and threadpools: is the daemon flag set appropriately for your threads? are your threads being named in a way that will distinguish their purpose in a thread dump?
+    Prefer the java.util.concurrent packages to either low-level wait-notify, custom locking/synchronization, or higher level scala-specific primitives. The util.concurrent stuff is well thought out and actually works correctly. There is a generally feeling that threads and locking are not going to be the concurrency primitives of the future because of a variety of well-known weaknesses they have. This is probably true, but they have the advantage of actually being mature enough to use for high-performance software right now; their well-known deficiencies are easily worked around by equally well known best-practices.
+
+2.6 Backwards Compatibility
+
+    Ambry uses Semantic Versioning.
+    Backwards incompatible API changes, config changes, or library upgrades should only happen between major revision changes, or when the major revision is 0.
+    ambry-utils should not depend on any other ambry package. ambry-api should not depend on any other ambry package other than ambry-utils. ambry-network should not depend on any other packages other than ambry-api and ambry-utils. ambry-coordinator should not depend on any of the server side packages. It can depend on ambry-shared, ambry-utils, ambry-messageformat, ambry-api and ambry-clustermap. ambry-store is at the lowest level and should depend on ambry-api, ambry-clustermap, ambry-metrics and ambry-utils.
+
