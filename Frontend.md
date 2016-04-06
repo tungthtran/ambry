@@ -161,3 +161,50 @@ When the getBlob callback is received, any necessary headers are updated and the
         restResponseHandler.handleResponse(restRequest, restResponseChannel, result, exception);
       }
     }
+
+**POST**
+
+* Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
+
+For handlePost, AmbryBlobStorageService extracts the blob properties and user metadata from the request (headers). It also interacts with any required external services and does pre processing of request data if required (all this is non-blocking). Further, it creates a Callback object for a putBlob call that contains a function that needs to be called on operation completion and also encapsulates all the information required to send a response.
+
+The putBlob method in the Router is then invoked with blob properties, user metadata, a ReadableStreamChannel representing the data to be POSTed (this is the RestRequest itself) and the Callback. 
+
+* Router
+
+At the Router, the putBlob operation will return a Future of String, that will eventually contain the blob ID, immediately to AmbryBlobStorageService. This ensures that the thread of the AsyncRequestWorker is not blocked.  The putBlob callback is invoked with a blob ID when the put is complete. If there was an exception while executing the request, the Router invokes the callback with the exception that caused the request to fail.
+
+* On putBlob callback received
+
+When the putBlob callback is received, the headers are updated to include the blob ID as a part of the response (or error thrown is transmitted) and the response is submitted to the RestResponseHandler.
+PostCallback
+
+
+    public class PostCallback<String> {
+      private final RestResponseHandler restResponseHandler;
+      private final RestResponseChannel restResponseChannel;
+      private final RestRequest restRequest; 
+  
+      public PostCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest) {
+        this.restResponseHandler = restRequestResponseHandler;
+        this.restResponseChannel = restResponseChannel;
+        this.restRequest = restRequest;
+      }
+ 
+      public void onCompletion(String result, Exception exception) {
+        if(result !=null && exception == null) {
+          // set blob ID as a response header.
+        }
+        restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception);
+      }
+    }
+
+* Reading data at the Router and applying back pressure
+
+The ReadableStreamChannel (represented by the RestRequest) given to the Router is read on demand by the Router. The Router will not "pull" unless it is ready to receive more data and this translates to a form of back pressure on the front end. Since the implementation of the RestRequest is provided by the NIO layer, it falls upon implementers of the NIO layer to transmit this back pressure through the network to the client. 
+
+Talking in terms of the Netty implementation, this is achieved through a two step process. As the first step, when the POST request is received, we switch off auto read on the channel (by default, auto read is on) after receiving a fixed number of content chunks. Once auto read is switched off, reading from the channel occurs on demand (switching off auto-read transmits back pressure through the network protocol, TCP, to the client). In the second step we couple the callbacks received from the AsyncWritableChannel provided by the Router to the on demand read from the channel i.e. on every write callback, we determine whether we are ready to pull more content from the channel and call channel.read() accordingly.
+
+* Decoding HTTP POST data
+
+HTTP POST data might need to be decoded (in case of multipart data) and this a compute heavy operation. This is done in the context of the thread inside AsyncRequestWorker via a call to RestRequest.prepare().
