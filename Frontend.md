@@ -111,28 +111,27 @@ For a GET request, we require both blob properties (to update headers) and the c
 When the getBlobInfo callback is received, the response headers are populated. The Callback invokes the getBlob method of the Router with the blob ID and a new Callback that encapsulates all the information required to send a response.
 
 `public class HeadForGetCallback<BlobInfo> {`
-    `private final RestResponseHandler restResponseHandler;`
-    `private final RestResponseChannel restResponseChannel;`
-    `private final RestRequest restRequest; `
-    `private final Router router;`
+  `private final RestResponseHandler restResponseHandler;`
+  `private final RestResponseChannel restResponseChannel;`
+  `private final RestRequest restRequest; `
+  `private final Router router;`
  
-    `public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest,`
-        `Router router) {`
-      `this.restResponseHandler = restRequestResponseHandler;`
-      `this.restResponseChannel = restResponseChannel;`
-      `this.restRequest = restRequest;`
-      `this.router = router;`
-    `}`
-    `public void onCompletion(BlobInfo result, Exception exception) {`
-      `if (exception == null) {`
-        `// update headers in RestResponseChannel.`
-        `// get blob id from RestRequest.`
-        `// create GetCallback.`
-        `router.getBlob(blobId, getCallback);`
+  `public HeadForGetCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest, Router router) {`
+    `this.restResponseHandler = restRequestResponseHandler;`
+    `this.restResponseChannel = restResponseChannel;`
+    `this.restRequest = restRequest;`
+    `this.router = router;`
+  `}`
+  `public void onCompletion(BlobInfo result, Exception exception) {`
+     `if (exception == null) {`
+       `// update headers in RestResponseChannel.`
+       `// get blob id from RestRequest.`
+       `// create GetCallback.`
+       `router.getBlob(blobId, getCallback);`
       `} else {`
-        `restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception); `
-      `}`
-    `}`
+       `restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception); `
+     }`
+  `}`
 `}`
 
 * Router
