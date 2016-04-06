@@ -26,15 +26,13 @@ Note that delete records today do not store the size of the original record. It 
 
 **Scanning the Index**
 
-Tokens
-
 The Token class that is used for replication is used to track hard deletes as well. Two separate tokens are maintained in order to ensure that any ongoing hard deletes during a crash are completed during subsequent recovery: a startToken and endToken. The range of entries being processed during an iteration is (startToken, endToken]. Periodically, the tokens are persisted. We ensure two things at all times as far as the persisted range (startToken, endToken) is concerned:
 
   1. All the hard delete in progress at any time is for an entry within the range represented by the two tokens. Additionally, none of them are beyond the last persisted endToken
   1. The hard deletes that are done for entries corresponding to the startToken in the persisted file have been flushed to the log first.
 
+Simply put, the logic is - 
 
-Simply put, the logic is this
 
     `Start at the current token S. (Initially the token would represent 0).`
     `(E, entries) = findDeletedEntriesSince(S).`
@@ -46,9 +44,10 @@ Simply put, the logic is this
         `flushes log (so everything upto S' is surely flushed in the log)`
         `persists (S',E)`
 
+
 To reiterate, the guarantees provided are that for any persisted token pair (S', E)
 
-    1. All the hard deletes till point S' have been flushed in the log; and
+    1. All the hard deletes till point S' have been flushed in the log and
     1. Ongoing hard deletes are between S' and E, so during recovery this is the range to be covered.
 
 **findDeletedEntriesSince()**
