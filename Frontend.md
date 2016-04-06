@@ -57,10 +57,11 @@ This layer is the core of the non-blocking front end. It enforces the non-blocki
 
 _AsyncRequestResponseHandler_
 
-AsyncRequestResponseHandler is an implementation of both RestRequestHandler and RestResponseHandler. It processes both requests and responses asynchronously. Requests are handled using one or more scaling units called AsyncRequestWorker. Due to the asynchronous nature of ReadableStreamChannel, response handling does not need scaling units. In order to process requests and responses, each scaling unit maintains some state :-
+AsyncRequestResponseHandler is an implementation of both RestRequestHandler and RestResponseHandler. It processes both requests and responses asynchronously. Requests are handled using one or more scaling units called AsyncRequestWorker. Due to the asynchronous nature of ReadableStreamChannel, response handling does not need scaling units. In order to process requests and responses, each scaling unit maintains some state
 
-    Requests that are waiting to be processed (Request queue)- This is a queue of requests that are awaiting processing. Requests are enqueued by the NIO layer and dequeued and processed using the remote service layer.
-    Responses waiting to be sent out (Response set) - This is a list of responses that are ready to be streamed to the client. The responses are represented by a ReadableStreamChannel and will be sent over the provided RestResponseChannel. If an exception was provided, an appropriate error message is constructed and returned to the client. 
+* Requests that are waiting to be processed (Request queue)- This is a queue of requests that are awaiting processing. 
+* Requests are enqueued by the NIO layer and dequeued and processed using the remote service layer.
+* Responses waiting to be sent out (Response set) - This is a list of responses that are ready to be streamed to the client. * The responses are represented by a ReadableStreamChannel and will be sent over the provided RestResponseChannel. If an exception was provided, an appropriate error message is constructed and returned to the client. 
 
 The scaling units are CPU bound and perform all the CPU bound tasks.
 
