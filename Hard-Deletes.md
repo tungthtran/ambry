@@ -20,11 +20,11 @@ The basic idea is to have an asynchronous "hard delete" thread per store that do
   1. Forms a readSet using these ids and the original offsets (which are offsets for the corresponding put entries) for the blobs that need to be hard deleted
   1. Reads these put entries from the log and replaces them with zeroed out entries.
 
-* Getting the BlobReadOptions for the Original record
+**Getting the BlobReadOptions for the Original record**
 
 Note that delete records today do not store the size of the original record. It only stores the original record's start offset. In order to be able to write to those original entries, the store now needs to know the size of those entries. We do this by using a MessageStore component (we use the same MessageStoreHardDelete component) that will go to the offset, read the header and figure out the payload size and constructs a BlobReadOptions using that.
 
-* Scanning the Index
+**Scanning the Index**
 
 Tokens
 
@@ -36,22 +36,22 @@ The Token class that is used for replication is used to track hard deletes as we
 
 Simply put, the logic is this:
 
-    Start at the current token S. (Initially the token would represent 0).
-    (E, entries) = findDeletedEntriesSince(S).
-    Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).
-    performHardDelete(entries) // this is going on for (S, E]
-    set S = E
-    Index Persistor runs in the background and
-        sets S' = S
-        flushes log (so everything upto S' is surely flushed in the log)
-        persists (S',E)
+    `Start at the current token S. (Initially the token would represent 0).`
+    `(E, entries) = findDeletedEntriesSince(S).`
+    `Persist (S', E) // so during recovery we know where to stop (we will see what S' is below).`
+    `performHardDelete(entries) // this is going on for (S, E]`
+    `set S = E`
+    `Index Persistor runs in the background and`
+        `sets S' = S`
+        `flushes log (so everything upto S' is surely flushed in the log)`
+        `persists (S',E)`
 
 To reiterate, the guarantees provided are that for any persisted token pair (S', E):
 
-    All the hard deletes till point S' have been flushed in the log; and
-    Ongoing hard deletes are between S' and E, so during recovery this is the range to be covered.
+    1. All the hard deletes till point S' have been flushed in the log; and
+    1. Ongoing hard deletes are between S' and E, so during recovery this is the range to be covered.
 
-findDeletedEntriesSince()
+**findDeletedEntriesSince()**
 
 This method is used to scan the index from a specified token and return the metadata of a set of deleted entries. It takes three parameters:
 
