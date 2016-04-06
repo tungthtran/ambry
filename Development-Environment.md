@@ -8,6 +8,7 @@
 * Update libraries and generate IntelliJ project files
 
 `cd <ambry.project.dir>`
+
 `./gradlew idea`
 
 * Create IntelliJ workspace
