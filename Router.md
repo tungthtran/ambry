@@ -15,27 +15,27 @@ Today, the frontend and the router are blocking. This means that an operation ho
 In order to fix this problem, we need to make both the frontend layer and the routing layer non-blocking. This document describes the non-blocking router design. The non-blocking frontend is going to be written in a way that allows for using Netty or Rest.li in a non-blocking way. A detailed design document for the same can be found here: 
 
 ### Proposed Design
-**Concepts and Terminology**
-_Chunking_
+**Concepts and Terminology**  
+_Chunking_  
 The new router implements chunking of large objects. The router is configured with a MAX_CHUNK_SIZE that will be honored during a put operation. Any object that is greater than this size is treated as a large object and split into multiple chunk blobs and one metadata blob, each of which will be distributed among the partitions independently. The chunk blobs will be of size MAX_CHUNK_SIZE except, likely, the last. The metadata blob will store the blob ids of all the chunk blobs of the large object (in order). This blob will also be stored like the other blobs. The id of the indirect blob is treated as the id of the object and is what gets returned to the caller.
 
 Small objects is supported by composing it as a single simple blob.
-Chunking will only be known to the router. The frontend layer will always deal with the whole object. The server will treat simple blobs, part blobs and indirect blobs in exactly the same way.
+Chunking will only be known to the router. The frontend layer will always deal with the whole object. The server will treat simple blobs, part blobs and indirect blobs in exactly the same way.  
 
-_Slip Puts_
+_Slip Puts_  
 The router performs slip puts of blobs. A partition is first chosen for a blob and a blob id is generated. Then, the router sends put requests to the nodes associated with that partition (based on some configured policy). If enough number of successful responses are not received to consider that operation as a success, the new router will choose a different partition, generate a different blob id and re-attempt the operation internally, rather than fail it.
 
 Slip puts are particularly important with large objects as a single chunk failure essentially fails the put for the entire object.
 
-_Operations vs. Requests_
+_Operations vs. Requests_  
 An Operation represents the whole operation from the caller’s perspective - this is what the Frontend - Router interactions deal with.
 
 A Request represents a particular request that is sent to a datanode. This is what the Router - DataNode interactions deal with. A single operation could and will lead to multiple requests.
- 
-_API_
+
+_API_  
 The Router interface is designed to support streaming and non-blocking capabilities. The API consists of a simple, narrow and intuitive set of methods. These methods essentially “submit” the operation and return a Future without blocking. Optionally, these methods take Callbacks that will be called on operation completion. The Router API is given in the index.
 
-_Scaling Units_
+_Scaling Units_  
 The router will consist of a set of scaling units. The number of scaling units will be configurable and configured empirically based on the load and performance. A call that comes to the router will be internally assigned to one of the scaling units, which will handle the request and the response for that call. The scaling units work independently of each other. In the rest of this document, unless the context indicates otherwise, the term Router is used to refer to a scaling unit.
 
 **Components and Flow**
