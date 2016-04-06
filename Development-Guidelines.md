@@ -78,7 +78,7 @@
     
         git push origin my-fix-branch
 
-     - In GitHub, send a pull request to Ambry:Master
+     - In GitHub, send a pull request to Ambry:Master. The pull request description should contain the following information - Test coverage percentage, Name of the reviewers that need to review the code and Approximate time it will take to review.
 
   *  If we suggest changes, then:
      - Make the required updates.
