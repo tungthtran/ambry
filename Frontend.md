@@ -1,4 +1,4 @@
-Introduction
+###Introduction
 
 In order to support larger objects and achieve a higher throughput, Ambry is making a concerted effort towards making the whole stack (client, frontend, routing and backend) non-blocking. This document describes the design of the non-blocking front end, the REST framework behind it, the interaction with the routing library and the use of Netty as the NIO framework. 
 
@@ -9,7 +9,7 @@ The blocking paradigm experiences some problems:
   1. Blocking paradigms don't play well with some frameworks (like play).
   1. High memory pressure at our current front ends if we start supporting larger objects.
 
-High Level Design
+###High Level Design
 
 The non-blocking front end can be split into 3 well defined components:- 
 
