@@ -77,9 +77,9 @@
 **Test coverage percentage, Name of the reviewers that need to review the code and Approximate time it will take to review.**
 
   *  If we suggest changes, then:
-     - Make the required updates.
-     - Re-run the test suite
-     - Push the changes to your repo
+     1. Make the required updates.
+     1. Re-run the test suite
+     1. Push the changes to your repo
     
 `        git push `
 
