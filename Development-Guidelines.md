@@ -67,6 +67,7 @@
      - Make your changes in a new branch
 
 `    git checkout -b my-fix-branch master`
+     
      - Create your patch, including appropriate test cases.
      - Run the test suite.
      - Commit your changes using a descriptive commit message.
