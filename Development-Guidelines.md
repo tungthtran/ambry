@@ -73,11 +73,9 @@
      - Commit your changes using a descriptive commit message.
 
 `        git commit -a`
-
      - Push your branch to GitHub:
 
 `        git push origin my-fix-branch`
-
      - In GitHub, send a pull request to Ambry:Master. The pull request description should contain the following information 
 
 **Test coverage percentage, Name of the reviewers that need to review the code and Approximate time it will take to review.**
