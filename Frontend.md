@@ -242,3 +242,37 @@ DeleteCallback
         restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception);
       }
     }
+
+**HEAD**
+
+* Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
+
+For handleHead, AmbryBlobStorageService extracts the blob ID from the request. It also interacts with any required external services and does pre processing of request data if required (all this is non-blocking). Further, it creates a Callback object for a getBlobInfo call that contains a function that needs to be called on operation completion and also encapsulates all the information required to send a response. The getBlobInfo method of the Router is then called with the blob ID and Callback.
+
+* Router
+
+At the Router, the getBlobInfo operation will return a Future of BlobInfo immediately to AmbryBlobStorageService. This ensures that the thread of the AsyncRequestWorker is not blocked.  The getBlobInfo callback is invoked with a BlobInfo when both the blob properties and user metadata are available. If there was an exception while executing the request, the Router invokes the callback with the exception that caused the request to fail.
+
+* On getBlobInfo callback received
+
+When the getBlobInfo callback is received, the headers are populated with the properties and user metadata returned (or error thrown is transmitted) and the response is submitted to the RestResponseHandler.
+HeadCallback
+
+    public class HeadCallback<BlobInfo> {
+      private final RestResponseHandler restResponseHandler;
+      private final RestResponseChannel restResponseChannel;
+      private final RestRequest restRequest; 
+  
+      public HeadCallback(RestResponseHandler restResponseHandler, RestResponseChannel restResponseChannel, RestRequest restRequest) {
+        this.restResponseHandler = restRequestResponseHandler;
+        this.restResponseChannel = restResponseChannel;
+        this.restRequest = restRequest;
+      }
+ 
+      public void onCompletion(BlobInfo result, Exception exception) {
+        if(result !=null && exception == null) {
+          // set response headers.
+        }
+        restResponseHandler.handleResponse(restRequest, restResponseChannel, null, exception);
+      }
+    }
