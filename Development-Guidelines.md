@@ -65,8 +65,8 @@
   *  Before you submit your Pull Request (PR), consider the following guidelines:
      - Search Github for an open or closed PR that relates to your submission. You don't want to duplicate effort.
      - Make your changes in a new branch:
-    
-        git checkout -b my-fix-branch master
+
+    git checkout -b my-fix-branch master
 
      - Create your patch, including appropriate test cases.
      - Run the test suite.
