@@ -111,7 +111,7 @@ Similarly, the onResponse() call of the OperationManager does the following:
 
 In the next sections, we will talk about how for each kind of operation, the poll() and onResponse() methods are handled as that is the crux of the operation specific logic.
 
-_Put Operation_  
+**_Put Operation_**
 For every Put, the PutManager will create a PutOperation object. The PutOperation maintains all the metadata associated with the operation. Please see the Appendix for the PutOperation class.
 
 The crux of the operation logic runs in the context of the RequestResponseHandler thread as discussed above. In addition, Put Manager will have a ChunkFiller thread that is responsible for asynchronously reading from the ReadableStreamChannel associated with the operation (created and submitted by the frontend/client) and filling in chunks.
@@ -120,11 +120,11 @@ A PutOperation will have a list of PutChunks that will keep track of a chunk and
 
 The flow of the Put Operation is as follows.
 
-FrontEnd thread
+_FrontEnd thread_
 Makes the putBlob() call and provides a ReadableStreamChannel, blob properties and user metadata, and the callback to be called on completion.
 The PutManager creates the Future, and the PutOperation object which is added to its list, and returns the Future.
 
-ChunkFiller
+_ChunkFiller_
 The ChunkFillerThread within the PutManager will do the following in a loop:
 
     
@@ -142,7 +142,7 @@ The ChunkFillerThread within the PutManager will do the following in a loop:
       }
     }
 
-RequestResponseHandler
+_RequestResponseHandler_
 
 The general flow of the RequestResponseHandler is covered earlier. Here let us look at exactly how the poll() and onResponse() calls are handled for puts in the context of this thread:
 
@@ -172,125 +172,125 @@ The general flow of the RequestResponseHandler is covered earlier. Here let us l
 
 onResponse():
 
-void putOperation.onResponse(NetworkReceive response)
-{
-  if (successful_response) {
-    PutChunk putChunk = getAssociatedChunk(response.correlation_id);
-    if (putChunk == null) {
-      // we must have removed the association because another response
-      // marked the chunk complete.
-      return;
-    }
-    // these names are just placeholders, but the idea is
-    // that this method updates the putChunk's state.
-    putChunk.updateState(response);
-    if (putChunk.isComplete()) { // complete if succeeded or failed
-      if (putChunk.isSuccess()) {
-        // the chunk has been successfully put across enough nodes
-        if (isSimpleBlob || putChunk == putMetdataChunk) {
-          returnedFuture.set(blobId);
-          call callback;
-          cleanup();
-          return;
-        } else {
-          putMetadataChunk.update(putChunk.getBlobId(),
-                                  putChunk.getPosition());
-        }
-      } else {
-        cleanup()
-        mark future as failed with appropriate exception.
-        call callback.
+    void putOperation.onResponse(NetworkReceive response)
+    {
+      if (successful_response) {
+      PutChunk putChunk = getAssociatedChunk(response.correlation_id);
+      if (putChunk == null) {
+        // we must have removed the association because another response
+        // marked the chunk complete.
         return;
       }
+      // these names are just placeholders, but the idea is
+      // that this method updates the putChunk's state.
+      putChunk.updateState(response);
+      if (putChunk.isComplete()) { // complete if succeeded or failed
+        if (putChunk.isSuccess()) {
+          // the chunk has been successfully put across enough nodes
+          if (isSimpleBlob || putChunk == putMetdataChunk) {
+            returnedFuture.set(blobId);
+            call callback;
+            cleanup();
+            return;
+          } else {
+            putMetadataChunk.update(putChunk.getBlobId(),
+                                    putChunk.getPosition());
+          }
+        } else {
+            cleanup()
+            mark future as failed with appropriate exception.
+            call callback.
+            return;
+          }
+        }
+      }
     }
-  }
-}
 
 
-Get Operation
+**_Get Operation_**
 
-FrontEnd Thread
+_FrontEnd Thread_
 The frontend thread will submit the operation, which the OperationController will submit to the GetManager which will create the GetOperation objects. The appropriate future object will be created and returned based on whether the operation is a getBlob() or getBlobInfo().
  
-RequestResponseHandler 
+_RequestResponseHandler_ 
 The steps followed here will be exactly the same as with puts as far as this thread is concerned. The only difference is in the implementation of the Requestor.poll() and the Requestor.onResponse() methods.
 
 The poll() within GetManager is as follows. For each GetOperation, do fetchRequests():
 
-List<NetworkSend> getOperation.fetchRequests()
-{
-  List<NetworkSend> requests = new List<NetworkSend>();
-  handle_error_and_timeouts();
-  requests = create_more_get_requests();
-  return requests;
-}
+    List<NetworkSend> getOperation.fetchRequests()
+    {
+      List<NetworkSend> requests = new List<NetworkSend>();
+      handle_error_and_timeouts();
+      requests = create_more_get_requests();
+      return requests;
+    }
 
 onResponse():
 
-void getOperation.onResponse(NetworkReceive response)
-{
-  // a response could be discarded for various reasons - for example, 
-  // if another response was received for a peer request.
-  if (discardable_response) {
-    return;
-  }
-  if (error_response) {
-    handle_error_and_timeouts();
-    return;
-  }
-  if (type == GetBlobInfo) {
-    blobInfo = new BlobInfo(response.receivedBytes);
-    returnedFutre.set(blobInfo);
-    call callback;
-  } else {
-    // A getChunk simply wraps over the received buffer
-    getChunk = new GetChunk(response.receivedBytes);
-    deserialize();
-    if (is_first_chunk) {
-      channel = new chunks_based_readable_stream_channel(...);
-      returnedFuture.set(channel);
-      call callback;
-      if (data_blob) { // simple blob
-        channel.update(chunk, pos);
-      } else {
-        fill in getMetadataChunk structure;
+    void getOperation.onResponse(NetworkReceive response)
+    {
+      // a response could be discarded for various reasons - for example, 
+      // if another response was received for a peer request.
+      if (discardable_response) {
+        return;
       }
-    } else { // if not first chunk
-      channel.update(chunk, pos);
-    }
-    if (all_chunks_received) {
-      cleanup();
-      // chunks themselves will be freed by the channel as and when they are read out
-      // and on close().
-    }
-  }
+      if (error_response) {
+        handle_error_and_timeouts();
+        return;
+      }
+      if (type == GetBlobInfo) {
+        blobInfo = new BlobInfo(response.receivedBytes);
+        returnedFutre.set(blobInfo);
+        call callback;
+      } else {
+        // A getChunk simply wraps over the received buffer
+        getChunk = new GetChunk(response.receivedBytes);
+        deserialize();
+        if (is_first_chunk) {
+          channel = new chunks_based_readable_stream_channel(...);
+          returnedFuture.set(channel);
+          call callback;
+          if (data_blob) { // simple blob
+             channel.update(chunk, pos);
+          } else {
+            fill in getMetadataChunk structure;
+          }
+        } else { // if not first chunk
+          channel.update(chunk, pos);
+        }
+        if (all_chunks_received) {
+          cleanup();
+          // chunks themselves will be freed by the channel as and when they are read out
+          // and on close().
+        }
+      }
 
-
-BufferPool Utilization
+_BufferPool Utilization_
 The selector will read in the complete response (including the whole chunk) into a BoundedByteBuffer which allocates memory within itself today. In order to ensure that the memory for chunks come in from the buffer pool of the router, and to avoid additional copies, the BoundedByteBuffer will be modified to take in a buffer pool from which buffers will be allocated to read in the responses. As the allocation request should always succeed when done from the BoundedByteBuffer, any “lmiting” logic will have to be handled outside of the selector, within the poll() operations. The operation managers will avoid creating more requests if the buffer pool has reached its threshold. Any more requests will be created only in the next iteration (as responses are received and consumed and buffer pool utilization goes below the threshold).
-Delete Operation
 
-RequestResponseHandler
+**_Delete Operation_**
+
+_RequestResponseHandler_
 
 poll():
 
-List<NetworkSend> deleteOperation.fetchRequests()
-{
-  List<NetworkSend> requests = new List<NetworkSend>();
-  handle_error_and_timeouts();
-  requests = create_more_delete_requests();
-  return requests;
-}
+    List<NetworkSend> deleteOperation.fetchRequests()
+    { 
+      List<NetworkSend> requests = new List<NetworkSend>();
+      handle_error_and_timeouts();
+      requests = create_more_delete_requests();
+      return requests;
+    }
 
 onResponse():
 
-void deleteOperation.onResponse(NetworkReceive recv)
-{
-  if (enough_responses_have_been_received) {
-    returnedFuture.set();
-    call callback;
-    return;
-  } else {
-    update state;
-  }
-}
+    void deleteOperation.onResponse(NetworkReceive recv)
+    {
+      if (enough_responses_have_been_received) {
+        returnedFuture.set();
+        call callback;
+        return;
+      } else {
+        update state;
+      }
+    }
