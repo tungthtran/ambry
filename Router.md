@@ -111,7 +111,7 @@ Similarly, the onResponse() call of the OperationManager does the following:
 
 In the next sections, we will talk about how for each kind of operation, the poll() and onResponse() methods are handled as that is the crux of the operation specific logic.
 
-**_Put Operation_**
+**_Put Operation_**  
 For every Put, the PutManager will create a PutOperation object. The PutOperation maintains all the metadata associated with the operation. Please see the Appendix for the PutOperation class.
 
 The crux of the operation logic runs in the context of the RequestResponseHandler thread as discussed above. In addition, Put Manager will have a ChunkFiller thread that is responsible for asynchronously reading from the ReadableStreamChannel associated with the operation (created and submitted by the frontend/client) and filling in chunks.
