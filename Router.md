@@ -52,6 +52,7 @@ Classes
 * **RequestResponseHandler thread**: handles sending and receiving NetworkSend and NetworkReceives from the OperationController via a Selector. This will simply be a thread within the OperationController.
 * **BufferPool (interface, ambry.utils)**: This will manage the memory allotted for the OperationController for buffering chunks across all operations. The Bufferpool will be common across the scaling units. The pool will support allocate() and deallocate() methods that will be used to allocate from and submit back to it. We will start with a simple implementation of a BufferPool that will simply do Bytebuffer.allocate().
 
+
 **Operation Flow**  
 The basic flow for all operations is as follows:
 The frontend submits an operation to the OperationController. The OperationController will create a Future and in turn submit all the information to the appropriate manager (PutManager for puts, GetManager for gets and DeleteManager for deletes), all of which will add this Operation to their respective internal list of operations. It will then return this future back to the caller.
