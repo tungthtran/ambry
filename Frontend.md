@@ -97,6 +97,7 @@ Every request submitted to the AsyncRequestResponseHandler is handed off to a As
 
 **GET**
 
+[[images/image2016-3-10 15_27_16.png]]
 * Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
 
 For handleGet, AmbryBlobStorageService extracts the blob ID (and sub-resource) from the request , interacts with any required external services and does pre processing of request data if required (All this will be non blocking). 
@@ -164,6 +165,8 @@ When the getBlob callback is received, any necessary headers are updated and the
 
 **POST**
 
+[[images/image2015-11-25 18_12_21.png]]
+
 * Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
 
 For handlePost, AmbryBlobStorageService extracts the blob properties and user metadata from the request (headers). It also interacts with any required external services and does pre processing of request data if required (all this is non-blocking). Further, it creates a Callback object for a putBlob call that contains a function that needs to be called on operation completion and also encapsulates all the information required to send a response.
@@ -211,6 +214,8 @@ HTTP POST data might need to be decoded (in case of multipart data) and this a c
 
 **DELETE**
 
+[[images/image2015-11-25 18_13_1.png]]
+
 * Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
 
 For handleDelete, AmbryBlobStorageService extracts the blob ID from the request. It also interacts with any required external services and does pre processing of request data if required (all this is non-blocking). Further, it creates a Callback object for a deleteBlob call that contains a function that needs to be called on operation completion and also encapsulates all the information required to send a response. The deleteBlob method of the Router is then called with the blob ID and Callback.
@@ -244,6 +249,8 @@ DeleteCallback
     }
 
 **HEAD**
+
+[[images/image2015-11-25 18_13_43.png]]
 
 * Handling dequeued requests at the Remote Service (AmbryBlobStorageService)
 
