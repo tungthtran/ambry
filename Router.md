@@ -52,6 +52,7 @@ Classes
 * **RequestResponseHandler thread**: handles sending and receiving NetworkSend and NetworkReceives from the OperationController via a Selector. This will simply be a thread within the OperationController.
 * **BufferPool (interface, ambry.utils)**: This will manage the memory allotted for the OperationController for buffering chunks across all operations. The Bufferpool will be common across the scaling units. The pool will support allocate() and deallocate() methods that will be used to allocate from and submit back to it. We will start with a simple implementation of a BufferPool that will simply do Bytebuffer.allocate().
 
+[[images/router.png]]
 
 **Operation Flow**  
 The basic flow for all operations is as follows:
@@ -295,3 +296,35 @@ onResponse():
         update state;
       }
     }
+
+### MessageFormat Changes
+
+Currently, Message Format for a Put entry is as shown below:
+
+[[images/putentry.png]]
+ 
+And for a Delete entry is as shown below:
+
+[[images/deleteentry.png]]
+ 
+Each record within an entry has its own version to allow for changes to the format of those records without affecting other records. Now, once again, we need to support three kinds of blobs:
+1. Simple blob - old-style blob that is complete in itself.
+1. Chunk blob - chunk of a large blob in the case of large objects.
+1. Metadata chunk blob - blob that contains the list of chunk blob ids and other metadata associated with a metadata blob.
+
+### Changes
+
+The MessageFormat layer needs to understand Metadata blobs now. The changes must honor the following requirements:
+1. The data nodes should largely be agnostic of simple vs. large blobs.
+1. The user metadata and blob properties must be extractable for a large object directly from the metadata blob. For operations requiring only those records, the router shouldn’t even have to distinguish between direct and metadata blobs.
+1. Backward compatibility with previous entries for reads must be maintained.
+
+Based on the above requirements, a new version for the Blob Record will be introduced to distinguish between data blobs (simple and chunk blobs) and metadata blobs. Additionally, when the blob record is of type metadata blob, the content will be interpreted as a newly introduced Metadata Blob record as follows:
+ 
+[[images/changeformat.png]]
+ 
+
+The MetadataChunk record will not store a CRC as the blob record within which it is contained already has a CRC.
+Simple blobs and chunk blobs will be stored in exactly the same way, as far as the format is concerned. Chunk blobs will have zero sized User Metadata field, but the storage node will be agnostic to this fact.
+
+There will be no change to Delete records.
