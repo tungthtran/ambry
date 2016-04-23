@@ -1,4 +1,3 @@
-# Quick Start
 ##### Step 1: Download the code, build it and prepare for deployment.
 To get the latest code and build it, do
 
