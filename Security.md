@@ -32,6 +32,7 @@ We plan to use JSSE APIs as part of Java SDK for getting SSL to Ambry. Before we
 **SSLEngine**
 It encapsulates an SSL/TLS state machine and operates on inbound and outbound byte buffers supplied by the user of the SSLEngine. The following diagram illustrates the flow of data from the application, to the SSLEngine, to the transport mechanism, and back.
 
+[[images/SSLEngine.jpg]]
 
 The application, shown on the left, supplies application (plaintext) data in an application buffer and passes it to the SSLEngine. The SSLEngine processes the data contained in the buffer, or any handshaking data, to produce SSL/TLS encoded data and places it the network buffer supplied by the application. The application is then responsible for using an appropriate transport (shown on the right) to send the contents of the network buffer to its peer. Upon receiving SSL/TLS encoded data from its peer (via the transport), the application places the data into a network buffer and passes it to SSLEngine. The SSLEngine processes the network buffer's contents to produce handshaking data or application data.
 
@@ -50,12 +51,12 @@ To summarize the steps required for a client to communicate with a server using 
   4. Create the socketChannel to the server incase of client.
   5. Once we have the SSLEngine and socketChannel created, we go ahead with handshaking process. Handshaking involved few steps(to and fro), but leaving the details for explanation purpose.
   6. Once handshaking is done to negotiate the ciphers and the secure key, secure communication can happen.
-     6 a. Wrap the data using SSLEngine before sending it through socketChannel
-     6 b. On receiving response, unwrap the data using SSLEngine before processing the response.
+    6 a. Wrap the data using SSLEngine before sending it through socketChannel
+    6 b. On receiving response, unwrap the data using SSLEngine before processing the response.
   7. Shutdown the engine once done with communication.
-Workflow
 
-##Lets see how the entire control/data flow happens with SSL in Ambry.
+##Workflow
+Lets see how the entire control/data flow happens with SSL in Ambry.
 
 _Set up and configs_
 
@@ -115,11 +116,15 @@ We have two approaches that we could take
 
   1. Having two different SocketServers(SocketServer and SSLSocketServer). SocketServer remains the same as is and will be listening to default port w/o encryption. SSLSocketServer will be listening to SSL port and will have a separate acceptor and a separate list of processors.
 
+[[images/SSL_Design1.png]]
+
 PRO: Clear code, separate processors (Processor, SSLProcessor), selectors (Selector, SSLSelector).
 
 CON: Static resource allocation (the number of Processors and SSLProcessors). The QPS from the secure port and non-secure port may change over time. Statically allocate the processor resource may lead to overload in one port while underload on the other port.
 
   2. Having a single SocketServer which has two acceptors(one listening to default port and another one listening to SSL port) and same set of processors will be shared among these two acceptors.
+
+[[images/SSL_Design2.png]]
 
 PRO: Share the same set of processors. Requests from secure port and non-secure port share the same queue in each processor and are served in FIFO manner.
 
