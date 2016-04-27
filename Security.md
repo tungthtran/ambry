@@ -93,8 +93,8 @@ _Client_
 
   e. Usual read() and write() happens through engine which will wrap or unwrap when required after checking the status of handshake using nio selector pattern
 
-###Major tasks involved in adding SSL to Ambry from an implementation perspective
-
+###Implementation
+Major tasks involved in adding SSL to Ambry from an implementation perspective are:
   1. First step is to support multiple ports for our servers. 
     a. This might involve modifying the schema for HardwareLayout and the Datanode representation. We should be able to obtain default port for a host or SSL port and send requests to the same. 
     b. A seperate Acceptor needs to be introduced for listening to the new port added.  
