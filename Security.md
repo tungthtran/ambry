@@ -1,3 +1,5 @@
+###Introduction
+
 Multi-tenancy is an essential requirement in any distributed system, and when multi-tenancy kicks in, security is more or less a must have requirement which any data system is expected to have. Also, security is of particular importance in today's world where cyber-attacks are a common occurrence and the threat of data breaches is a reality for businesses of all sizes, and at all levels from individual users to whole government entities. Hence we started of with adding minimal security features to Ambry. 
 
 Key features that are added to Ambry from a Security standpoint are:
