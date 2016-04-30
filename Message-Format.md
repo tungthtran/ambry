@@ -1,4 +1,6 @@
-The message format are of the following types - PutMessageFormat, DeleteMessageFormat and HardDeleteMessageFormat. Each of these formats are created by a combination of atomic units called Message records. The list of message records are provided below followed by the actual formats.  
+The message format are of the following types - PutMessageFormat, DeleteMessageFormat and HardDeleteMessageFormat. Each of these formats are created by a combination of atomic units called Message records. 
+
+The list of message records are -
 
 ### Message Header Record
 
@@ -89,7 +91,7 @@ The message format are of the following types - PutMessageFormat, DeleteMessageF
    
     crc        - The crc of the blob record
    
-**Blob Record V2**
+### Blob Record V2
 
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     |         |           |            |            |            |
@@ -107,7 +109,7 @@ The message format are of the following types - PutMessageFormat, DeleteMessageF
    
     crc        - The crc of the blob record
 
-Hard Delete Record
+### Hard Delete Record
 
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     |         |               |            |            |          |
@@ -122,3 +124,55 @@ Hard Delete Record
     key1            - first key to be part of metadata blob
    
     key2            - second key to be part of metadata blob
+
+
+The message formats are the following -
+
+PutMessageFormat
+
+ Represents a message that consist of the blob, blob properties and user metadata.
+ This format is used to put a new blob into the store
+ 
+    - - - - - - - - - - - - - -
+   |     Message Header        |
+    - - - - - - - - - - - - - -
+   |       blob key            |
+    - - - - - - - - - - - - - -
+   |  Blob Properties Record   |
+    - - - - - - - - - - - - - -
+   |  User metadata Record     |
+    - - - - - - - - - - - - - -
+   |       Blob Record         |
+    - - - - - - - - - - - - - -
+
+DeleteMessageFormat
+
+Represents a message that consist of the delete record.
+This format is used to delete a blob
+ 
+    - - - - - - - - - - - - -
+   |     Message Header      |
+    - - - - - - - - - - - - -
+   |       blob key          |
+    - - - - - - - - - - - - -
+   |      Delete Record      |
+    - - - - - - - - - - - - -
+
+HardDeleteMessageFormat
+
+Represents a message that consist of just the user metadata and blob content. Additionally, these fields are zeroed out.
+This format is used to replace a put record's user metadata and blob content part as part of hard deleting it.
+The usermetadata and blob record versions of the replacement stream will have to be the same as the versions in
+the original put record.
+ 
+    - - - - - - - - - - - - - - - - - - -
+   |           Message Header            |
+    - - - - - - - - - - - - - - - - - - -
+   |              blob key               |
+    - - - - - - - - - - - - - - - - - - -
+   |       Blob Properties Record        |
+    - - - - - - - - - - - - - - - - - - -
+   |  User metadata Record (Zeroed out)  |
+    - - - - - - - - - - - - - - - - - - -
+   |       Blob Record (Zeroed out)      |
+    - - - - - - - - - - - - - - - - - - -
