@@ -28,37 +28,34 @@ The message format are of the following types - PutMessageFormat, DeleteMessageF
    
      crc             - The crc of the message header
 
-/**
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   * |         |               |               |           |            |
-   * | version |   property1   |   property2   |           |     Crc    |
-   * |(2 bytes)| (1 - n bytes) | (1 - n bytes) |   .....   |  (8 bytes) |
-   * |         |               |               |           |            |
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   *  version         - The version of the blob property record
-   *
-   *  properties      - Variable size properties that define the blob.
-   *
-   *  crc             - The crc of the blob property record
-   *
-   */
+### Blob Properties Record
+
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |               |               |           |            |
+    | version |   property1   |   property2   |           |     Crc    |
+    |(2 bytes)| (1 - n bytes) | (1 - n bytes) |   .....   |  (8 bytes) |
+    |         |               |               |           |            |
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    version         - The version of the blob property record
+   
+    properties      - Variable size properties that define the blob.
+   
+    crc             - The crc of the blob property record
 
 
-/**
-   *  - - - - - - - - - - - - - - - - - - -
-   * |         |               |            |
-   * | version |   delete byte |    Crc     |
-   * |(2 bytes)|    (1 byte)   |  (8 bytes) |
-   * |         |               |            |
-   *  - - - - - - - - - - - - - - - - - - -
-   *  version         - The version of the delete record
-   *
-   *  delete byte     - Takes value 0 or 1. If it is set to 1, it signifies that the blob is deleted. The field
-   *                    is required to be able to support undelete in the future if required.
-   *
-   *  crc             - The crc of the delete record
-   *
-   */
+### Delete Record
+    - - - - - - - - - - - - - - - - - - -
+    |         |               |            |
+    | version |   delete byte |    Crc     |
+    |(2 bytes)|    (1 byte)   |  (8 bytes) |
+    |         |               |            |
+    - - - - - - - - - - - - - - - - - - -
+    version         - The version of the delete record
+   
+    delete byte     - Takes value 0 or 1. If it is set to 1, it signifies that the blob is deleted. The field
+                      is required to be able to support undelete in the future if required.
+   
+    crc             - The crc of the delete record
 
 
 /**
