@@ -2,15 +2,16 @@ The storage format for Ambry consist of a preallocated log file that stores the 
 
 ### In memory Index structure of each entry
 Every key is mapped to the following in memory structure
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  |   size  |  log offset |  flags   |  timetolive |   originalMessageOffset  |  
-  |(8 bytes)|  (8 bytes)  |  (1 byte)|  (8 bytes)  |         (8 bytes)        | 
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  size                    - the entry size in memory
-  log offset              - the offset in the log where the blob can be read
-  flags                   - a byte sized flag used for marking properties. Currently used for delete.
-  time to live            - the time in ms when the blob will expire
-  original message offset - the offset of the original message. This is used when a new entry is added for deletes and the 
+
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    |   size  |  log offset |  flags   |  timetolive |   originalMessageOffset  |  
+    |(8 bytes)|  (8 bytes)  |  (1 byte)|  (8 bytes)  |         (8 bytes)        | 
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    size                    - the entry size in memory
+    log offset              - the offset in the log where the blob can be read
+    flags                   - a byte sized flag used for marking properties. Currently used for delete.
+    time to live            - the time in ms when the blob will expire
+    original message offset - the offset of the original message. This is used when a new entry is added for deletes and the 
                             deleted blob needs to be located in the log.
 
 ###   On disk Index structure of each entry
