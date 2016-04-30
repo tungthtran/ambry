@@ -58,75 +58,67 @@ The message format are of the following types - PutMessageFormat, DeleteMessageF
     crc             - The crc of the delete record
 
 
-/**
-   *  - - - - - - - - - - - - - - - - - - - - - - - -
-   * |         |           |            |            |
-   * | version |   size    |  content   |     Crc    |
-   * |(2 bytes)| (4 bytes) |  (n bytes) |  (8 bytes) |
-   * |         |           |            |            |
-   *  - - - - - - - - - - - - - - - - - - - - - - - -
-   *  version    - The version of the user metadata record
-   *
-   *  size       - The size of the user metadata content
-   *
-   *  content    - The actual content that represents the user metadata
-   *
-   *  crc        - The crc of the user metadata record
-   *
-   */
+### User Metadata Record
 
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |           |            |            |
+    | version |   size    |  content   |     Crc    |
+    |(2 bytes)| (4 bytes) |  (n bytes) |  (8 bytes) |
+    |         |           |            |            |
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    version    - The version of the user metadata record
+   
+    size       - The size of the user metadata content
+   
+    content    - The actual content that represents the user metadata
+   
+    crc        - The crc of the user metadata record
 
-/**
-   *  - - - - - - - - - - - - - - - - - - - - - - - -
-   * |         |           |            |            |
-   * | version |   size    |  content   |     Crc    |
-   * |(2 bytes)| (8 bytes) |  (n bytes) |  (8 bytes) |
-   * |         |           |            |            |
-   *  - - - - - - - - - - - - - - - - - - - - - - - -
-   *  version    - The version of the blob record
-   *
-   *  size       - The size of the blob content
-   *
-   *  content    - The actual content that represents the blob
-   *
-   *  crc        - The crc of the blob record
-   *
-   */
+### Blob Record V1
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |           |            |            |
+    | version |   size    |  content   |     Crc    |
+    |(2 bytes)| (8 bytes) |  (n bytes) |  (8 bytes) |
+    |         |           |            |            |
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    version    - The version of the blob record
+   
+    size       - The size of the blob content
+   
+    content    - The actual content that represents the blob
+   
+    crc        - The crc of the blob record
+   
+**Blob Record V2**
 
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |           |            |            |            |
+    | version | blobType  |    size    |  content   |     Crc    |
+    |(2 bytes)| (2 bytes) |  (8 bytes) |  (n bytes) |  (8 bytes) |
+    |         |           |            |            |            |
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    version    - The version of the blob record
+   
+    blobType   - The type of the blob
+   
+    size       - The size of the blob content
+   
+    content    - The actual content that represents the blob
+   
+    crc        - The crc of the blob record
 
-/**
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   * |         |           |            |            |            |
-   * | version | blobType  |    size    |  content   |     Crc    |
-   * |(2 bytes)| (2 bytes) |  (8 bytes) |  (n bytes) |  (8 bytes) |
-   * |         |           |            |            |            |
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   *  version    - The version of the blob record
-   *
-   *  blobType   - The type of the blob
-   *
-   *  size       - The size of the blob content
-   *
-   *  content    - The actual content that represents the blob
-   *
-   *  crc        - The crc of the blob record
-   *
-   */
+Hard Delete Record
 
-
-/**
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   * |         |               |            |            |          |
-   * | version |   no of keys  |    key1    |     key2   |  ......  |
-   * |(2 bytes)|    (4 bytes)  |            |            |  ......  |
-   * |         |               |            |            |          |
-   *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   *  version         - The version of the metadata content record
-   *
-   *  no of keys      - total number of keys
-   *
-   *  key1            - first key to be part of metadata blob
-   *
-   *  key2            - second key to be part of metadata blob
-   *
-   */
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |               |            |            |          |
+    | version |   no of keys  |    key1    |     key2   |  ......  |
+    |(2 bytes)|    (4 bytes)  |            |            |  ......  |
+    |         |               |            |            |          |
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    version         - The version of the metadata content record
+   
+    no of keys      - total number of keys
+   
+    key1            - first key to be part of metadata blob
+   
+    key2            - second key to be part of metadata blob
