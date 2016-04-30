@@ -2,12 +2,12 @@
 
 ### Store configs
   The frequency at which the data gets flushed to disk
-  @Config("store.data.flush.interval.seconds")
-  @Default("60")
+   @Config("store.data.flush.interval.seconds")
+   @Default("60")
 
   The max size of the index that can reside in memory in bytes for a single store
-  @Config("store.index.max.memory.size.bytes")
-  @Default("20971520")
+   @Config("store.index.max.memory.size.bytes")
+   @Default("20971520")
 
   The max number of the elements in the index that can be in memory for a single store
   @Config("store.index.max.number.of.inmem.elements")
