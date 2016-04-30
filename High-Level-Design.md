@@ -1,4 +1,4 @@
-10000 Feet view
+## 10000 Feet view
 
 At a high level, Ambry consist of a set of storage nodes that are responsible for storing and retrieving blobs, frontend machines that route requests after some preprocessing to the storage nodes and a cluster manager that coordinates and maintains the cluster. The storage nodes replicates data between themselves and can be intra or inter datacenter. The frontend interacts with the storage nodes in the remote data center when read after write consistency is required. The frontend provides an HTTP API to POST and GET blobs. Alternatively, the router library that the frontend uses can be used directly by clients for better performance. At Linkedin, these frontend nodes act as the origin servers for the CDN. 
 
