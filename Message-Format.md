@@ -128,35 +128,35 @@ The list of message records are -
 
 The message formats are the following -
 
-PutMessageFormat
+### PutMessageFormat
 
- Represents a message that consist of the blob, blob properties and user metadata.
- This format is used to put a new blob into the store
+Represents a message that consist of the blob, blob properties and user metadata.
+This format is used to put a new blob into the store
  
-    - - - - - - - - - - - - - -
-   |     Message Header        |
-    - - - - - - - - - - - - - -
-   |       blob key            |
-    - - - - - - - - - - - - - -
-   |  Blob Properties Record   |
-    - - - - - - - - - - - - - -
-   |  User metadata Record     |
-    - - - - - - - - - - - - - -
-   |       Blob Record         |
-    - - - - - - - - - - - - - -
+     - - - - - - - - - - - - - -
+    |     Message Header        |
+     - - - - - - - - - - - - - -
+    |       blob key            |
+     - - - - - - - - - - - - - -
+    |  Blob Properties Record   |
+     - - - - - - - - - - - - - -
+    |  User metadata Record     |
+     - - - - - - - - - - - - - -
+    |       Blob Record         |
+     - - - - - - - - - - - - - -
 
-DeleteMessageFormat
+### DeleteMessageFormat
 
 Represents a message that consist of the delete record.
 This format is used to delete a blob
  
-    - - - - - - - - - - - - -
-   |     Message Header      |
-    - - - - - - - - - - - - -
-   |       blob key          |
-    - - - - - - - - - - - - -
-   |      Delete Record      |
-    - - - - - - - - - - - - -
+     - - - - - - - - - - - - -
+    |     Message Header      |
+     - - - - - - - - - - - - -
+    |       blob key          |
+     - - - - - - - - - - - - -
+    |      Delete Record      |
+     - - - - - - - - - - - - -
 
 ### HardDeleteMessageFormat
 
