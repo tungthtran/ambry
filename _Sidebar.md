@@ -1,7 +1,5 @@
-* [Home](Home)
 * Getting Started
   * [Introduction](Introduction)
-  * [Use Cases](Use Cases)
   * [Quick Start](Quick Start)
 * API
   * [Rest API](Rest API)
@@ -20,13 +18,10 @@
   * [Hard Deletes](Hard Deletes)
 * Implementation
   * [Storage Format](Storage Format)
-  * [Network Layer](Network Layer)
   * [Message Format](Message Format)
   * [Replication Files and Format](Replication Files and Format)
-  * [Cluster Manager](Cluster Manager)
 * Operations
   * [Basic Operations](Basic Operations)
-  * [Important Configs](Important Configs)
   * [Hardware and OS](Hardware and OS)
   * [Monitoring](Monitoring)
 * [FAQ](FAQ)
