@@ -12,17 +12,17 @@ Every key is mapped to the following in memory structure
     flags                   - a byte sized flag used for marking properties. Currently used for delete.
     time to live            - the time in ms when the blob will expire
     original message offset - the offset of the original message. This is used when a new entry is added for deletes and the 
-                            deleted blob needs to be located in the log.
+                              deleted blob needs to be located in the log.
 
 ###   On disk Index structure of each entry
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  | version | keysize | valuesize | fileendpointer |   key 1  | value 1  |  ...  |   key n   | value n   | crc      |
-  |(2 bytes)|(4 bytes)| (4 bytes) |    (8 bytes)   | (n bytes)| (n bytes)|       | (n bytes) | (n bytes) | (8 bytes)|
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  version         - the index format version
-  keysize         - the size of the key in this index segment
-  valuesize       - the size of the value in this index segment
-  fileendpointer  - the log end pointer that pertains to the index being persisted
-  key n / value n - the key and value entries contained in this index segment
-  crc             - the crc of the index segment content
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    | version | keysize | valuesize | fileendpointer |   key 1  | value 1  |  ...  |   key n   | value n   | crc      |
+    |(2 bytes)|(4 bytes)| (4 bytes) |    (8 bytes)   | (n bytes)| (n bytes)|       | (n bytes) | (n bytes) | (8 bytes)|
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    version         - the index format version
+    keysize         - the size of the key in this index segment
+    valuesize       - the size of the value in this index segment
+    fileendpointer  - the log end pointer that pertains to the index being persisted
+    key n / value n - the key and value entries contained in this index segment
+    crc             - the crc of the index segment content
   
