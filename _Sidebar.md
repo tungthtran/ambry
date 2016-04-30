@@ -1,4 +1,5 @@
 * Getting Started
+  * [Home](Home)
   * [Introduction](Introduction)
   * [Quick Start](Quick Start)
 * API
