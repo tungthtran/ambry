@@ -158,21 +158,21 @@ This format is used to delete a blob
    |      Delete Record      |
     - - - - - - - - - - - - -
 
-HardDeleteMessageFormat
+### HardDeleteMessageFormat
 
 Represents a message that consist of just the user metadata and blob content. Additionally, these fields are zeroed out.
 This format is used to replace a put record's user metadata and blob content part as part of hard deleting it.
 The usermetadata and blob record versions of the replacement stream will have to be the same as the versions in
-the original put record.
+the original put record.  
  
-    - - - - - - - - - - - - - - - - - - -
-   |           Message Header            |
-    - - - - - - - - - - - - - - - - - - -
-   |              blob key               |
-    - - - - - - - - - - - - - - - - - - -
-   |       Blob Properties Record        |
-    - - - - - - - - - - - - - - - - - - -
-   |  User metadata Record (Zeroed out)  |
-    - - - - - - - - - - - - - - - - - - -
-   |       Blob Record (Zeroed out)      |
-    - - - - - - - - - - - - - - - - - - -
+     - - - - - - - - - - - - - - - - - - -
+    |           Message Header            |
+     - - - - - - - - - - - - - - - - - - -
+    |              blob key               |
+     - - - - - - - - - - - - - - - - - - -
+    |       Blob Properties Record        |
+     - - - - - - - - - - - - - - - - - - -
+    |  User metadata Record (Zeroed out)  |
+     - - - - - - - - - - - - - - - - - - -
+    |       Blob Record (Zeroed out)      |
+     - - - - - - - - - - - - - - - - - - -
