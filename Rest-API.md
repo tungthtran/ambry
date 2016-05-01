@@ -17,9 +17,9 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
 #### Returns
 The location of the created blob on success.
 ##### _Success response_
-The status code 201 CREATED indicates that the blob was successfully uploaded. The response also contains the "Location" header that contains the ID of the blob.
+The status code `201 Created` indicates that the blob was successfully uploaded. The response also contains the "Location" header that contains the ID of the blob.
 ##### _Failure response_
-See our [[standard error codes|Rest_API/#standard-error-codes]]. 
+See our [[standard error codes|Rest-API#standard-error-codes]]. 
 #### Sample Response
     <sample good response>
 ***
@@ -42,7 +42,7 @@ The user metadata as response headers.
 ###### BlobInfo
 The user metadata and blob properties as response headers.
 ##### _Success response_
-A successful response is indicated by the status code 200 OK. 
+A successful response is indicated by the status code `200 Ok`. 
 ###### Without sub-resources
 The body of the response will contain the content of the blob.
 ###### UserMetadata
@@ -65,7 +65,7 @@ The response headers will contain the user metadata that was uploaded (if any) a
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
 | x-ambry-um-* | String | Zero or more headers with this prefix that represent user metadata |
 ##### _Failure response_
-See our [[standard error codes|#standard-error-codes]]. 
+See our [[standard error codes|Rest-API#standard-error-codes]].  
 <standard codes and what they mean for this API>
 #### Sample Response
     <sample good response>
@@ -84,7 +84,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
-A successful response is indicated by the status code 200 OK. The response will also contain headers that describe the properties of the blob.
+A successful response is indicated by the status code `200 Ok`. The response will also contain headers that describe the properties of the blob.
 
 | Response Header | Type | Description |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ A successful response is indicated by the status code 200 OK. The response will 
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
 The blob content should be POSTED as a stream of bytes whose length is equal to "x-ambry-blob-size".
 ##### _Failure response_
-See our [[standard error codes| #standard-error-codes]]. 
+See our [[standard error codes|Rest-API#standard-error-codes]].  
 <standard codes and what they mean for this API>
 #### Sample Response
     <sample good response>
@@ -112,9 +112,9 @@ This API deletes the blob represented by the supplied blob ID.
 | ambry-id (required) | String | The ID of the blob that has to be deleted|
 #### Returns
 ##### _Success response_
-Success is indicated by the status code 202 ACCEPTED. Note that deleting blobs that are already deleted will succeed without any errors.
+Success is indicated by the status code `202 Accepted`. Note that deleting blobs that are already deleted will succeed without any errors.
 ##### _Failure response_
-See our [[standard error codes| #standard-error-codes]]. 
+See our [[standard error codes|Rest-API#standard-error-codes]]. 
 <standard codes and what they mean for this API>
 #### Sample Response
     <sample good response>
@@ -126,7 +126,7 @@ This API can be used to check the status of the frontend. Status here refers to 
     GET /healthCheck
 #### Returns
 ##### _Success response_
-Status of frontend - GOOD/BAD.
+A successful response will be returned with a status code of `200 Ok` and the body of the response will contain the status of frontend - GOOD/BAD.
 ##### _Failure response_
 None
 #### Sample Response
@@ -138,11 +138,11 @@ None
 #### Standard Error Codes
 | Status Code | Description |
 | --- | --- |
-| 400 BAD_REQUEST | The request does not contain required parameters or has incorrect parameters |
-| 401 UNAUTHORIZED | The request does not contain enough information to authenticate the operation |
-| 403 FORBIDDEN | The required blob cannot be served either because the user is not authorized or the resource is dirty |
-| 404 NOT_FOUND | The requested resource was not found |
-| 407 PROXY_AUTHENTICATION_REQUIRED | The resource cannot be served just yet because it (or the user) needs proxy authentication |
-| 410 GONE | The requested resource is either deleted or has expired |
-| 500 INTERNAL_SERVER_ERROR | The server experienced an error while serving the request |
+| `400 Bad_Request` | The request does not contain required parameters or has incorrect parameters |
+| `401 Unauthorized` | The request does not contain enough information to authenticate the operation |
+| `403 Forbidden` | The required blob cannot be served either because the user is not authorized or the resource is dirty |
+| `404 Not_Found` | The requested resource was not found |
+| `407 Proxy_Authentication_Required` | The resource cannot be served just yet because it (or the user) needs proxy authentication |
+| `410 Gone` | The requested resource is either deleted or has expired |
+| `500 Internal_Server_Error` | The server experienced an error while serving the request |
  
