@@ -3,7 +3,7 @@
 * Download and install IntelliJ;
 * Checkout Ambry source
 
-`git clone https://github.com/linkedin/ambry.git`
+`git clone git@github.com:linkedin/ambry.git`
 
 * Update libraries and generate IntelliJ project files
 
@@ -12,7 +12,7 @@
 `./gradlew idea`
 
 * Create IntelliJ workspace
-* Open Intellij and click open project pointing to <ambry.project.dir>
+* Open Intellij and click open project pointing to \<ambry.project.dir\>
 
 ## Eclipse setup
 * Install and prepare Eclipse
@@ -20,7 +20,7 @@
 * Install IvyIDE plugin as described here. This will allow to automatically create classpath containers starting from ivy files;
 * Checkout Ambry source
 
-`git clone https://github.com/linkedin/ambry.git <ambry.project.dir>`
+`git clone git@github.com:linkedin/ambry.git <ambry.project.dir>`
 
 * Generate Eclipse project files
 
