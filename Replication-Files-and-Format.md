@@ -29,3 +29,10 @@ FindToken
     |    Size   |  Version  |  Session ID  |   Offset   |  Index Start  Offset  |  Store Key  |
     | (8 bytes) | (2 bytes) |  (8 bytes)   |  (8 bytes) |        (8 bytes)      |    n bytes  |
      -----------------------------------------------------------------------------------------
+    Size              -    The size of the record
+    Version           -    The version of the record
+    Session ID        -    The session ID of the remote store. There is a unique session ID for every start/shutdown period
+    Offset            -    The offset in the log that has been replicated so far
+    IndexStartOffset  -    The start offset of the index segment that the bookmark is in. This is true if replication has  
+                           fallen off the active segment
+    Store Key         -    The key in the index segment that the bookmark points to.
