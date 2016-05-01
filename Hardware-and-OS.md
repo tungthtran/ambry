@@ -30,7 +30,7 @@ Pdflush has a configurable policy that controls how much dirty data can be maint
 
 You can see the current state of OS memory usage by doing
 
-  > cat /proc/meminfo
+  > cat /proc/meminfo  
 The meaning of these values are described in the link above.
 Using pagecache has several advantages over an in-process cache for storing data that will be written out to disk:
 
