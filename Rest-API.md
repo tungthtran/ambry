@@ -5,15 +5,15 @@ At a high level, Ambry supports POST, GET, DELETE and HEAD. This document descri
 This API uploads a blob to Ambry. The call should also include some necessary blob properties and can include optional user metadata. The API returns a resource ID that can be used to access the blob. 
 #### API Call
     POST /
-| Header | Type | Description |
-| --- | --- | --- |
-| x-ambry-blob-size (required) | Long | The size of the blob being uploaded |
-| x-ambry-service-id (required) | String | The ID of the service that is uploading the blob |
-| x-ambry-content-type (required) | String | The type of content in the blob |
-| x-ambry-ttl (optional)| Long | The time in seconds for which the blob is valid. Defaults to -1 (infinite validity) |
-| x-ambry-private (optional)| Boolean | Makes the blob private if set to "true". Defaults to "false" (blob is public) |
-| x-ambry-owner-id (optional) | String | The owner of the blob. |
-| x-ambry-um- (optional) | String | User metadata headers prefix. Any number of headers with this prefix are allowed. |
+| Header | Type | Required? | Description |
+| --- | --- | --- | --- |
+| x-ambry-blob-size | Long | Yes | The size of the blob being uploaded |
+| x-ambry-service-id | String | Yes | The ID of the service that is uploading the blob |
+| x-ambry-content-type | String | Yes | The type of content in the blob |
+| x-ambry-ttl | Long | No | The time in seconds for which the blob is valid. Defaults to -1 (infinite validity) |
+| x-ambry-private | Boolean | No | Makes the blob private if set to "true". Defaults to "false" (blob is public) |
+| x-ambry-owner-id | String | No | The owner of the blob. |
+| x-ambry-um- | String | No |User metadata headers prefix. Any number of headers with this prefix are allowed. |
 The actual content of the blob is to be sent in the body as a stream of bytes (without any encoding) whose size is equal to the value in `x-ambry-blob-size`. 
 #### Returns
 The location of the created blob on success.
@@ -35,10 +35,10 @@ This API gets the content of the blob represented by the blob ID. When used with
     GET /<ambry-id>/<sub-resource>
     Sub-resources: BlobInfo, UserMetadata
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| ambry-id (required) | String | The ID of the blob whose content is required |
-| sub-resource (optional) | String | One of the listed sub-resources |
+| Parameter | Type | Required? | Description |
+| --- | --- | --- | --- |
+| ambry-id | String | Yes |The ID of the blob whose content is required |
+| sub-resource | String | No | One of the listed sub-resources |
 #### Returns
 ###### Without sub-resources
 The content of the blob.
@@ -107,9 +107,9 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 This API gets the blob properties of the blob represented by the supplied blob ID.
 #### API Call
     HEAD /<ambry-id>
-| Parameter | Type | Description |
-| --- | --- | --- |
-| ambry-id (required) | String | The ID of the blob whose properties are required |
+| Parameter | Type | Required? | Description |
+| --- | --- | --- | --- |
+| ambry-id | String | Yes | The ID of the blob whose properties are required |
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
@@ -144,9 +144,9 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 This API deletes the blob represented by the supplied blob ID.
 #### API Call
     DELETE /<ambry-id>
-| Parameter | Type | Description |
-| --- | --- | --- |
-| ambry-id (required) | String | The ID of the blob that has to be deleted|
+| Parameter | Type | Required? | Description |
+| --- | --- | --- | --- |
+| ambry-id | String | Yes | The ID of the blob that has to be deleted|
 #### Returns
 ##### _Success response_
 Success is indicated by the status code `202 Accepted`. Note that deleting blobs that are already deleted will succeed without any errors.
