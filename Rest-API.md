@@ -3,7 +3,7 @@ At a high level, Ambry supports POST, GET, DELETE and HEAD. This document descri
 ### POST
 #### Description
 This API uploads a blob to Ambry. The call should also include some necessary blob properties and can include optional user metadata. The API returns a resource ID that can be used to access the blob. 
-#### API Call
+#### API
     POST /
 | Header | Type | Required? | Description |
 | --- | --- | --- | --- |
@@ -31,7 +31,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ### GET
 #### Description
 This API gets the content of the blob represented by the blob ID. When used with sub-resources, it gets user metadata (and optionally blob properties) instead of the actual content of the blob.
-#### API Call
+#### API
     GET /<ambry-id>/<sub-resource>
     Sub-resources: BlobInfo, UserMetadata
 
@@ -105,7 +105,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ### HEAD
 #### Description
 This API gets the blob properties of the blob represented by the supplied blob ID.
-#### API Call
+#### API
     HEAD /<ambry-id>
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
@@ -142,7 +142,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ### DELETE
 #### Description
 This API deletes the blob represented by the supplied blob ID.
-#### API Call
+#### API
     DELETE /<ambry-id>
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
@@ -160,7 +160,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ### Health Check
 #### Description
 This API can be used to check the status of the frontend. Status here refers to the frontend's ability to answer requests.
-#### API Call
+#### API
     GET /healthCheck
 #### Returns
 ##### _Success response_
