@@ -11,7 +11,7 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
 | x-ambry-service-id | String | Yes | The ID of the service that is uploading the blob |
 | x-ambry-content-type | String | Yes | The type of content in the blob |
 | x-ambry-ttl | Long | No | The time in seconds for which the blob is valid. Defaults to -1 (infinite validity) |
-| x-ambry-private | Boolean | No | Makes the blob private if set to "true". Defaults to "false" (blob is public) |
+| x-ambry-private | Boolean | No | Makes the blob private if set to `true`. Defaults to `false` (blob is public) |
 | x-ambry-owner-id | String | No | The owner of the blob. |
 | x-ambry-um- | String | No |User metadata headers prefix. Any number of headers with this prefix are allowed. |
 The actual content of the blob is to be sent in the body as a stream of bytes (without any encoding) whose size is equal to the value in `x-ambry-blob-size`. 
@@ -47,7 +47,7 @@ The user metadata as response headers.
 ###### BlobInfo
 The user metadata and blob properties as response headers.
 ##### _Success response_
-A successful response is indicated by the status code `200 Ok`. 
+A successful response is indicated by the status code `200 OK`. 
 ###### Without sub-resources
 The body of the response will contain the content of the blob.
 ###### UserMetadata
@@ -55,7 +55,7 @@ The response headers will contain the user metadata that was uploaded (if any).
 
 | Response Header | Type | Description |
 | --- | --- | --- |
-| x-ambry-um-* | String | Zero or more headers with this prefix that represent user metadata |
+| x-ambry-um- | String | Zero or more headers with this prefix that represent user metadata |
 ###### BlobInfo
 The response headers will contain the user metadata that was uploaded (if any) and the properties of the blob.
 
@@ -64,11 +64,11 @@ The response headers will contain the user metadata that was uploaded (if any) a
 | x-ambry-blob-size | Long | The size of the blob |
 | x-ambry-service-id | String | The ID of the service that uploaded the blob |
 | x-ambry-content-type | String | The type of content in the blob |
-| x-ambry-private | Boolean | "true" if the blob is private. "false" if the blob is public |
+| x-ambry-private | Boolean | `true` if the blob is private. `false` if the blob is public |
 | x-ambry-creation-time | Long | The time at which the blob was created |
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
-| x-ambry-um-* | String | Zero or more headers with this prefix that represent user metadata |
+| x-ambry-um- (if supplied at upload) | String | Zero or more headers with this prefix that represent user metadata |
 ##### _Failure response_
 See [[standard error codes|Rest-API#standard-error-codes]].  
 #### Sample Response
@@ -113,14 +113,14 @@ This API gets the blob properties of the blob represented by the supplied blob I
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
-A successful response is indicated by the status code `200 Ok`. The response will also contain headers that describe the properties of the blob.
+A successful response is indicated by the status code `200 OK`. The response will also contain headers that describe the properties of the blob.
 
 | Response Header | Type | Description |
 | --- | --- | --- |
 | x-ambry-blob-size | Long | The size of the blob |
 | x-ambry-service-id | String | The ID of the service that uploaded the blob |
 | x-ambry-content-type | String | The type of content in the blob |
-| x-ambry-private | Boolean | "true" if the blob is private. "false" if the blob is public |
+| x-ambry-private | Boolean | `true` if the blob is private. `false` if the blob is public |
 | x-ambry-creation-time | Long | The time at which the blob was created |
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
@@ -164,7 +164,7 @@ This API can be used to check the status of the frontend. Status here refers to 
     GET /healthCheck
 #### Returns
 ##### _Success response_
-A successful response will be returned with a status code of `200 Ok` and the body of the response will contain the status of frontend - GOOD/BAD.
+A successful response will be returned with a status code of `200 OK` and the body of the response will contain the status of frontend - GOOD/BAD.
 ##### _Failure response_
 None
 #### Sample Response
