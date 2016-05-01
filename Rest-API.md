@@ -5,7 +5,7 @@ At a high level, Ambry supports POST, GET, DELETE and HEAD. This document descri
 This API uploads a blob to Ambry. The call should also include some necessary blob properties and can include optional user metadata. The API returns a resource ID that can be used to access the blob. 
 #### API
     POST /
-| Header | Type | Required? | Description |
+| Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
 | x-ambry-blob-size | Long | Yes | The size of the blob being uploaded |
 | x-ambry-service-id | String | Yes | The ID of the service that is uploading the blob |
