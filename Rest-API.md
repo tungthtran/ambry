@@ -2,7 +2,7 @@ At a high level, Ambry supports POST, GET, DELETE and HEAD. This document descri
 ***
 ### POST
 #### Description
-This API uploads a blob to Ambry. The call should also include some necessary blob properties and can include optional user metadata. The API returns a resource ID that can be used to access the blob.
+This API uploads a blob to Ambry. The call should also include some necessary blob properties and can include optional user metadata. The API returns a resource ID that can be used to access the blob. 
 #### API Call
     POST /
 | Header | Type | Description |
@@ -14,14 +14,19 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
 | x-ambry-private (optional)| Boolean | Makes the blob private if set to "true". Defaults to "false" (blob is public) |
 | x-ambry-owner-id (optional) | String | The owner of the blob. |
 | x-ambry-um- (optional) | String | User metadata headers prefix. Any number of headers with this prefix are allowed. |
+The actual content of the blob is to be sent in the body as a stream of bytes (without any encoding) whose size is equal to the value in `x-ambry-blob-size`. 
 #### Returns
 The location of the created blob on success.
 ##### _Success response_
 The status code `201 Created` indicates that the blob was successfully uploaded. The response also contains the "Location" header that contains the ID of the blob.
 ##### _Failure response_
-See our [[standard error codes|Rest-API#standard-error-codes]]. 
+See [[standard error codes|Rest-API#standard-error-codes]]. 
 #### Sample Response
-    <sample good response>
+    HTTP/1.1 201 Created
+    Date: Sun, 01 May 2016 05:35:21 GMT
+    Location: /AAEAAQAAAAAAAAAAAAAAJDk3NDI2MmQ1LTU0YzktNDk5OC1iM2Q5LTE1ZTQ5NDYwNjI0Mw
+    Content-Length: 0
+    x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
 ***
 ### GET
 #### Description
@@ -65,13 +70,37 @@ The response headers will contain the user metadata that was uploaded (if any) a
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
 | x-ambry-um-* | String | Zero or more headers with this prefix that represent user metadata |
 ##### _Failure response_
-See our [[standard error codes|Rest-API#standard-error-codes]].  
-<standard codes and what they mean for this API>
+See [[standard error codes|Rest-API#standard-error-codes]].  
 #### Sample Response
-    <sample good response>
 ###### Without sub-resources
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:36:41 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-blob-size: 2000
+    Content-Type: image/gif
+    Expires: Mon, 01 May 2017 05:36:41 GMT
+    Cache-Control: max-age=31536000
+    Transfer-Encoding: chunked
+
+    <file-content>
 ###### BlobInfo
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:38:47 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-blob-size: 2000
+    x-ambry-service-id: API-Demo
+    x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-private: false
+    x-ambry-content-type: image/gif
+    x-ambry-owner-id: demo-user
+    x-ambry-um-description: Demonstration Image
+    Content-Length: 0
 ###### UserMetadata
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:39:51 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-um-description: Demonstration Image
+    Content-Length: 0
 ***
 ### HEAD
 #### Description
@@ -95,12 +124,20 @@ A successful response is indicated by the status code `200 Ok`. The response wil
 | x-ambry-creation-time | Long | The time at which the blob was created |
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
-The blob content should be POSTED as a stream of bytes whose length is equal to "x-ambry-blob-size".
 ##### _Failure response_
-See our [[standard error codes|Rest-API#standard-error-codes]].  
-<standard codes and what they mean for this API>
+See [[standard error codes|Rest-API#standard-error-codes]].  
 #### Sample Response
-    <sample good response>
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:41:12 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    Content-Length: 2000
+    Content-Type: image/gif
+    x-ambry-blob-size: 2000
+    x-ambry-service-id: API-Demo
+    x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-private: false
+    x-ambry-content-type: image/gif
+    x-ambry-owner-id: demo-user
 ***
 ### DELETE
 #### Description
@@ -114,10 +151,11 @@ This API deletes the blob represented by the supplied blob ID.
 ##### _Success response_
 Success is indicated by the status code `202 Accepted`. Note that deleting blobs that are already deleted will succeed without any errors.
 ##### _Failure response_
-See our [[standard error codes|Rest-API#standard-error-codes]]. 
-<standard codes and what they mean for this API>
+See [[standard error codes|Rest-API#standard-error-codes]]. 
 #### Sample Response
-    <sample good response>
+    HTTP/1.1 202 Accepted
+    Date: Sun, 01 May 2016 05:44:04 GMT
+    Content-Length: 0
 ***
 ### Health Check
 #### Description
@@ -138,7 +176,7 @@ None
 #### Standard Error Codes
 | Status Code | Description |
 | --- | --- |
-| `400 Bad_Request` | The request does not contain required parameters or has incorrect parameters |
+| `400 Bad_Request` | The request does not contain required parameters or has incorrect parameters. The body of the response usually has a helpful error message |
 | `401 Unauthorized` | The request does not contain enough information to authenticate the operation |
 | `403 Forbidden` | The required blob cannot be served either because the user is not authorized or the resource is dirty |
 | `404 Not_Found` | The requested resource was not found |
