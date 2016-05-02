@@ -3,7 +3,6 @@
   * [Quick Start](Quick Start)
 * API
   * [Rest API](Rest API)
-  * [Java API](Java API)
 * Configuration
   * [Server Configuration](Server Configuration)
   * [Frontend Configuration](Frontend Configuration)
