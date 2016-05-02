@@ -1,11 +1,20 @@
 [[images/replication1.png]]
     
+
+
+
+
+***
+
   
     
 [[images/replication2.png]]
     
   
   
+
+***
+
 [[images/replication3.png]]
   
   
