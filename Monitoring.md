@@ -35,26 +35,25 @@ Mbean	 |        Description
     replicaMetadataResponseQueueTimeInMs                Time spent by the response of replica metadata in the response queue  
     replicaMetadataSendTimeInMs                         Time spent sending the response for replica metadata usermetadata  
     replicaMetadataTotalTimeInMs                        Total time for replica metadata request  
-putBlobRequestRate
-getBlobRequestRate
-getBlobPropertiesRequestRate
-getBlobUserMetadataRequestRate
-deleteBlobRequestRate
-replicaMetadataRequestRate
-partitionUnknownError
-diskUnavailableError
-partitionReadOnlyError
-storeIOError
-unExpectedStorePutError
-unExpectedStoreGetError
-unExpectedStoreTTLError
-unExpectedStoreDeleteError
-unExpectedStoreFindEntriesError
-idAlreadyExistError
-dataCorruptError
-unknownFormatError
-idNotFoundError
-idDeletedError
+    putBlobRequestRate                                  Rate at which put blobs occur
+    getBlobRequestRate                                  Rate at which get blobs occur
+    getBlobPropertiesRequestRate                        Rate at which get blob properties occur
+    getBlobUserMetadataRequestRate                      Rate at which get blob usermetadata occur
+    deleteBlobRequestRate                               Rate at which delete blob occur
+    replicaMetadataRequestRate                          Rate at which replicametadata request occur
+    partitionUnknownError                               Error when partition is not known
+    diskUnavailableError                                Error when disk is not available
+    partitionReadOnlyError                              Error when blob is put in a partition that is read only
+    storeIOError                                        Error when an IO error occurs in the store
+    unExpectedStorePutError                             Unknown error during Put
+    unExpectedStoreGetError                             Unknown error during Get
+    unExpectedStoreDeleteError                          Unknown error during delete
+    unExpectedStoreFindEntriesError                     Unknown error when find entries occur                                 
+    idAlreadyExistError                                 Error when ID already exist while trying to put
+    dataCorruptError                                    Error when there is a disk corrupt
+    unknownFormatError                                  Error when the format is error
+    idNotFoundError                                     Error when id is not found                       
+    idDeletedError                                      Error when id is already deleted
 
 **Replication Metrics**
 
