@@ -57,21 +57,23 @@ Mbean	 |        Description
 
 **Replication Metrics**
 
-interColoReplicationBytesRate
-intraColoReplicationBytesRate
-interColoMetadataExchangeCount
-intraColoMetadataExchangeCount
-interColoBlobsReplicatedCount
-intraColoBlobsReplicatedCount
-replicationErrors
-replicationInvalidMessageStreamErrorCount
-interColoReplicationLatency
-intraColoReplicationLatency
-interColoExchangeMetadataTime
-intraColoExchangeMetadataTime
-interColoFixMissingKeysTime
-intraColoFixMissingKeysTime
-interColoReplicationMetadataRequestTime
+             **Mbean**	                        |                          **Description**  
+
+    interColoReplicationBytesRate                       The rate at which bytes are transferred between datacenters  
+    intraColoReplicationBytesRate                       The rate at which bytes are transferred within a datacenter  
+    interColoMetadataExchangeCount                      The rate at which metadata exchange happens between datacenters  
+    intraColoMetadataExchangeCount                      The rate at which metadata exchange happens within a datacenter  
+    interColoBlobsReplicatedCount                       The rate at which blobs are replicated between datacenters  
+    intraColoBlobsReplicatedCount                       The rate at which blobs are replicated within a datacenter  
+    replicationErrors
+    replicationInvalidMessageStreamErrorCount
+    interColoReplicationLatency
+    intraColoReplicationLatency
+    interColoExchangeMetadataTime
+    intraColoExchangeMetadataTime
+    interColoFixMissingKeysTime
+    intraColoFixMissingKeysTime
+    interColoReplicationMetadataRequestTime
 intraColoReplicationMetadataRequestTime
 interColoReplicationWaitTime
 intraColoReplicationWaitTime
