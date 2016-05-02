@@ -65,31 +65,15 @@ Mbean	 |        Description
     intraColoMetadataExchangeCount                      The rate at which metadata exchange happens within a datacenter  
     interColoBlobsReplicatedCount                       The rate at which blobs are replicated between datacenters  
     intraColoBlobsReplicatedCount                       The rate at which blobs are replicated within a datacenter  
-    replicationErrors
-    replicationInvalidMessageStreamErrorCount
-    interColoReplicationLatency
-    intraColoReplicationLatency
-    interColoExchangeMetadataTime
-    intraColoExchangeMetadataTime
-    interColoFixMissingKeysTime
-    intraColoFixMissingKeysTime
-    interColoReplicationMetadataRequestTime
-intraColoReplicationMetadataRequestTime
-interColoReplicationWaitTime
-intraColoReplicationWaitTime
-interColoCheckMissingKeysTime
-intraColoCheckMissingKeysTime
-interColoProcessMetadataResponseTime
-intraColoProcessMetadataResponseTime
-interColoGetRequestTime
-intraColoGetRequestTime
-interColoBatchStoreWriteTime
-intraColoBatchStoreWriteTime
-interColoTotalReplicationTime
-intraColoTotalReplicationTime
-numberOfIntraDCReplicaThreads
-numberOfInterDCReplicaThreads
-replicaLagInBytes 
-metadataRequestError
-getRequestError
-localStoreError
+    replicationErrors                                   The rate at which replication errors occur
+    replicationInvalidMessageStreamErrorCount           The rate at which invalid messages are seen during replication
+    interColoReplicationLatency                         The time taken to replicate bytes end to end between datacenters
+    intraColoReplicationLatency                         The time taken to replicate bytes end to end within a datacenter
+    interColoExchangeMetadataTime                       The time taken to exchange metadata information between datacenters
+    intraColoExchangeMetadataTime                       The time taken to exchange metadata information within a datacenter
+    interColoFixMissingKeysTime                         The time taken to fix missing keys between datacenters
+    intraColoFixMissingKeysTime                         The time taken to fix missing keys within a datacenter
+    replicaLagInBytes                                   The lag between two machines for each partition
+    metadataRequestError                                The rate at which metadata request error happens during replication
+    getRequestError                                     The rate at which get request error happens during replication
+    localStoreError                                     The rate at which the local store write fails during replication
