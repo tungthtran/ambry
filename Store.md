@@ -1,1 +1,6 @@
+The data node maintains a file per replicated store. We call this file the on-disk log. The on-disk log is a pre-allocated file in a standard linux file system (ext4/xfs). In Ambry, we pre-allocate a file for each on-disk log. 
+The basic idea for the replicated store is the following : on put, append blobs and user metadata to the end of the pre-allocated file so as to encourage a sequential write workload. Any gets that are serviced by the replicated store may incur a random disk IO, but we expect good locality in the page cache. Deletes, like puts, are appended as a record at the end of the file.
+
+To be able to service random reads of either user metadata or blobs, the replicated store must maintain an index that maps blob IDs to specific offsets in the on-disk log. We store other attributes as well in this index such as delete flags and ttl values for each blob. The index is designed as a set of sorted files. The most recent index segment is in memory. The older segments are memory mapped and an entry is located by doing a binary search on them. The search moves from the most recent to the oldest. This makes it easy to identify the deleted entry before the put entry. 
+
 [[images/store.png]]
