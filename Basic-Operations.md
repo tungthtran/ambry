@@ -34,7 +34,10 @@ This would require the following steps -
 5. Push the file to the cluster and manually delete the files for the replica from disk
 
 ### Dump Log
+    java com.github.ambry.tools.admin.DumpData --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --typeOfOperation DumpLog --logFileToDump partition1/log1 --outFile output/log1Dump 
 
 ### Dump Index
+    java com.github.ambry.tools.admin.DumData --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType DumpIndex --replicaRootDirectoy partition1/
 
 ### Dump Replica Token File
+    java com.github.ambry.tools.admin.DumpData --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType DumpReplicatoken --fileToRead partition1/findToken
