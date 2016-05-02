@@ -31,7 +31,7 @@ Replica 2 then scans the ids and looks up its local store to find if the blob is
 
 ***
 
-  
+Replica 2 then send a request to replica 1 to send all the messages that are missing. Replica1 sends all the messages in a single batch that replica 2 writes to its store.  
 [[images/replication5.png]]
   
   
@@ -50,3 +50,5 @@ Replica 2 then scans the ids and looks up its local store to find if the blob is
 
 
 ***
+
+This is a simplified version of the actual protocol. There are more optimizations such as zero copy, crc checking, prioritizing higher lag etc in the actual implementation. This gossip protocol helps Ambry to converge really fast. 
