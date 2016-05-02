@@ -24,7 +24,7 @@ Replica 2 then initiates a metadata exchange with replica 1. This call returns a
 
 ***
 
-  
+Replica 2 then scans the ids and looks up its local store to find if the blob is missing. The reason that the blob could be available is because replica 2 could have got the blob from the router or from another replica. Replica 2 makes a list of blobs that it does not have.  
 [[images/replication4.png]]
   
   
