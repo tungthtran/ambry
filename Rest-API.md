@@ -37,7 +37,7 @@ This API gets the content of the blob represented by the blob ID. When used with
 
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
-| ambry-id | String | Yes |The ID of the blob whose content is required |
+| ambry-id | String | Yes |The ID of the blob whose content is requested |
 | sub-resource | String | No | One of the listed sub-resources |
 #### Returns
 ###### Without sub-resources
@@ -109,7 +109,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
     HEAD /<ambry-id>
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
-| ambry-id | String | Yes | The ID of the blob whose properties are required |
+| ambry-id | String | Yes | The ID of the blob whose properties are requested |
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
@@ -178,7 +178,7 @@ None
 | --- | --- |
 | `400 Bad_Request` | The request does not contain required parameters or has incorrect parameters. The body of the response usually has a helpful error message |
 | `401 Unauthorized` | The request does not contain enough information to authenticate the operation |
-| `403 Forbidden` | The required blob cannot be served either because the user is not authorized or the resource is dirty |
+| `403 Forbidden` | The requested blob cannot be served either because the user is not authorized or the resource is dirty |
 | `404 Not_Found` | The requested resource was not found |
 | `407 Proxy_Authentication_Required` | The resource cannot be served just yet because it (or the user) needs proxy authentication |
 | `410 Gone` | The requested resource is either deleted or has expired |
