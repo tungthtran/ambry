@@ -1,6 +1,33 @@
-Frontend Metrics
+**Frontend Metrics**
 
-Mbean	 |        Description      
+             **Mbean**	                        |                          **Description**    
+    putBlobOperationLatencyInMs                          The latency of the put blob operation measured at the frontend
+    deleteBlobOperationLatencyInMs                       The latency of the delete blob operation measured at the frontend
+    getBlobPropertiesOperationLatencyInMs                The latency of get blob properties operation measured at frontend
+    getBlobUserMetadataOperationLatencyInMs              The latency of get blob usermetadata operation measured at frontend
+    getBlobOperationLatencyInMs                          The latency of get blob operation measured at frontend
+    putBlobOperationRate                                 The rate at which put blob operation calls happen at the frontend
+    deleteBlobOperationRate                              The rate at which delete blob operation calls happen at frontend
+    getBlobPropertiesOperationRate                       The rate at which getblobproperties operation happen at frontend
+    getBlobUserMetadataOperationRate                     The rate at which getBlobUsermetadata operation happen at frontend
+    getBlobOperationRate                                 The rate at which getBlob operation happen at frontend
+    operationExceptionRate                               The rate at which operation calls have an error
+    putBlobError                                         The error rate for put blob operations
+    deleteBlobError                                      The error rate for delete blob operations
+    getBlobPropertiesError                               The error rate for get blob properties operations
+    getBlobUserMetadataError                             The error rate for get blob usermetadata operations
+    getBlobError                                         The error rate for get blob operations            
+    ambryUnavailableError                                The error rate when ambry is not available 
+    operationTimedOutError                               The error rate when operation times out
+    invalidBlobIdError                                   The rate at which invalid blob Ids are specified in a get or delete
+    insufficientCapacityError                            The rate at which put requests fail when capacity is not available
+    blobTooLargeError                                    The rate at which put fails due to blobs being too large
+    blobDoesNotExistError                                The rate at which get and delete fail because blob does not exist
+    blobDeletedError                                     The rate at which get and delete fail because blob is deleted
+    blobExpiredError                                     The rate at which get and delete fail because blob is expired
+    corruptionError                                      The rate at which get fails because the blob is corrupt
+    successfulCrossColoProxyCallCount                    The rate at which successful calls happen cross colo to fetch blob
+
 
 **Server Metrics**
 
