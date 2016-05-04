@@ -33,7 +33,7 @@ The `Location` header in the response is the blob ID of the blob we just uploade
 ###### GET - Blob Info
 Now that we stored a blob, let us verify some properties of the blob we uploaded.
 
-    $ curl -i http://localhost:1174/AmbryID/BlobInfo
+    $ curl -I http://localhost:1174/AmbryID/BlobInfo
     HTTP/1.1 200 OK
     x-ambry-blob-size: {Blob size}
     x-ambry-service-id: CUrlUpload
