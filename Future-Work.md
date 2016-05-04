@@ -13,4 +13,4 @@ Currently, cluster management uses a hardware layout and partition layout files 
 We would like to introduce the notion of container/bucket that would help to define a namespace for objects. Once this is defined, we could define acls, quotas etc at this level.
 
 ### Authorization/Authentication
-We current support encryption between servers and between frontend and servers. However, we would need to introduce authorization and authentication for clients. This would depend on the container/bucket work. Once that is done, we would need to introduce a way to define acls and enforce them.
+We currently support encryption between servers and between frontend and servers. However, we would need to introduce authorization and authentication for clients. This would depend on the container/bucket work. Once that is done, we would need to introduce a way to define acls and enforce them.
