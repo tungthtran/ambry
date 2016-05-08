@@ -1,18 +1,20 @@
 ### Introduction
 In a typical setup, Ambry consists of a frontend tier and a data tier. The frontend is stateless and provides a REST interface to the client, and uses the routing library (the “coordinator” today) to route requests to the appropriate servers. That being said, Ambry also supports embedding the routing library directly within client. Any design decision we have made must support both models.
 
-The frontend, apart from providing a REST interface to the clients, also provides support for interacting with external services. Within LinkedIn, this layer performs antivirus checks, creates and provides the notification system (kafka) to use for notifications about blob creations and deletions, and communicates with other databases.
+The frontend, apart from providing a REST interface to the clients, also provides support for interacting with external services. Within LinkedIn, this layer performs antivirus checks, creates the notification system (kafka) and notifies it about blob creations and deletions, and communicates with other databases.
 
 The responsibilities of the routing library are primarily the following:
-* Choose partitions for a PUT operation.
-* Determine the data nodes to be contacted for a particular operation and the order and parallelism for the same, determine the number of responses that must be received in order to consider that operation a success, and determine how to do retries in case of failures.
+* Support Puts, Gets and Deletes.
+* For Put operations, choose partitions to put the object into. Chunk objects if they are too large, and choose partitions for each chunk independently.
+* For Get and Delete operations, identify the partitions to contact to get the object and/or its chunks.
+* Determine the data nodes to be contacted for a particular operation, the order and parallelism for the operations, the number of responses that must be received in order to consider that operation a success, and how retries should be done in case of failures.
 * Interact with the cluster manager to pick nodes and partitions that are active, and inform the cluster manager about failed nodes and partitions.
-* Chunk objects if they are too large during PUTs and distribute them individually.
+* Notify the notification system about blob creations and deletions.
 
 ### Problem Statement
 Today, the frontend and the router are blocking. This means that an operation holds on to the request thread until the entire blob is sent or received to/from a data node. This severely impacts the throughput and latency and makes it infeasible to support large blobs (which is the main reason for not supporting large blobs today). The absence of any chunking also means that for large blobs, the partition usage can be uneven and inefficient, besides affecting the throughput.
 
-In order to fix this problem, we need to make both the frontend layer and the routing layer non-blocking. This document describes the non-blocking router design. The non-blocking frontend is going to be written in a way that allows for using Netty or Rest.li in a non-blocking way. A detailed design document for the same can be found here: 
+In order to fix this problem, we need to make both the frontend layer and the routing layer non-blocking and support streaming. This document describes the non-blocking router design. The non-blocking frontend is going to be written in a way that allows for using Netty or Rest.li in a non-blocking way. See [Frontend](https://github.com/linkedin/ambry/wiki/Frontend)
 
 ### Proposed Design
 **Concepts and Terminology**  
