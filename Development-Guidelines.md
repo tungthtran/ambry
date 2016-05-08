@@ -57,7 +57,7 @@
   *  ambry-utils should not depend on any other ambry package. 
      ambry-api should not depend on any other ambry package other than ambry-utils. 
      ambry-network should not depend on any other packages other than ambry-api and ambry-utils. 
-     ambry-coordinator should not depend on any of the server side packages. It can depend on ambry-shared, ambry-utils, ambry-messageformat, ambry-api and ambry-clustermap. 
+     ambry-coordinator should not depend on any of the server side packages. It can depend on ambry-commons, ambry-utils, ambry-messageformat, ambry-api and ambry-clustermap. 
      ambry-store is at the lowest level and should depend on ambry-api, ambry-clustermap, ambry-metrics and ambry-utils.
 
 ## Submitting a patch
@@ -78,8 +78,9 @@
 
   *  If we suggest changes, then:
      1. Make the required updates.
-     1. Re-run the test suite
-     1. Push the changes to your repo
+     2. Apply code formatting. 
+     3. Re-run the test suite
+     4. Push the changes to your repo
     
 `        git push `
 
