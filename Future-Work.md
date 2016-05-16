@@ -14,3 +14,6 @@ We would like to introduce the notion of container/bucket that would help to def
 
 ### Authorization/Authentication
 We currently support encryption between servers and between frontend and servers. However, we would need to introduce authorization and authentication for clients. This would depend on the container/bucket work. Once that is done, we would need to introduce a way to define acls and enforce them.
+
+### Erasure Coding
+Media access patterns make any object cold over time. They are hardly accessed and occupy more space. We would need to erasure code these objects to ensure we can get almost the same data durability with lesser replicas. A good option would be to erasure code at the partition level. We should investigate different erasure code algorithms and identify the best fit for the system.
