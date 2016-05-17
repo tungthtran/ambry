@@ -20,7 +20,7 @@ Ambry provides a REST frontend. This means that using Ambry is trivial across al
 
 **What are the biggest benefits of Ambry over distributed file systems?**  
 
-Ambry is designed to be an object store and is completely distributed. There is no single point of failure, metadata operations do not add any extra IO and Ambry is very lightweight to manage. As a bonus, the codebase is also really small which enables easy maintenance and debugging. We believe that these attributes are very unique to Ambry. Distributed file system in general tend to support many features, are very complex, have higher stronger consistency guarantees which affect performance and have a huge codebase that makes it hard to understand the internal or debug.
+Ambry is designed to be an object store and is completely distributed. There is no single point of failure, metadata operations do not add any extra IO and Ambry is very lightweight to manage. As a bonus, the codebase is also really small which enables easy maintenance and debugging. We believe that these attributes are very unique to Ambry. Distributed file systems in general tend to support many features, are very complex, have higher stronger consistency guarantees which affect performance and have a huge codebase that makes it hard to understand the internals or debug.
 
 **Where can I read more information on Ambry?**  
 
