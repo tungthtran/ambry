@@ -17,7 +17,7 @@
 ## Eclipse setup
 * Install and prepare Eclipse
 * Download and install Eclipse (Indigo or Juno is recommended);
-* Install IvyIDE plugin as described (here)[http://ant.apache.org/ivy/ivyde/download.cgi]. This will allow to automatically create classpath containers starting from ivy files;
+* Install IvyIDE plugin as described [here](http://ant.apache.org/ivy/ivyde/download.cgi). This will allow to automatically create classpath containers starting from ivy files;
 * Checkout Ambry source
 
 `git clone git@github.com:linkedin/ambry.git <ambry.project.dir>`
