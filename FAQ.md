@@ -24,4 +24,4 @@ Ambry is designed to be an object store and is completely distributed. There is 
 
 **Where can I read more information on Ambry?**  
 
-Ambry has a paper published in SIGMOD 2016. More information can be found here - http://sigmod2016.org/sigmod_industrial_list.shtml
+Ambry has a paper published in SIGMOD 2016. More information can be found here - http://dprg.cs.uiuc.edu/docs/SIGMOD2016-a/ambry.pdf
