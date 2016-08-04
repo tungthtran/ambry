@@ -1,6 +1,5 @@
 ## Intellij Setup
-* Install and prepare IntelliJ
-* Download and install IntelliJ;
+* Download and install IntelliJ
 * Checkout Ambry source
 
 `git clone git@github.com:linkedin/ambry.git`
