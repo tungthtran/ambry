@@ -18,5 +18,5 @@ By default, Ambry supports active active setup. This means that objects can be w
 ## Works for large and small media objects
 This is a key characteristic that is required for a media store. Most media traffic consist of trillions of small objects and billion of large objects. The system needs to function well for this mixed workload. The way this is achieved in Ambry is to combine the writes of all objects into a sequential log. This ensures that all writes are batches and flushed asynchronously and fragmentation is very less on the disk.
 
-## Cheap
+## Cost efficient
 Finally, any object store would need to store media and data types for a long time. The older data become cold over time and has very low read QPS. Also, objects are usually large and take up a lot of space. The design should be such that it enables JBOD, supports hard disks and keeps the space amplification to a minimum.
