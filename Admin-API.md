@@ -88,6 +88,11 @@ See [[standard error codes|Admin-API#standard-error-codes]].
     Content-Length: 48
     
     {"replicas":["Replica[localhost:15088:/tmp/1]"]}
+### Other
+#### Not Modified
+GET of blob content supports the "If-Modified-Since" header and returns `304 Not_Modified` if the blob has not been modified since the time specified
+#### Private Blobs
+If the blob is private, the cache headers returned in the response will indicate that the content should not be cached or stored.
 ***
 ### HEAD
 #### Description
