@@ -100,7 +100,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
 
 | Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
-| x-ambry-get-option | String | No | The options associated with the GET (see below)|
+| x-ambry-get-option | String | No | The options associated with the GET (see [[options|Admin-API#get-options]].)|
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
