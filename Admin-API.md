@@ -14,7 +14,7 @@ This API gets the content of the blob represented by the blob ID. When used with
 
 | Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
-| x-ambry-get-option | String | No | see [[options|Admin-API#get-options]].|
+| x-ambry-get-option | String | No | See [[options|Admin-API#get-options]].|
 #### Returns
 ###### Without sub-resources
 The content of the blob.
@@ -100,7 +100,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
 
 | Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
-| x-ambry-get-option | String | No | see [[options|Admin-API#get-options]].|
+| x-ambry-get-option | String | No | See [[options|Admin-API#get-options]].|
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
