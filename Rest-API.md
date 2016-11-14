@@ -101,6 +101,11 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
     x-ambry-um-description: Demonstration Image
     Content-Length: 0
+### Other
+#### Not Modified
+GET of blob content supports the "If-Modified-Since" header and returns `304 Not_Modified` if the blob has not been modified since the time specified
+#### Private Blobs
+If the blob is private, the cache headers returned in the response will indicate that the content should not be cached or stored.
 ***
 ### HEAD
 #### Description
