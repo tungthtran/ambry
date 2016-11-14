@@ -182,4 +182,8 @@ Note: Deleted or expired blobs may have been cleaned up by the storage due to ha
 | `407 Proxy_Authentication_Required` | The resource cannot be served just yet because it (or the user) needs proxy authentication |
 | `410 Gone` | The requested resource is either deleted or has expired |
 | `500 Internal_Server_Error` | The server experienced an error while serving the request |
+#### Common Failure Headers
+| Response Header | Type | Description |
+| --- | --- | --- |
+| x-ambry-failure-reason | String | If the status code was `400`, contains the reason|
  
