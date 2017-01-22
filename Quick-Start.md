@@ -8,7 +8,7 @@ To get the latest code and build it, do
     $ mkdir logs
 Ambry uses files that provide information about the cluster to route requests from the frontend to servers and for replication between servers. We will use a simple clustermap that contains a single server with one partition. The partition will use `/tmp` as the mount point.
 ##### Step 2: Deploy a server.
-    $ nohup java -Dlog4j.configuration=file:../config/log4j.properties -jar ambry.jar --serverPropsFilePath ../config/server.properties --hardwareLayoutFilePath ../config/HardwareLayout.json --partitionLayoutFilePath ../config/PartitionLayout.json > logs/server.log &
+    $ nohup java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.server.AmbryMain --serverPropsFilePath ../config/server.properties --hardwareLayoutFilePath ../config/HardwareLayout.json --partitionLayoutFilePath ../config/PartitionLayout.json > logs/server.log &
 
 Through this command, we configure the log4j properties, provide the server with configuration options and cluster definitions and redirect output to a log. Note down the process ID returned (`serverProcessID`) because it will be needed for shutdown.  
 The log will be available at `logs/server.log`. Alternately, you can change the log4j properties to write the log messages to a file instead of standard output.
