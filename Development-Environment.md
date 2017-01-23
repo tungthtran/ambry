@@ -14,6 +14,13 @@
 
 * Create IntelliJ workspace
 * Open Intellij and click open project pointing to \<ambry.project.dir\>
+* Apply the code style XML file provided in this repository (*ide/intellij/codestyles/ambry-style.xml*):
+    1. In Intellij, open preferences -> editor -> code style
+    2. Click the "Manage..." button next to "Scheme"
+    3. Click "Import..."
+    4. Select "Intellij IDEA code style XML"
+    5. Choose *.../ambry/ide/intellij/codestyles/ambry-style.xml*
+    6. Select the imported scheme and apply the settings
 
 ## Eclipse setup
 * Install and prepare Eclipse
