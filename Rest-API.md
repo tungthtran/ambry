@@ -39,6 +39,16 @@ This API gets the content of the blob represented by the blob ID. When used with
 | --- | --- | --- | --- |
 | ambry-id | String | Yes |The ID of the blob whose content is requested |
 | sub-resource | String | No | One of the listed sub-resources |
+
+| Request Header | Type       | Required? | Description                         |
+|----------------|------------|-----------|-------------------------------------|
+| Range          | byte range | No        | The byte range to be returned (See below for details) |
+
+The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for get requests without sub-resources. It accepts the following syntax:
+- `Range:bytes=<a>-<b>` for bytes from `<a>` to `<b>`, inclusive
+- `Range:bytes=-<n>` for the last `<n>` bytes
+- `Range:bytes=<a>-` for all bytes including and after `<a>`
+
 #### Returns
 ###### Without sub-resources
 The content of the blob.
@@ -47,7 +57,14 @@ The user metadata as response headers.
 ###### BlobInfo
 The user metadata and blob properties as response headers.
 ##### _Success response_
-A successful response is indicated by the status code `200 OK`. 
+A successful response for non-range requests is indicated by the status code `200 OK`. A successful response for range requests is indicated by the status code `206 Partial Content`.
+In the case of a partial content response, the following response headers will be populated.
+
+| Response Header | Type   | Description                   |
+|-----------------|--------|-------------------------------|
+| Accept-Ranges   | String | The range units accepted for ranged get requests. Always `bytes`. |
+| Content-Range   | String | The range of bytes returned in this response in the form `bytes {start_offset}-{end_offset}/{total object size}` |
+
 ###### Without sub-resources
 The body of the response will contain the content of the blob.
 ###### UserMetadata
@@ -83,6 +100,18 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Transfer-Encoding: chunked
 
     <file-content>
+###### For a range request without sub-resources (for bytes 25 through 700)
+    HTTP/1.1 206 Partial Content
+    Date: Sun, 01 May 2016 05:36:41 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-blob-size: 2000
+    Content-Type: image/gif
+    Expires: Mon, 01 May 2017 05:36:41 GMT
+    Cache-Control: max-age=31536000
+    Transfer-Encoding: chunked
+    Accept-Ranges: bytes
+    Content-Range: bytes 25-700/2000
+    Content-Length: 676
 ###### BlobInfo
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:38:47 GMT
@@ -115,10 +144,14 @@ This API gets the blob properties of the blob represented by the supplied blob I
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
 | ambry-id | String | Yes | The ID of the blob whose properties are requested |
+
+| Request Header | Type       | Required? | Description                         |
+|----------------|------------|-----------|-------------------------------------|
+| Range          | byte range | No        | The byte range requested (See the GET section for details) |
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
-A successful response is indicated by the status code `200 OK`. The response will also contain headers that describe the properties of the blob.
+A successful response is indicated by the status code `200 OK`, or `206 Partial Content` for a range request. The response will also contain headers that describe the properties of the blob.
 
 | Response Header | Type | Description |
 | --- | --- | --- |
@@ -132,10 +165,25 @@ A successful response is indicated by the status code `200 OK`. The response wil
 ##### _Failure response_
 See [[standard error codes|Rest-API#standard-error-codes]].  
 #### Sample Response
+##### Without a range specified
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:41:12 GMT
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
     Content-Length: 2000
+    Content-Type: image/gif
+    x-ambry-blob-size: 2000
+    x-ambry-service-id: API-Demo
+    x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-private: false
+    x-ambry-content-type: image/gif
+    x-ambry-owner-id: demo-user
+##### With a range specified (for bytes 25 through 700)
+    HTTP/1.1 206 Partial Content
+    Date: Sun, 01 May 2016 05:41:12 GMT
+    Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    Accept-Ranges: bytes
+    Content-Range: bytes 25-700/2000
+    Content-Length: 676
     Content-Type: image/gif
     x-ambry-blob-size: 2000
     x-ambry-service-id: API-Demo
@@ -187,6 +235,7 @@ None
 | `404 Not_Found` | The requested resource was not found |
 | `407 Proxy_Authentication_Required` | The resource cannot be served just yet because it (or the user) needs proxy authentication |
 | `410 Gone` | The requested resource is either deleted or has expired |
+| `416 Range_Not_Satisfiable` | The requested range exceeded the size of the blob |
 | `500 Internal_Server_Error` | The server experienced an error while serving the request |
 #### Common Failure Headers
 | Response Header | Type | Description |
