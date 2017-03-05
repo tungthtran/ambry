@@ -114,46 +114,100 @@ Number of netty worker threads.
 @Default("1")  
 ```
 
-### Coordinator configs
+### Router configs
 
-The hostname of the node upon which the coordinator runs.  
+Number of independent scaling units for the router.
 ```java
-@Config("coordinator.hostname")  
+@Config("router.scaling.unit.count")
+@Default("1")
 ```
 
-The name of the datacenter in which the coordinator is located.  
+The hostname of the node upon which the router runs.
 ```java
-@Config("coordinator.datacenter.name")  
+@Config("router.hostname")
 ```
 
-The number of threads in the requester thread pool.  
+The name of the datacenter in which the router is located.
 ```java
-@Config("coordinator.requester.pool.size")  
-@Default("100")  
+@Config("router.datacenter.name")
 ```
 
-Timeout for operations that the coordinator issues.  
+The max connections allowed per (datanode, port) for plain text
 ```java
-@Config("coordinator.operation.timeout.ms")  
-@Default("2000")  
+@Config("router.scaling.unit.max.connections.per.port.plain.text")
+@Default("5")
 ```
 
-The factory class the coordinator uses to create a connection pool.  
+The max connections allowed per (datanode, port) for ssl
 ```java
-@Config("coordinator.connection.pool.factory")  
-@Default("com.github.ambry.network.BlockingChannelConnectionPoolFactory")  
+@Config("router.scaling.unit.max.connections.per.port.ssl")
+@Default("2")
 ```
 
-Timeout for checking out a connection from the connection pool  
+Timeout for checking out an available connection to a (datanode, port).
 ```java
-@Config("coordinator.connection.pool.checkout.timeout.ms")  
-@Default("1000")  
+@Config("router.connection.checkout.timeout.ms")
+@Default("1000")
 ```
 
-Indicates if all operations should or should not do cross dc proxy calls  
+Timeout for requests issued by the router to the network layer.
 ```java
-@Config("coordinator.cross.dc.proxy.call.enable")  
-@Default("true")  
+@Config("router.request.timeout.ms")
+@Default("2000")
+```
+
+The max chunk size to be used for put operations.
+```java
+@Config("router.max.put.chunk.size.bytes")
+@Default("4*1024*1024")
+```
+
+The maximum number of parallel requests issued at a time by the put manager for a chunk.
+```java
+@Config("router.put.request.parallelism")
+@Default("3")
+```
+
+The minimum number of successful responses required for a put operation.
+```java
+@Config("router.put.success.target")
+@Default("2")
+```
+
+The maximum number of times to retry putting any chunk of a put operation
+```java
+@Config("router.max.slipped.put.attempts")
+@Default("1")
+```
+
+The maximum number of parallel requests allowed for a delete operation.
+```java
+@Config("router.delete.request.parallelism")
+@Default("3")
+```
+
+The minimum number of successful responses required for a delete operation.
+```java
+@Config("router.delete.success.target")
+@Default("2")
+```
+
+The maximum number of parallel requests issued at a time by the get manager for a get operation on a chunk.
+```java
+@Config("router.get.request.parallelism")
+@Default("2")
+```
+
+The minimum number of successful responses required for a get operation on a chunk.
+```java
+@Config("router.get.success.target")
+@Default("1")
+```
+
+Indicates whether get operations are allowed to make requests to nodes in remote data centers.
+```java
+@Config("router.get.cross.dc.enabled")
+@Default("true")
 ```
 
 ### ConnectionPool configs
