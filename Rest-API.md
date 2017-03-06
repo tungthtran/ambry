@@ -44,7 +44,7 @@ This API gets the content of the blob represented by the blob ID. When used with
 |----------------|------------|-----------|-------------------------------------|
 | Range          | byte range | No        | The byte range to be returned (See below for details) |
 
-The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for get requests without sub-resources. It accepts the following syntax:
+The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for get requests without sub-resources. It accepts the following syntax, described in this [RFC document](https://tools.ietf.org/html/rfc7233#section-2.1):
 - `Range:bytes=<a>-<b>` for bytes from `<a>` to `<b>`, inclusive
 - `Range:bytes=-<n>` for the last `<n>` bytes
 - `Range:bytes=<a>-` for all bytes including and after `<a>`
@@ -58,11 +58,10 @@ The user metadata as response headers.
 The user metadata and blob properties as response headers.
 ##### _Success response_
 A successful response for non-range requests is indicated by the status code `200 OK`. A successful response for range requests is indicated by the status code `206 Partial Content`.
-In the case of a partial content response, the following response headers will be populated.
+In the case of a partial content response, the following response header will be populated.
 
 | Response Header | Type   | Description                   |
 |-----------------|--------|-------------------------------|
-| Accept-Ranges   | String | The range units accepted for ranged get requests. Always `bytes`. |
 | Content-Range   | String | The range of bytes returned in this response in the form `bytes {start_offset}-{end_offset}/{total object size}` |
 
 ###### Without sub-resources
@@ -97,6 +96,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Content-Type: image/gif
     Expires: Mon, 01 May 2017 05:36:41 GMT
     Cache-Control: max-age=31536000
+    Accept-Ranges: bytes
     Transfer-Encoding: chunked
 
     <file-content>
@@ -108,10 +108,11 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Content-Type: image/gif
     Expires: Mon, 01 May 2017 05:36:41 GMT
     Cache-Control: max-age=31536000
-    Transfer-Encoding: chunked
     Accept-Ranges: bytes
     Content-Range: bytes 25-700/2000
-    Content-Length: 676
+    Transfer-Encoding: chunked
+    
+    <file-content>
 ###### BlobInfo
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:38:47 GMT
@@ -169,6 +170,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:41:12 GMT
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    Accept-Ranges: bytes
     Content-Length: 2000
     Content-Type: image/gif
     x-ambry-blob-size: 2000
