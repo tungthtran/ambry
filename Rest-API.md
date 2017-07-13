@@ -43,13 +43,8 @@ The API also supports advanced user operations like getting the server replica l
 
 | Request Header | Type       | Required? | Description                         |
 |----------------|------------|-----------|-------------------------------------|
-| Range          | byte range | No        | The byte range to be returned (See below for details) |
+| Range          | byte range | No        | The byte range to be returned ([[details|Rest-API#range-header]]) |
 | x-ambry-get-option | String | No | See [[options|Rest-API#get-options]].|
-
-The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for get requests without sub-resources. It accepts the following syntax, described in this [RFC document](https://tools.ietf.org/html/rfc7233#section-2.1):
-- `Range:bytes=<a>-<b>` for bytes from `<a>` to `<b>`, inclusive
-- `Range:bytes=-<n>` for the last `<n>` bytes
-- `Range:bytes=<a>-` for all bytes including and after `<a>`
 
 #### Returns
 ###### Without sub-resources
@@ -160,7 +155,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
 
 | Request Header | Type       | Required? | Description                         |
 |----------------|------------|-----------|-------------------------------------|
-| Range          | byte range | No        | The byte range requested (See the GET section for details) |
+| Range          | byte range | No        | The byte range requested ([[details|Rest-API#range-header]]) |
 | x-ambry-get-option | String | No | See [[options|Rest-API#get-options]].|
 #### Returns
 The blob properties of the blob as response headers.
@@ -241,6 +236,11 @@ None
 
     GOOD
 ***
+#### Range Header
+The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for GET requests without sub-resources and for HEAD requests. It accepts the following syntax, described in this [RFC document](https://tools.ietf.org/html/rfc7233#section-2.1):
+- `Range:bytes=<a>-<b>` for bytes from `<a>` to `<b>`, inclusive
+- `Range:bytes=-<n>` for the last `<n>` bytes
+- `Range:bytes=<a>-` for all bytes including and after `<a>`
 #### Get Options
 | Option| Description |
 | --- | --- |
