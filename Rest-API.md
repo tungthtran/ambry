@@ -31,9 +31,10 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ### GET
 #### Description
 This API gets the content of the blob represented by the blob ID. When used with sub-resources, it gets user metadata (and optionally blob properties) instead of the actual content of the blob.
+The API also supports advanced user operations like getting the server replica list for a blob and getting expired/deleted blobs if they are still available in storage.
 #### API
     GET /<ambry-id>/<sub-resource>
-    Sub-resources: BlobInfo, UserMetadata
+    Sub-resources: BlobInfo, UserMetadata, Replicas
 
 | Parameter | Type | Required? | Description |
 | --- | --- | --- | --- |
@@ -43,6 +44,7 @@ This API gets the content of the blob represented by the blob ID. When used with
 | Request Header | Type       | Required? | Description                         |
 |----------------|------------|-----------|-------------------------------------|
 | Range          | byte range | No        | The byte range to be returned (See below for details) |
+| x-ambry-get-option | String | No | See [[options|Rest-API#get-options]].|
 
 The Range header allows the user to specify a range of bytes within the blob to be returned. It is only valid for get requests without sub-resources. It accepts the following syntax, described in this [RFC document](https://tools.ietf.org/html/rfc7233#section-2.1):
 - `Range:bytes=<a>-<b>` for bytes from `<a>` to `<b>`, inclusive
@@ -56,6 +58,8 @@ The content of the blob.
 The user metadata as response headers.
 ###### BlobInfo
 The user metadata and blob properties as response headers.
+###### Replicas
+The location of the all the replicas that have the blob including hostname, port and mount path
 ##### _Success response_
 A successful response for non-range requests is indicated by the status code `200 OK`. A successful response for range requests is indicated by the status code `206 Partial Content`.
 In the case of a partial content response, the following response header will be populated.
@@ -85,6 +89,8 @@ The response headers will contain the user metadata that was uploaded (if any) a
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
 | x-ambry-um- (if supplied at upload) | String | Zero or more headers with this prefix that represent user metadata |
+###### Replicas
+The body of the response will contain a JSON listing all the replicas that contain the blob
 ##### _Failure response_
 See [[standard error codes|Rest-API#standard-error-codes]].  
 #### Sample Response
@@ -131,6 +137,12 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
     x-ambry-um-description: Demonstration Image
     Content-Length: 0
+###### Replicas
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    Content-Length: 48
+    
+    {"replicas":["Replica[localhost:15088:/tmp/1]"]}
 ### Other
 #### Not Modified
 GET of blob content supports the "If-Modified-Since" header and returns `304 Not_Modified` if the blob has not been modified since the time specified
@@ -149,6 +161,7 @@ This API gets the blob properties of the blob represented by the supplied blob I
 | Request Header | Type       | Required? | Description                         |
 |----------------|------------|-----------|-------------------------------------|
 | Range          | byte range | No        | The byte range requested (See the GET section for details) |
+| x-ambry-get-option | String | No | See [[options|Rest-API#get-options]].|
 #### Returns
 The blob properties of the blob as response headers.
 ##### _Success response_
@@ -228,6 +241,15 @@ None
 
     GOOD
 ***
+#### Get Options
+| Option| Description |
+| --- | --- |
+| None | No special options (default) |
+| Include_Deleted_Blobs | Returns the data of the blob even if it has been deleted (see note) |
+| Include_Expired_Blobs | Returns the data of the blob even if it has expired (see note) |
+| Include_All | Returns the data of the blob even if it has been deleted or has expired (see note) |
+
+Note: Deleted or expired blobs may have been cleaned up by the storage due to hard delete or compaction and the data may no longer be available. These options return the blob *if* it is still exists on the storage server.
 #### Standard Error Codes
 | Status Code | Description |
 | --- | --- |
