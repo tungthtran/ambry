@@ -1,4 +1,4 @@
-At a high level, Ambry supports POST, GET, DELETE and HEAD. This document describes all the APIs related to blob operations in detail.
+At a high level, Ambry supports POST, GET, DELETE and HEAD. This document describes all the APIs related to blob operations and health check in detail.
 ***
 ### POST
 #### Description
