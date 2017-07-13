@@ -3,7 +3,6 @@
   * [Quick Start](Quick%20Start)
 * API
   * [Rest API](Rest%20API)
-  * [Admin API](Admin%20API)
 * Configuration
   * [Server Configuration](Server%20Configuration)
   * [Frontend Configuration](Frontend%20Configuration)
