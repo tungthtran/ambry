@@ -3,6 +3,7 @@
   * [Quick Start](Quick%20Start)
 * API
   * [Rest API](Rest%20API)
+  * [Cluster Operations API](Cluster-Operations-API)
 * Configuration
   * [Server Configuration](Server%20Configuration)
   * [Frontend Configuration](Frontend%20Configuration)
