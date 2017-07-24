@@ -2,11 +2,11 @@ These are the most common operational task that need to be performed on Ambry.
 
 ### Add Partition
 
-    java com.github.ambry.tools.admin.PartitionManager --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType AddPartition --numberOfPartitionsToAdd 100 --numberOfReplicasPerDatacenter 3 --replicaCapacityInBytes 107374182400
+    java com.github.ambry.clustermap.PartitionManager --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType AddPartition --numberOfPartitionsToAdd 100 --numberOfReplicasPerDatacenter 3 --replicaCapacityInBytes 107374182400
 
 ### Add Replicas
 
-    java com.github.ambry.tools.admin.PartitionManager --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType AddReplicas --partitionIdToAddReplicasTo 2 --numberOfReplicasPerDatacenter 3 --replicaCapacityInBytes 107374182400
+    java com.github.ambry.clustermap.PartitionManager --hardwareLayoutPath config/HardwareLayout.json --partitionLayoutPath config/PartitionLayout.json --operationType AddReplicas --partitionIdToAddReplicasTo 2 --numberOfReplicasPerDatacenter 3 --replicaCapacityInBytes 107374182400
 
 ### Add Nodes
 
