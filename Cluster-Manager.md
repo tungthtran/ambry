@@ -1,9 +1,8 @@
-The clustermap controls the topology, maintains resource states and helps coordinate cluster operations. There are two parts to the cluster map: 
+The clustermap controls the topology, maintains resource states and helps coordinate cluster operations. Cluster management used to be static in earlier versions of Ambry. Ambry now makes use of dynamic cluster management using [Helix](http://helix.apache.org). Both ambry frontends and ambry servers run the Helix cluster manager agent which allows for the following among other things:
 
-1. A **hardware layout** that contains the list of machines, disks in each of the machines and capacity of each of the disks. The layout also maintains the state of the resources (machines and disk) and specifies the hostname and ports (plain and SSL) that can be used to connect to the server.
+1. Dynamic detection of node and disk failures which helps ensure that requests are not routed to partitions hosted on failed resources.
+2. Dynamic addition and removal of resources.
 
-1. A **partition layout** that contains the list of partitions, their placement information and their states. A partition in Ambry is a logical slice of the cluster. Typically, a partition has a numeric ID, a list of replicas that can span cross data center and a state that indicates if it is available for writes. Partitions are fixed size resources and any data rebalancing across the cluster happens at the partition level.
+Helix based cluster management also allows us to introduce features that require coordination among nodes, such as more control over replication, dynamic reallocation of resources and self healing, etc. 
 
-The storage servers and the frontend servers have access to the clustermap and use their current view at all times to make decisions such as choosing an available machine, filtering down replicas and identifying location of an object.
-
-[[images/topology.png]]
+Helix based cluster management design is discussed in detail [here](https://docs.google.com/document/d/1gMweKKzpgcGciXzhNpjI3gf9973QhkZoYA6YkUhaFvU/edit?usp=sharing).
