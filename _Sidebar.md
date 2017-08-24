@@ -20,6 +20,7 @@
   * [Storage Format](Storage%20Format)
   * [Message Format](Message%20Format)
   * [Replication Files and Format](Replication%20Files%20and%20Format)
+  * [Compaction](Compaction)
 * Operations
   * [Basic Operations](Basic%20Operations)
   * [Hardware and OS](Hardware%20and%20OS)
