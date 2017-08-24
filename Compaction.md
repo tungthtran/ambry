@@ -38,7 +38,7 @@ There are a few possible side effects of compaction (not exhaustive):
 2. **Replication will be reset**: Current implementation resets the replication tokens of all the peers (i.e. remote replicas start from 0, the local maintains its position in all remotes). This means that there will be an increase in `ReplicaMetadata` requests in the cluster without any exchange of data.
 3. **Expired blobs will turn into `Not_Found`**: Blobs that were expired and were cleaned up become `Not_Found`. `Not_Found` has a specific connotation for Ambry since frontends will query all replicas until they all report `Not_Found`, or one of them reports `Deleted`/`Expired` or serves the blob. If clients are querying expired blobs often, then this will have a direct impact on the number of requests in the cluster and client latency.
 # Resources
-This wiki introduces and describes compaction, pre-requisites, configs, enabling and how compaction can affect the service. For more details on the design and actual implementation, please refer to the following resources
+This wiki introduces and describes compaction, pre-requisites, configs, enabling and how compaction can affect the service. For more details on the design and actual implementation, please refer to the following resources:
 * [Log segmentation design](https://docs.google.com/document/d/1tTttYKoMQlHsdUWDt3VJ_rUxPWKipcWhhHFFXg-QleY/edit?usp=sharing)
 * [Compaction design](https://docs.google.com/document/d/1RRqTO2htAkPHgaubLrXWIw6SoViWMDTXtZdNLW55gU0/edit?usp=sharing)
 * [BlobStoreCompactor implementation](https://github.com/linkedin/ambry/blob/master/ambry-store/src/main/java/com.github.ambry.store/BlobStoreCompactor.java)
