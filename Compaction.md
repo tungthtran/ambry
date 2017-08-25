@@ -29,7 +29,9 @@ The next two configs may be used by `CompactionPolicy` implementations:
 * **`store.min.log.segment.count.to.reclaim.to.trigger.compaction`**: The number of log segments that have to be reclaimed on a compaction run for the compaction to be considered viable. This is used by policies that can glean this information (`StatsBasedCompactionPolicy`) but not by ones that cannot (`CompactAllPolicy`).
 # Enabling Compaction
 Compaction is enabled by simply setting valid triggers (comma separated) for the config **`store.compaction.triggers`**. All the other configs have been set to sensible defaults that can be changed based on requirements.
+
 If the "Periodic" trigger has been enabled, eligibility for compaction of every store will checked on startup and every `store.compaction.check.frequency.in.hours` hours.
+
 If the "Admin" trigger has been enabled, admin requests for compaction of partitions will be processed and the relevant `BlobStore` will be checked for compaction eligibility. To make these requests, the [`ServerAdminTool`](https://github.com/linkedin/ambry/blob/master/ambry-tools/src/main/java/com.github.ambry/tools/admin/ServerAdminTool.java)
  can be used.
 # Effects of Compaction
