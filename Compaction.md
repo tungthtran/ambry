@@ -24,7 +24,7 @@ There are currently two implementations of `CompactionPolicy`
 * **`store.compaction.check.frequency.in.hours`**: If the "Periodic" trigger is enabled, this config determines how often the `BlobStore` is checked for eligibility to compact.
 * **`store.compaction.policy.factory`**: The [`CompactionPolicyFactory`](https://github.com/linkedin/ambry/blob/master/ambry-store/src/main/java/com.github.ambry.store/CompactionPolicyFactory.java) implementation to use as a gatekeeper for determining whether a trigger results in an actual compaction.
 
-The next two configs may be used by `CompactionPolicy` implementations:
+The following configs may be used by `CompactionPolicy` implementations:
 * **`store.min.used.capacity.to.trigger.compaction.in.percentage`**: The minimum fill level of the `BlobStore` for it to be eligible to run compaction. 
 * **`store.min.log.segment.count.to.reclaim.to.trigger.compaction`**: The number of log segments that have to be reclaimed on a compaction run for the compaction to be considered viable. This is used by policies that can glean this information (`StatsBasedCompactionPolicy`) but not by ones that cannot (`CompactAllPolicy`).
 # Enabling Compaction
