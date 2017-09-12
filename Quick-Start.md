@@ -13,7 +13,7 @@ Ambry uses files that provide information about the cluster to route requests fr
 Through this command, we configure the log4j properties, provide the server with configuration options and cluster definitions and redirect output to a log. Note down the process ID returned (`serverProcessID`) because it will be needed for shutdown.  
 The log will be available at `logs/server.log`. Alternately, you can change the log4j properties to write the log messages to a file instead of standard output.
 ##### Step 3: Deploy a frontend.
-    $ nohup java -Dlog4j.configuration=file:../config/log4j.properties -cp "*" com.github.ambry.frontend.AmbryFrontendMain --serverPropsFilePath ../config/frontend.properties --hardwareLayoutFilePath ../config/HardwareLayout.json --partitionLayoutFilePath ../config/PartitionLayout.json > logs/frontend.log &
+    $ nohup java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.frontend.AmbryFrontendMain --serverPropsFilePath ../config/frontend.properties --hardwareLayoutFilePath ../config/HardwareLayout.json --partitionLayoutFilePath ../config/PartitionLayout.json > logs/frontend.log &
 
 Note down the process ID returned (`frontendProcessID`) because it will be needed for shutdown. Make sure that the frontend is ready to receive requests.
 
