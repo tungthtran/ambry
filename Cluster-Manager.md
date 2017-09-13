@@ -102,7 +102,7 @@ java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.git
 cd <path_to_helix>/helix/helix-core/target/helix-core-pkg/bin
 ./run-helix-controller.sh --zkSvr localhost:2199 --cluster Ambry-Proto
 ./run-helix-controller.sh --zkSvr localhost:2300 --cluster Ambry-Proto
-
+```
 * Create directories for the disk mount paths if they do not exist:
 ```
 mkdir -p /tmp/{a,b,c}/{0,1,2}
