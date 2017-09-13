@@ -37,7 +37,7 @@ The following are the newly applicable configs (unless specified otherwise, thes
 * * Static cluster manager (deprecated)
 * * Composite cluster manager: a cluster manager that instantiates other kinds of cluster managers such as the static and the helix ones, and internally relays information to both. This is useful for debugging and migration.
 
-**** ``clustermap.dcs.zk.connect.strings`` ****:this should be a serialized json containing the information about all the zk hosts that the Helix based cluster manager should be aware of. This information should be of the following form:
+****``clustermap.dcs.zk.connect.strings``****:this should be a serialized json containing the information about all the zk hosts that the Helix based cluster manager should be aware of. This information should be of the following form:
 {
    "zkInfo" : [
      {
