@@ -5,14 +5,14 @@ Previously, with the static cluster management, the cluster layout was kept in t
 * HardwareLayout.json which contained information about data centers, nodes, disks and their capacities;
 * PartitionLayout.json which contained information about the partitions, replicas, their locations and their capacities.
 
-The static cluster manager reads and interprets these files once - at startup - and the loaded in-memory information never changes during the lifetime of the ambry-frontend or the ambry-server processes. This means that any change including new host and partition additions, replica to host associations, partition’s sealed state, etc. requires updating these files, deploying them to the nodes and then restarting the ambry process on those nodes. Failure detection is the only dynamic aspect of the static cluster manager.
+The static cluster manager reads and interprets these files once - at startup - and the loaded in-memory information never changes during the lifetime of the ambry-frontend or the ambry-server processes. This means that any change including new host and partition additions, replica to host associations, updates to partitions’ sealed states, etc. requires updating these files, deploying them to the nodes and then restarting the ambry process on those nodes. Failure detection is the only dynamic aspect of the static cluster manager.
 
 With the dynamic cluster manager backed by Helix, we get the following:
 * A fault-tolerant centralized location for cluster information that is accessible to all nodes of the cluster.
 * Ability for a node to dynamically update its state and other information.
 * Ability for all nodes to dynamically receive updates to the cluster information made by other nodes voluntarily (when they update a replica’s sealed state, say) or involuntarily (when the node goes down).
 
-A detailed design can be found here (@todo).
+A detailed design can be found [here](https://docs.google.com/document/d/1gMweKKzpgcGciXzhNpjI3gf9973QhkZoYA6YkUhaFvU/).
 
 The Helix based dynamic cluster manager improves things by allowing for the following among other things:
 * Dynamic failure detection: Ambry uses a combination of the old logic (where failures are detected based on failed responses to requests) and callbacks from Helix for instantly detecting when nodes are down or up.
