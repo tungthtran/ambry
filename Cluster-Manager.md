@@ -33,11 +33,12 @@ As described in the design document:
 The following are the newly applicable configs (unless specified otherwise, these apply to both frontends and servers):
 
 ****``clustermap.cluster.agents.factory``****: this specifies what kind of cluster manager is to be used. There are three possibilities currently:
-* * Helix cluster manager (default)
-* * Static cluster manager (deprecated)
-* * Composite cluster manager: a cluster manager that instantiates other kinds of cluster managers such as the static and the helix ones, and internally relays information to both. This is useful for debugging and migration.
+* Helix cluster manager (default)
+* Static cluster manager (deprecated)
+* Composite cluster manager: a cluster manager that instantiates other kinds of cluster managers such as the static and the helix ones, and internally relays information to both. This is useful for debugging and migration.
 
 ****``clustermap.dcs.zk.connect.strings``****:this should be a serialized json containing the information about all the zk hosts that the Helix based cluster manager should be aware of. This information should be of the following form:
+```
 {
    "zkInfo" : [
      {
@@ -50,7 +51,7 @@ The following are the newly applicable configs (unless specified otherwise, thes
      }
    ]
 }
-
+```
 ****``clustermap.cluster.name``****: the name of the Ambry cluster. This will be used to identify the ZK root node. The root node will be prefixed with “Ambry-” followed by the Ambry cluster name.
 
 ****``clustermap.datacenter.name``****: the datacenter in which the given node resides.
@@ -63,9 +64,11 @@ The following are the newly applicable configs (unless specified otherwise, thes
 In order to migrate from the static cluster manager to Helix, the following has to be done.
 
 * Get the ZK endpoints for each cluster.
-* Run the Helix bootstrap and upgrade tool that takes as inputs the ZK end points froma file in json format and the static cluster map files and maps the information in the ZK services. There are example files in the config directory and below is a sample run (run from the target directory). Help on the tool’s arguments can be obtained by running it without any arguments:
+* Run the Helix bootstrap and upgrade tool that takes as inputs the ZK end points from a file in json format and the static cluster map files and maps the information in the ZK services. There are example files in the config directory and below is a sample run (run from the target directory). Help on the tool’s arguments can be obtained by running it without any arguments:
 
+```
 java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.clustermap.HelixBootstrapUpgradeTool --hardwareLayoutPath ../config/HardwareLayoutHelix.json --partitionLayoutPath ../config/PartitionLayoutHelix.json --clusterNamePrefix Ambry- --maxPartitionsInOneResource 3 --zkLayoutPath ../config/zkLayout.json
+```
 
 When run successfully, the tool will print that it was able to successfully verify the populated information.
       
@@ -74,7 +77,7 @@ When run successfully, the tool will print that it was able to successfully veri
 * Ensure that the rest of the configs - ``ambry.cluster.name``, ``clustermap.datacenter.name``, ``clustermap.host.name``, ``clustermap.port`` - have the appropriate values. (The port number for frontends can be the port at which they run, it is only used for forming unique name when registering as a spectator).
 
 # Setting up Dev environment for Helix cluster manager
-The config directory has sample files to set up local ZK services, Helix controller, ambry servers and frontends to test Helix cluster manager. The sample layout consists of:
+The config directory has sample files to set up local ZK services, Helix controller, ambry servers and frontends to test Helix cluster manager. The sample cluster is named "Ambry-Proto" and the layout consists of:
 * 2 datacenters.
 * 3 ambry server in either datacenter.
 * 3 disks in each ambry server.
@@ -83,20 +86,35 @@ The config directory has sample files to set up local ZK services, Helix control
 To get everything running with the Helix cluster manager, do the following:
 
 * Get Helix (if not done already) from http://helix.apache.org and follow the instructions (this will also bring in ZK). Then start ZK services (one for each DC at the port specified in the configs) as follows:
+```
 cd <path_to_helix>/helix/helix-core/target/helix-core-pkg/bin
 ./start-standalone-zookeeper.sh 2300 &
 ./start-standalone-zookeeper.sh 2199 &
+```
 
 * Run the bootstrap tool to map the static layout information in Helix.
+```
+cd <path_to_ambry>/target
 java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.clustermap.HelixBootstrapUpgradeTool --hardwareLayoutPath ../config/HardwareLayoutHelix.json --partitionLayoutPath ../config/PartitionLayoutHelix.json --clusterNamePrefix Ambry- --maxPartitionsInOneResource 3 --zkLayoutPath ../config/zkLayout.json
-* Create directories for the mount paths if they do not exist:
+```
+* Run the Helix controller in each datacenter for the cluster that was created.
+```
+cd <path_to_helix>/helix/helix-core/target/helix-core-pkg/bin
+./run-helix-controller.sh --zkSvr localhost:2199 --cluster Ambry-Proto
+./run-helix-controller.sh --zkSvr localhost:2300 --cluster Ambry-Proto
+
+* Create directories for the disk mount paths if they do not exist:
+```
 mkdir -p /tmp/{a,b,c}/{0,1,2}
-* cd <path_to_ambry>/target
+```
 * Start up ambry servers - all 6 of them (repeat the following for servers 2 to 6):
+```
+cd <path_to_ambry>/target
 java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.server.AmbryMain --serverPropsFilePath ../config/server1_helix.properties --hardwareLayoutFilePath ../config/HardwareLayoutHelix.json --partitionLayoutFilePath ../config/PartitionLayoutHelix.json
+```
 * Start a frontend:
+```
 java -Dlog4j.configuration=file:../config/log4j.properties -cp ambry.jar com.github.ambry.frontend.AmbryFrontendMain --serverPropsFilePath ../config/frontend_helix.properties --hardwareLayoutFilePath ../config/HardwareLayoutHelix.json --partitionLayoutFilePath ../config/PartitionLayoutHelix.json
+```
 
 This sets up an Ambry cluster that uses Helix cluster manager. Server nodes can be brought down and up, and the log messages in the other nodes will show that node failures are detected.
-
-
