@@ -20,7 +20,7 @@ The Helix based dynamic cluster manager improves things by allowing for the foll
 * Dynamic updates to sealed states of partitions and replicas: Nodes can now dynamically update the sealed states of replicas.
 * Sets Ambry up for future features such as dynamic rebalancing.
 
-# Configs and Layout
+# Components and Layout
 Helix based cluster management requires the following in each datacenter of the cluster:
 * A ZooKeeper endpoint.
 * A Helix controller.
