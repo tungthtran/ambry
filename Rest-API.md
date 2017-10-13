@@ -265,4 +265,4 @@ Note: Deleted or expired blobs may have been cleaned up by the storage due to ha
 | Response Header | Type | Description |
 | --- | --- | --- |
 | x-ambry-failure-reason | String | If the status code was `400`, contains the reason|
- 
+| x-ambry-error-code | String | On 4xx status codes, this contains the RestServiceErrorCode associated with the error |
