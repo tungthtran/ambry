@@ -16,7 +16,8 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
 | x-ambry-private | Boolean | No | Makes the blob private if set to `true`. Defaults to `false` (blob is public) |
 | x-ambry-owner-id | String | No | The owner of the blob. |
 | x-ambry-um- | String | No |User metadata headers prefix. Any number of headers with this prefix are allowed. |
-The actual content of the blob is to be sent in the body as a stream of bytes (without any encoding) whose size is equal to the value in `x-ambry-blob-size`. 
+
+The actual content of the blob is to be sent in the body as a stream of bytes (without any encoding). 
 #### Returns
 The location of the created blob on success.
 ##### _Success response_
