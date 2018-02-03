@@ -7,9 +7,11 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
     POST /
 | Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
-| x-ambry-blob-size | Long | Yes | The size of the blob being uploaded |
+| x-ambry-target-account-name | String | Yes | The account to which the blob belongs |
+| x-ambry-targer-container-name | String | Yes | The container within the account to which the blob belongs|
 | x-ambry-service-id | String | Yes | The ID of the service that is uploading the blob |
 | x-ambry-content-type | String | Yes | The type of content in the blob |
+| x-ambry-blob-size | Long | No | The size of the blob being uploaded |
 | x-ambry-ttl | Long | No | The time in seconds for which the blob is valid. Defaults to -1 (infinite validity) |
 | x-ambry-private | Boolean | No | Makes the blob private if set to `true`. Defaults to `false` (blob is public) |
 | x-ambry-owner-id | String | No | The owner of the blob. |
@@ -76,9 +78,12 @@ The response headers will contain the user metadata that was uploaded (if any) a
 
 | Response Header | Type | Description |
 | --- | --- | --- |
+| x-ambry-target-account-name | String | The account to which the blob belongs |
+| x-ambry-targer-container-name | String | The container within the account to which the blob belongs |
 | x-ambry-blob-size | Long | The size of the blob |
 | x-ambry-service-id | String | The ID of the service that uploaded the blob |
 | x-ambry-content-type | String | The type of content in the blob |
+| x-ambry-encrypted-in-storage | Boolean | `true` if the blob is encrypted at rest. `false` otherwise |
 | x-ambry-private | Boolean | `true` if the blob is private. `false` if the blob is public |
 | x-ambry-creation-time | Long | The time at which the blob was created |
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
@@ -118,6 +123,8 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:38:47 GMT
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
+    x-ambry-target-account-name : API-Demo
+    x-ambry-targer-container-name : Demo
     x-ambry-blob-size: 2000
     x-ambry-service-id: API-Demo
     x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
@@ -164,9 +171,12 @@ A successful response is indicated by the status code `200 OK`, or `206 Partial 
 
 | Response Header | Type | Description |
 | --- | --- | --- |
+| x-ambry-target-account-name | String | The account to which the blob belongs |
+| x-ambry-targer-container-name | String | The container within the account to which the blob belongs |
 | x-ambry-blob-size | Long | The size of the blob |
 | x-ambry-service-id | String | The ID of the service that uploaded the blob |
 | x-ambry-content-type | String | The type of content in the blob |
+| x-ambry-encrypted-in-storage | Boolean | `true` if the blob is encrypted at rest. `false` otherwise |
 | x-ambry-private | Boolean | `true` if the blob is private. `false` if the blob is public |
 | x-ambry-creation-time | Long | The time at which the blob was created |
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
@@ -181,6 +191,8 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Accept-Ranges: bytes
     Content-Length: 2000
     Content-Type: image/gif
+    x-ambry-target-account-name : API-Demo
+    x-ambry-targer-container-name : Demo
     x-ambry-blob-size: 2000
     x-ambry-service-id: API-Demo
     x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
@@ -195,6 +207,8 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Content-Range: bytes 25-700/2000
     Content-Length: 676
     Content-Type: image/gif
+    x-ambry-target-account-name : API-Demo
+    x-ambry-targer-container-name : Demo
     x-ambry-blob-size: 2000
     x-ambry-service-id: API-Demo
     x-ambry-creation-time: Sun, 01 May 2016 05:35:21 GMT
