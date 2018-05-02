@@ -8,7 +8,7 @@ This API uploads a blob to Ambry. The call should also include some necessary bl
 | Request Header | Type | Required? | Description |
 | --- | --- | --- | --- |
 | x-ambry-target-account-name | String | Yes | The account to which the blob belongs |
-| x-ambry-targer-container-name | String | Yes | The container within the account to which the blob belongs|
+| x-ambry-target-container-name | String | Yes | The container within the account to which the blob belongs|
 | x-ambry-service-id | String | Yes | The ID of the service that is uploading the blob |
 | x-ambry-content-type | String | Yes | The type of content in the blob |
 | x-ambry-blob-size | Long | No | The size of the blob being uploaded |
