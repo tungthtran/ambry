@@ -12,7 +12,7 @@ The recovery of the store is done by scanning the log from the last known checkp
 The store also has the following optimizations - 
 
 **Zero copy for gets**
-The store is designed to read the log and directly transfer the bytes to the socket during gets. This ensures that we could push bytes to the socket with lesser system calls as well as reduce the memory footprint for the java heap. This speeds up the read request and helps in the total end to end latency.
+The store is designed to read the log and directly transfer the bytes to the socket during gets. This ensures that we could push bytes to the socket with fewer system calls as well as reduce the memory footprint for the java heap. This speeds up the read request and helps in the total end to end latency.
 
 **Maximum page cache usage**
 The store is designed to use as minimal memory as possible. This helps to maximize the page cache size. Some of the things we do to maximize the page cache size are
