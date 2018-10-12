@@ -21,7 +21,7 @@ Although these components interact very closely, they are very modular in the se
 
 [[images/image2015-11-19 16_32_53.png]]
 
-####Component Description
+#### Component Description
 
 The following sections describe the parts that make up each of these components along with a brief explanation of where they fit in.
 
@@ -41,13 +41,13 @@ _RestResponseChannel_
 
 This interface, implemented by the NIO layer, provides a way for the remote service and scaling layers to return processed responses to the client. The APIs it provides deal with bytes only and thus it is agnostic to the kind of the data being returned. It is the responsibility of NIO layer to encode the data into HTTP and send it over the network to the client. 
 
-####Remote Service Layer
+#### Remote Service Layer
 
 This layer mainly interacts with the remote service library by calling the right APIs but is also responsible for doing any pre processing (like ID transformations, anti virus checks etc) before making those calls. One instance of a single RemoteService is started by the RestServer. 
 
 In Ambry, this layer is usually singleton and stateless i.e it does not maintain state or context about the requests flowing through it. It is also responsible for pre-processing responses since responses arrive as callbacks from the Router library. Pre-processing usually involves setting response headers - the actual bytes are streamed out in the RestResponseHandler.
 
-####Scaling Layer
+#### Scaling Layer
 
 This layer is the core of the non-blocking front end. It enforces the non-blocking paradigm and acts as a conduit for data flowing between the remote service layer and the NIO layer. The framework consists of: -
 
@@ -65,7 +65,7 @@ AsyncRequestResponseHandler is an implementation of both RestRequestHandler and 
 
 The scaling units are CPU bound and perform all the CPU bound tasks.
 
-####NIO Layer
+#### NIO Layer
 
 The NIO layer is responsible for all network related operations including encoding/decoding HTTP. On the receiving side, the NIO framework is expected to provide a way to listen on a certain port for requests from clients, accept them, decode the HTTP data received and handoff this data to the scaling framework in a NIO framework agnostic format (RestRequest and RestResponseChannel). On the sending side, the NIO layer is expected to provide an implementation of RestResponseChannel to return processed responses back to the client.
 
@@ -74,7 +74,7 @@ The NIO layer also needs to maintain some state. For the layer as a whole, it ne
 * The RestRequest that it is currently processing (required state per request) - This is required per request if content is expected since content will have to be added to the RestRequest.
 * The RestResponseChannel (required state per request) - This has to be maintained per request since the RestResponseChannel has to be informed of any errors during NIO layer processing. 
 
-####Component Interaction
+#### Component Interaction
 
 The following sections describe how components interact with each other to execute operations.
 Operation Execution
