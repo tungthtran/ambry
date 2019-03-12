@@ -1,5 +1,5 @@
 # Description
-Ambry is a handle store that supports the storage of small and large objects. Two of the main features of Ambry include support for blob deletion and blob expiration (TTL). Over time, Ambry could accumulate a lot of “dead” objects and tombstones and this provides an opportunity for recovering the resources spent on these “dead” objects. 
+Ambry is a handle store that supports the storage of small and large objects. Two of the main features of Ambry include support for blob deletion and blob expiration (TTL). Over time, Ambry could accumulate a lot of “dead” objects and tombstones and this provides an opportunity to recover resources spent on these “dead” objects. 
 # Brief Introduction
 Compaction is a store-local operation i.e. each replica of a partition (or in implementation parlance, a [`BlobStore`](https://github.com/linkedin/ambry/blob/master/ambry-store/src/main/java/com.github.ambry.store/BlobStore.java)) runs compaction independently of all other replicas of the same partition and other partitions in the node and across the cluster. This means that there is no coordination of when data will be compacted and each `BlobStore` runs compaction when it is ready and able.
 
