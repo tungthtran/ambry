@@ -235,6 +235,44 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     Date: Sun, 01 May 2016 05:44:04 GMT
     Content-Length: 0
 ***
+### UpdateTtl(PUT)
+#### Description
+This API removes a blob's TTL and makes it permanent. 
+#### API
+    PUT /updateTtl
+
+| Request Header | Type | Required? | Description |
+| --- | --- | --- | --- |
+| x-ambry-blob-id | String | Yes | The blob id |
+#### Returns
+##### _Sucess response_
+Success is indicated by the status code `200 OK`. One blob can't be updateTtl-ed more than once.
+##### _Failure response_
+See [[standard error codes|Rest-API#standard-error-codes]]. 
+#### Sample Response
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:44:04 GMT
+    Content-Length: 0
+***
+### Undelete(PUT)
+#### Description
+This API undeletes a deleted blob represented by the supplied blob ID.
+#### API
+    PUT /undelete
+
+| Request Header | Type | Required? | Description |
+| --- | --- | --- | --- |
+| x-ambry-blob-id | String | Yes | The blob id |
+#### Returns
+##### _Sucess response_
+Success is indicated by the status code `200 OK`. 
+##### _Failure response_
+See [[standard error codes|Rest-API#standard-error-codes]]. 
+#### Sample Response
+    HTTP/1.1 200 OK
+    Date: Sun, 01 May 2016 05:44:04 GMT
+    Content-Length: 0
+***
 ### Health Check
 #### Description
 This API can be used to check the status of the frontend. Status here refers to the frontend's ability to answer requests.
