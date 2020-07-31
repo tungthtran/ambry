@@ -256,7 +256,7 @@ See [[standard error codes|Rest-API#standard-error-codes]].
 ***
 ### Undelete(PUT)
 #### Description
-This API undeletes a deleted blob represented by the supplied blob ID.
+This API undeletes a deleted blob represented by the supplied blob ID. Undelete is considered as an administrative operation, that shouldn't be used as client API. This document just shows the HTTP interface of Undelete operation.
 #### API
     PUT /undelete
 
