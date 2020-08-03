@@ -12,7 +12,7 @@ The list of message records are -
      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
      version         - The version of the message header
      
-     life version    - The life version of the message header (explained in [[Undelete|#Undelete]])
+     life version    - The life version of the message header (explained in [Undelete](#Undelete))
 
      payload size    - The size of the message payload.
                        (Blob prop record size or delete record size) + user metadata size + blob size
