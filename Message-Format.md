@@ -4,14 +4,16 @@ The list of message records are -
 
 ### Message Header Record
 
-     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    |         |                 |                 |                 |                 |                 |            |
-    | version |  payload size   | Blob Property   |     Delete      |  User Metadata  |      Blob       |    Crc     |
-    |(2 bytes)|   (8 bytes)     | Relative Offset | Relative Offset | Relative Offset | Relative Offset |  (8 bytes) |
-    |         |                 |   (4 bytes)     |   (4 bytes)     |   (4 bytes)     |   (4 bytes)     |            |
-     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |         |           |                |                 |                 |                 |                 |            |
+    | version |  life     | payload size   | Blob Property   |     Delete      |  User Metadata  |      Blob       |    Crc     |
+    |(2 bytes)|  version  |  (8 bytes)     | Relative Offset | Relative Offset | Relative Offset | Relative Offset |  (8 bytes) |
+    |         | (2 bytes) |                |   (4 bytes)     |   (4 bytes)     |   (4 bytes)     |   (4 bytes)     |            |
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
      version         - The version of the message header
      
+     life version    - The life version of the message header
+
      payload size    - The size of the message payload.
                        (Blob prop record size or delete record size) + user metadata size + blob size
      
