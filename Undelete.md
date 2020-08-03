@@ -77,6 +77,9 @@ When compaction is triggered on a replica, it iterate through all the messages i
     | ---------------------------------------------------------------------------------------
 
 # Configuration
+* **`store.compaction.filter`**: The filter to use to get valid entries for compactor. By default, it uses the filter that ignore UNDELETE message, to enable undelete, use `IndexSegmentValidEntryFilterWithUndelete`.
+* **`server.handle.undelete.request.enabled`**: Set it true to enable ambry server to handle undelete requests from frontends.
+* **`frontend.enable.undelete`**: Set it true to enable ambry frontend to handle undelete requests from clients.
 # Resources
 This wiki introduces and describes how the new undelete operation affects replication and compaction. For more details on the design and actual implementation, please refer to the following resources:
 * [Undelete design](https://docs.google.com/document/d/1uOUzuu70Akgmlr_J-g3ScO4E7gA8mxnjn868wZ_iS_0/edit?usp=sharing)
