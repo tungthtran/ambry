@@ -53,7 +53,30 @@ and the remote states are
 Replication has to apply a DELETE message with lifeVersion 1 to local blob store, and local states will be the same as the remote state.
 
 # Compaction
+The basic compaction logic will not change. Compaction would still compact blobs that are expired and deleted out of retention duration. However, since DELETE is no longer the final message of a blob, compaction changes its approach of finding invalid blobs.
 
+When compaction is triggered on a replica, it iterate through all the messages in under-compacted logs. For each message, it finds the final state of this blob and determine if current message should be compacted or not. For example, if current message is UNDELETE(1) and the final state of this blob is DELETE(2), then current messages should be compacted. The compaction rule is described in the table below.
+
+    | Current IndexValue  | Latest IndexValue | Is Valid                                     |
+    | --------------------+-------------------+----------------------------------------------|
+    | Put(verion c)       | Put(version f)    | isExpired(Pc)?false:true                     |
+    |                     | Delete(f)         | reachRetention(Df)||isExpired(Df)?false:true |
+    |                     | Undelete(f)       | isExpired(Uf)?false:true                     |
+    | --------------------+-------------------+----------------------------------------------|
+    | TtlUpdate(c)        | Put(f)            | Exception                                    |
+    |                     | Delete(f)         | reachRetention(Df)?false:true                |
+    |                     | Undelete(f)       | true                                         |
+    | --------------------+-------------------+----------------------------------------------|
+    | Delete(c)           | Put(f)            | Exception                                    |
+    |                     | Delete(f)         | c==f?true:false                              |
+    |                     | Undelete(f)       | false                                        |
+    | --------------------+-------------------+----------------------------------------------|
+    | Undelete(c)         | Put(f)            | Exception                                    |
+    |                     | Delete(f)         | false                                        |
+    |                     | Undelete(f)       | c==f&&!isExpired(Uf)?true:false              |
+    | ---------------------------------------------------------------------------------------
+
+# Configuration
 # Resources
 This wiki introduces and describes how the new undelete operation affects replication and compaction. For more details on the design and actual implementation, please refer to the following resources:
 * [Undelete design](https://docs.google.com/document/d/1uOUzuu70Akgmlr_J-g3ScO4E7gA8mxnjn868wZ_iS_0/edit?usp=sharing)
