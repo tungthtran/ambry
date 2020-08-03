@@ -56,5 +56,5 @@ Replication has to apply a DELETE message with lifeVersion 1 to local blob store
 
 # Resources
 This wiki introduces and describes how the new undelete operation affects replication and compaction. For more details on the design and actual implementation, please refer to the following resources:
-* [Undelete design] (https://docs.google.com/document/d/1uOUzuu70Akgmlr_J-g3ScO4E7gA8mxnjn868wZ_iS_0/edit?usp=sharing)
-* [Undelete implementation] (https://docs.google.com/document/d/1rm6NBOUeZRMbuF26116lerytiW3tde38I23cZVr3SG0/edit?usp=sharing)
+* [Undelete design](https://docs.google.com/document/d/1uOUzuu70Akgmlr_J-g3ScO4E7gA8mxnjn868wZ_iS_0/edit?usp=sharing)
+* [Undelete implementation](https://docs.google.com/document/d/1rm6NBOUeZRMbuF26116lerytiW3tde38I23cZVr3SG0/edit?usp=sharing)
