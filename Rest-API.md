@@ -69,11 +69,13 @@ In the case of a partial content response, the following response header will be
 ###### Without sub-resources
 The body of the response will contain the content of the blob.
 ###### UserMetadata
-The response headers will contain the user metadata that was uploaded (if any).
+The response headers will contain the user metadata that was uploaded (if any).  Any user metadata value that requires URL-encoding (e.g. it contain newline chars) will have a special header prefix, and the requesting client will need to perform URL-decoding to obtain the original value.
 
 | Response Header | Type | Description |
 | --- | --- | --- |
 | x-ambry-um- | String | Zero or more headers with this prefix that represent user metadata |
+| x-ambry-enc-um- | String | Zero or more headers with this prefix that represent user metadata with encoded values |
+
 ###### BlobInfo
 The response headers will contain the user metadata that was uploaded (if any) and the properties of the blob.
 
@@ -90,6 +92,7 @@ The response headers will contain the user metadata that was uploaded (if any) a
 | x-ambry-ttl (if supplied at upload)| Long | The time in seconds for which the blob is valid from its creation time |
 | x-ambry-owner-id (if supplied at upload) | String | The owner of the blob. |
 | x-ambry-um- (if supplied at upload) | String | Zero or more headers with this prefix that represent user metadata |
+| x-ambry-enc-um- | String | Zero or more headers with this prefix that represent user metadata with encoded values. |
 ###### Replicas
 The body of the response will contain a JSON listing all the replicas that contain the blob
 ##### _Failure response_
@@ -133,12 +136,14 @@ See [[standard error codes|Rest-API#standard-error-codes]].
     x-ambry-content-type: image/gif
     x-ambry-owner-id: demo-user
     x-ambry-um-description: Demonstration Image
+    x-ambry-um-filename: Eiffel%0DTower
     Content-Length: 0
 ###### UserMetadata
     HTTP/1.1 200 OK
     Date: Sun, 01 May 2016 05:39:51 GMT
     Last-Modified: Sun, 01 May 2016 05:35:21 GMT
     x-ambry-um-description: Demonstration Image
+    x-ambry-um-filename: Eiffel%0DTower
     Content-Length: 0
 ###### Replicas
     HTTP/1.1 200 OK
