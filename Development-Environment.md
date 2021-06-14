@@ -43,3 +43,28 @@
 * Select the projects you want to import;
 * You should see the projects you have imported.
 * You will need regenerate the projects and refresh eclipse every time there is a change in the projects dependencies. In other words, you need to run ./gradlew eclipse and refresh eclipse.
+
+## Dev MySQL Setup
+For now, some integration tests require manual setup of MySQL. This setup will be automated in the future.
+
+### Mac
+1. Install MySQL. It is easiest to install using homebrew: `brew install mysql`
+   Note that the root user password will be empty by default. Please change it if you wish to expose your local db to the network.
+2. Start MySQL: `mysql.server start`
+2. Set up test user (called "travis" for now):
+```bash
+mysql -e 'CREATE USER 'travis'@'localhost';' -uroot
+mysql -e 'GRANT ALL PRIVILEGES ON * . * TO 'travis'@'localhost';' -uroot
+mysql -e 'FLUSH PRIVILEGES;' -uroot
+```
+3. Set up test databases and tables:
+```bash
+cd /project/directory/for/ambry
+mysql -e 'CREATE DATABASE AccountMetadata;' -uroot
+mysql -e 'USE AccountMetadata; SOURCE ./ambry-account/src/main/resources/AccountSchema.ddl;' -uroot
+mysql -e 'CREATE DATABASE ambry_container_storage_stats;' -uroot
+mysql -e 'USE ambry_container_storage_stats; SOURCE ./ambry-mysql/src/main/resources/AmbryContainerStorageStats.ddl;' -uroot
+mysql -e 'CREATE DATABASE AmbryNamedBlobs;' -uroot
+mysql -e 'USE AmbryNamedBlobs; SOURCE ./ambry-named-mysql/src/main/resources/NamedBlobsSchema.ddl;' -uroot
+```
+4. If you wish to stop the MySQL process after you are finished testing, you can run `mysql.server stop`
