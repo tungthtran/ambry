@@ -633,14 +633,10 @@ public class RestUtils {
       GetOption getOption, RestRequest restRequest, int blobSegmentIdx) throws RestServiceException {
     String rangeHeaderValue = getHeader(args, Headers.RANGE, false);
 
-    boolean isPartiallyReadableBlob = false;
     String containsPartialReadSupportedHeader = getHeader(args, Headers.IS_PARTIALLY_READABLE, false);
     boolean isNamedBlobRequest = restRequest.getRestMethod() == RestMethod.GET && RestUtils.getRequestPath(restRequest)
         .matchesOperation(Operations.NAMED_BLOB);
-
-    if (Objects.equals(containsPartialReadSupportedHeader, "true") && isNamedBlobRequest) {
-      isPartiallyReadableBlob = true;
-    }
+    boolean isPartiallyReadableBlob = Objects.equals(containsPartialReadSupportedHeader, "true") && isNamedBlobRequest;
 
     if (subResource != null && !subResource.equals(SubResource.Segment) && rangeHeaderValue != null) {
       throw new RestServiceException("Ranges not supported for sub-resources that aren't Segment.",

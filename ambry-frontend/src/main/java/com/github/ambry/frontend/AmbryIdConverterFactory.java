@@ -153,13 +153,7 @@ public class AmbryIdConverterFactory implements IdConverterFactory {
     private CompletionStage<String> convertId(String input, RestRequest restRequest, BlobInfo blobInfo)
         throws RestServiceException {
       CompletionStage<String> conversionFuture;
-      String containsPartialReadSupportedHeader;
-      try {
-        containsPartialReadSupportedHeader = RestUtils.getHeader(restRequest.getArgs(), RestUtils.Headers.IS_PARTIALLY_READABLE, false);
-      }
-      catch (RestServiceException e) {
-        containsPartialReadSupportedHeader = null;
-      }
+      String containsPartialReadSupportedHeader = RestUtils.getHeader(restRequest.getArgs(), RestUtils.Headers.IS_PARTIALLY_READABLE, false);
       if (RequestPath.matchesOperation(input, Operations.NAMED_BLOB)) {
         NamedBlobPath namedBlobPath = NamedBlobPath.parse(input, Collections.emptyMap());
         if (restRequest.getRestMethod() == RestMethod.DELETE) {
